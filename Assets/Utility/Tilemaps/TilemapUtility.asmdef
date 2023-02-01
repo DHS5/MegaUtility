@@ -1,0 +1,18 @@
+{
+    "name": "TilemapUtility",
+    "rootNamespace": "Dhs5.Utility.Tilemap",
+    "references": [
+        "GUID:022a898c68ffb5b43b96b7a36e864b66",
+        "GUID:613783dc1674e844b87788ea74ede0f6",
+        "GUID:3a9781db4804a9945b9883f3a7c46d45"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
