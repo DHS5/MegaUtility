@@ -8,15 +8,6 @@ using UnityEditor;
 
 namespace Dhs5.Utility
 {
-    public enum ZDebugGroup
-    {
-        ALL = 0,
-
-        TEST,
-
-        NONE = 100
-    }
-
     public static class UtilityStates
     {
         #region Container

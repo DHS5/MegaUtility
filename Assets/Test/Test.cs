@@ -2,24 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
+using Dhs5.Utility;
+using Dhs5.Utility.SaveSystem;
 
-namespace Dhs5.Utility.SaveSystem
+namespace Dhs5.Test
 {
-    public class SaveTest : MonoBehaviour
+    public class Test : MonoBehaviour
     {
         public Dico<string, int> dico = new(0);
         // Start is called before the first frame update
         void Start()
         {
-            SaveClassTest save1 = new SaveClassTest();
-            SaveClassTest save2 = new SaveClassTest();
+            SaveClassTest save1 = new();
+            SaveClassTest save2 = new();
             save1.color = Color.red;
             save2.color = Color.blue;
             save1.rect = new Rect();
             save2.rect = new Rect();
-            SavesRepertory<SaveClassTest> savesRepertory = new SavesRepertory<SaveClassTest>();
+            SavesRepertory<SaveClassTest, SaveInfo<SaveClassTest>> savesRepertory = new();
             savesRepertory.Add("SecondSave", save1);
             savesRepertory.Add("FirstSave", save2);
+            //savesRepertory.Remove("ThirdSave");
             //if (savesRepertory.TryGetInfo("FirstSave", out SaveInfo<SaveClassTest> saveInfo))
             //    Debug.Log(saveInfo.Save.color);
             //if (savesRepertory.TryGetLastSaveInfo(out SaveInfo<SaveClassTest> saveInfo2))
