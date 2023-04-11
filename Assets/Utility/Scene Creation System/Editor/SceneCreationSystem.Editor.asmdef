@@ -1,0 +1,19 @@
+{
+    "name": "SceneCreationSystem.Editor",
+    "rootNamespace": "Dhs5.Utility.SceneCreation",
+    "references": [
+        "GUID:022a898c68ffb5b43b96b7a36e864b66",
+        "GUID:ef294b902e4358048812b02e0d5c57f5"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

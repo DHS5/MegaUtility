@@ -4,12 +4,22 @@ using UnityEngine;
 using System.IO;
 using Dhs5.Utility;
 using Dhs5.Utility.SaveSystem;
+using NaughtyAttributes;
 
 namespace Dhs5.Test
 {
     public class Test : MonoBehaviour
     {
-        public Dico<string, int> dico = new(0);
+        //public Dico<string, int> dico = new(0);
+        //public bool intActive = true;
+        //[DrawIf("intActive")]
+        //public int theInt;
+        //[DrawIf("intActive", HidingType.READ_ONLY)]
+        //public int theOtherInt;
+        //public bool testIntActive = true;
+        //[ShowIf("testIntActive")]
+        //public int theTestInt;
+        public Teest teest;
         // Start is called before the first frame update
         void Start()
         {
@@ -75,5 +85,14 @@ namespace Dhs5.Test
             color = other.color;
             rect = other.rect;
         }
+    }
+
+    [System.Serializable]
+    public class Teest
+    {
+        public bool testIntActive = true;
+        [ShowIf("testIntActive")]
+        [AllowNesting]
+        public int theTestInt;
     }
 }
