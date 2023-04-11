@@ -16,6 +16,6 @@ MonoBehaviour:
   - ID: A
     type: 0
   - ID: B
-    type: 0
+    type: 1
   - ID: C
     type: 0

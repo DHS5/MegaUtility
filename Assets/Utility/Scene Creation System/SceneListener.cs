@@ -11,7 +11,8 @@ namespace Dhs5.Utility.SceneCreation
     {
         [HideInInspector] public SceneVariablesSO sceneVariablesSO;
 
-        public SceneVar sceneVar;
+        [HideInInspector] public int varIndex;
+        public SceneVar SceneVar { get { return sceneVariablesSO.sceneVars[varIndex]; } }
         public UnityEvent<SceneVar> events;
     }
 }

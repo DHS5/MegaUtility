@@ -18,14 +18,14 @@ namespace Dhs5.Utility.SceneCreation
         {
             foreach (SceneListener listener in sceneListeners)
             {
-                SceneEventManager.StartListening(listener.sceneVar.ID, OnEventReceived);
+                SceneEventManager.StartListening(listener.SceneVar.ID, OnEventReceived);
             }
         }
         private void OnDisable()
         {
             foreach (SceneListener listener in sceneListeners)
             {
-                SceneEventManager.StopListening(listener.sceneVar.ID, OnEventReceived);
+                SceneEventManager.StopListening(listener.SceneVar.ID, OnEventReceived);
             }
         }
 
@@ -36,7 +36,7 @@ namespace Dhs5.Utility.SceneCreation
 
         private UnityEvent<SceneVar> GetEventByID(string varID)
         {
-            return sceneListeners.Find(l => l.sceneVar.ID == varID).events;
+            return sceneListeners.Find(l => l.SceneVar.ID == varID).events;
         }
         #endregion
 
