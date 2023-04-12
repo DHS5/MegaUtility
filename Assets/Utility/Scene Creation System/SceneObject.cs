@@ -54,7 +54,7 @@ namespace Dhs5.Utility.SceneCreation
             UpdateSceneVariables();
         }
 
-        private void UpdateSceneVariables()
+        protected virtual void UpdateSceneVariables()
         {
             foreach (SceneListener listener in sceneListeners)
             {

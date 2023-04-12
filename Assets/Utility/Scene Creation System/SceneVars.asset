@@ -20,16 +20,16 @@ MonoBehaviour:
     intValue: 0
     floatValue: 0
     stringValue: 
-  - uniqueID: 9424
-    ID: B
-    type: 1
+  - uniqueID: 5895
+    ID: C
+    type: 3
     boolValue: 0
     intValue: 0
     floatValue: 0
     stringValue: 
-  - uniqueID: 5895
-    ID: Ca marche
-    type: 3
+  - uniqueID: 9424
+    ID: B
+    type: 1
     boolValue: 0
     intValue: 0
     floatValue: 0

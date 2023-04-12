@@ -54,35 +54,6 @@ namespace Dhs5.Utility.SceneCreation
     }
     #endregion
 
-    [Serializable]
-    public class SceneVar
-    {
-        public int uniqueID = 0;
-        
-        public string ID;
-        public SceneVarType type;
-        
-        public bool boolValue;
-        public int intValue;
-        public float floatValue;
-        public string stringValue;
-
-        public object Value
-        {
-            get
-            {
-                switch (type)
-                {
-                    case SceneVarType.BOOL: return boolValue;
-                    case SceneVarType.INT: return intValue;
-                    case SceneVarType.FLOAT: return floatValue;
-                    case SceneVarType.STRING: return stringValue;
-                }
-                return null;
-            }
-        }
-    }
-
     public static class SceneState
     {
         private static Dictionary<string, SceneVar> SceneVariables = new();
@@ -106,13 +77,13 @@ namespace Dhs5.Utility.SceneCreation
         #endregion
 
         #region Public accessors
-        //public static object GetObjectValue(string varID)
-        //{
-        //    if (SceneVariables.ContainsKey(varID))
-        //        return SceneVariables[varID].value;
-        //    IncorrectID(varID);
-        //    return null;
-        //}
+        public static object GetObjectValue(string varID)
+        {
+            if (SceneVariables.ContainsKey(varID))
+                return SceneVariables[varID].Value;
+            IncorrectID(varID);
+            return null;
+        }
         public static bool TryGetBoolValue(string varID, out bool value)
         {
             value = false;
