@@ -18,9 +18,19 @@ namespace Dhs5.Utility.SceneCreation
         SET, INVERSE
     }
     [Serializable]
+    public enum BoolComparison
+    {
+        EQUAL, DIFF
+    }
+    [Serializable]
     public enum IntOperation
     {
         SET, ADD
+    }
+    [Serializable]
+    public enum IntComparison
+    {
+        EQUAL, DIFF, SUP, INF, SUP_EQUAL, INF_EQUAL
     }
     [Serializable]
     public enum FloatOperation
@@ -28,18 +38,49 @@ namespace Dhs5.Utility.SceneCreation
         SET, ADD
     }
     [Serializable]
+    public enum FloatComparison
+    {
+        EQUAL, DIFF, SUP, INF, SUP_EQUAL, INF_EQUAL
+    }
+    [Serializable]
     public enum StringOperation
     {
         SET, APPEND, REMOVE
+    }
+    [Serializable]
+    public enum StringComparison
+    {
+        EQUAL, DIFF, CONTAINS, CONTAINED, NULL_EMPTY
     }
     #endregion
 
     [Serializable]
     public class SceneVar
     {
+        public int uniqueID = 0;
+        
         public string ID;
         public SceneVarType type;
-        public object value;
+        
+        public bool boolValue;
+        public int intValue;
+        public float floatValue;
+        public string stringValue;
+
+        public object Value
+        {
+            get
+            {
+                switch (type)
+                {
+                    case SceneVarType.BOOL: return boolValue;
+                    case SceneVarType.INT: return intValue;
+                    case SceneVarType.FLOAT: return floatValue;
+                    case SceneVarType.STRING: return stringValue;
+                }
+                return null;
+            }
+        }
     }
 
     public static class SceneState
@@ -65,13 +106,13 @@ namespace Dhs5.Utility.SceneCreation
         #endregion
 
         #region Public accessors
-        public static object GetObjectValue(string varID)
-        {
-            if (SceneVariables.ContainsKey(varID))
-                return SceneVariables[varID].value;
-            IncorrectID(varID);
-            return null;
-        }
+        //public static object GetObjectValue(string varID)
+        //{
+        //    if (SceneVariables.ContainsKey(varID))
+        //        return SceneVariables[varID].value;
+        //    IncorrectID(varID);
+        //    return null;
+        //}
         public static bool TryGetBoolValue(string varID, out bool value)
         {
             value = false;
@@ -80,7 +121,7 @@ namespace Dhs5.Utility.SceneCreation
                 SceneVar sceneVar = SceneVariables[varID];
                 if (sceneVar.type == SceneVarType.BOOL)
                 {
-                    value = (bool) sceneVar.value;
+                    value = sceneVar.boolValue;
                     return true;
                 }
                 IncorrectType(varID, SceneVarType.BOOL);
@@ -97,7 +138,7 @@ namespace Dhs5.Utility.SceneCreation
                 SceneVar sceneVar = SceneVariables[varID];
                 if (sceneVar.type == SceneVarType.INT)
                 {
-                    value = (int) sceneVar.value;
+                    value = sceneVar.intValue;
                     return true;
                 }
                 IncorrectType(varID, SceneVarType.INT);
@@ -114,7 +155,7 @@ namespace Dhs5.Utility.SceneCreation
                 SceneVar sceneVar = SceneVariables[varID];
                 if (sceneVar.type == SceneVarType.FLOAT)
                 {
-                    value = (float) sceneVar.value;
+                    value = sceneVar.floatValue;
                     return true;
                 }
                 IncorrectType(varID, SceneVarType.FLOAT);
@@ -131,7 +172,7 @@ namespace Dhs5.Utility.SceneCreation
                 SceneVar sceneVar = SceneVariables[varID];
                 if (sceneVar.type == SceneVarType.STRING)
                 {
-                    value = (string) sceneVar.value;
+                    value = sceneVar.stringValue;
                     return true;
                 }
                 IncorrectType(varID, SceneVarType.STRING);
@@ -174,14 +215,14 @@ namespace Dhs5.Utility.SceneCreation
                     switch (op)
                     {
                         case BoolOperation.SET:
-                            SceneVariables[varID].value = param;
+                            SceneVariables[varID].boolValue = param;
                             break;
                         case BoolOperation.INVERSE:
-                            SceneVariables[varID].value = !((bool)SceneVariables[varID].value);
+                            SceneVariables[varID].boolValue = !SceneVariables[varID].boolValue;
                             break;
 
                         default:
-                            SceneVariables[varID].value = param;
+                            SceneVariables[varID].boolValue = param;
                             break;
                     }
                     ChangedVar(varID);
@@ -202,14 +243,14 @@ namespace Dhs5.Utility.SceneCreation
                     switch (op)
                     {
                         case IntOperation.SET:
-                            SceneVariables[varID].value = param;
+                            SceneVariables[varID].intValue = param;
                             break;
                         case IntOperation.ADD:
-                            SceneVariables[varID].value = (int)SceneVariables[varID].value + param;
+                            SceneVariables[varID].intValue += param;
                             break;
 
                         default:
-                            SceneVariables[varID].value = param;
+                            SceneVariables[varID].intValue = param;
                             break;
                     }
                     ChangedVar(varID);
@@ -230,14 +271,14 @@ namespace Dhs5.Utility.SceneCreation
                     switch (op)
                     {
                         case FloatOperation.SET:
-                            SceneVariables[varID].value = param;
+                            SceneVariables[varID].floatValue = param;
                             break;
                         case FloatOperation.ADD:
-                            SceneVariables[varID].value = (float)SceneVariables[varID].value + param;
+                            SceneVariables[varID].floatValue += param;
                             break;
 
                         default:
-                            SceneVariables[varID].value = param;
+                            SceneVariables[varID].floatValue = param;
                             break;
                     }
                     ChangedVar(varID);
@@ -258,17 +299,17 @@ namespace Dhs5.Utility.SceneCreation
                     switch (op)
                     {
                         case StringOperation.SET:
-                            SceneVariables[varID].value = param;
+                            SceneVariables[varID].stringValue = param;
                             break;
                         case StringOperation.APPEND:
-                            SceneVariables[varID].value = (string)SceneVariables[varID].value + param;
+                            SceneVariables[varID].stringValue += param;
                             break;
                         case StringOperation.REMOVE:
-                            SceneVariables[varID].value = ((string)SceneVariables[varID].value).Replace(param, "");
+                            SceneVariables[varID].stringValue.Replace(param, "");
                             break;
 
                         default:
-                            SceneVariables[varID].value = param;
+                            SceneVariables[varID].stringValue = param;
                             break;
                     }
                     ChangedVar(varID);

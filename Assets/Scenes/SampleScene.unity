@@ -178,8 +178,6 @@ GameObject:
   m_Component:
   - component: {fileID: 365116975}
   - component: {fileID: 365116974}
-  - component: {fileID: 365116973}
-  - component: {fileID: 365116972}
   m_Layer: 0
   m_Name: SceneObject
   m_TagString: Untagged
@@ -187,34 +185,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &365116972
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365116971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84c08c645d05b32499acdf7be66f14b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneObject: {fileID: 365116974}
-  triggers: []
---- !u!114 &365116973
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 365116971}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84c08c645d05b32499acdf7be66f14b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneObject: {fileID: 365116974}
-  triggers: []
 --- !u!114 &365116974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,7 +198,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-  sceneListeners: []
+  sceneListeners:
+  - sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+    varUniqueID: 5895
+    hasCondition: 0
+    conditionIndex: 0
+    boolComp: 0
+    boolValue: 0
+    intComp: 0
+    intValue: 0
+    floatComp: 0
+    floatValue: 0
+    stringComp: 2
+    stringValue: 
+    events:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 365116974}
+          m_TargetAssemblyTypeName: Dhs5.Utility.SceneCreation.SceneObject, SceneCreationSystem
+          m_MethodName: TriggerSceneAction
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: Do
+            m_BoolArgument: 0
+          m_CallState: 2
+  sceneActions:
+  - sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+    actionID: Do
+    varUniqueID: 9424
+    operationIndex: 0
+    boolOP: 0
+    boolValue: 0
+    intOP: 1
+    intValue: 1
+    floatOP: 0
+    floatValue: 0
+    stringOP: 0
+    stringValue: 
+  debugListeners: 1
+  debugActions: 1
 --- !u!4 &365116975
 Transform:
   m_ObjectHideFlags: 0

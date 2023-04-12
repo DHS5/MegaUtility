@@ -13,6 +13,9 @@ namespace Dhs5.Utility.SceneCreation
         [Header("Listeners")]
         public List<SceneListener> sceneListeners;
 
+        [Header("Actions")]
+        public List<SceneAction> sceneActions;
+
         #region Scene Events subscription
         private void OnEnable()
         {
@@ -31,15 +34,21 @@ namespace Dhs5.Utility.SceneCreation
 
         private void OnEventReceived(SceneVar var)
         {
-            GetEventByID(var.ID).Invoke(var);
+            SceneListener listener = GetListenerByID(var.ID);
+            if (listener.VerifyCondition())
+            {
+                listener.events.Invoke(var);
+                DebugListener(listener);
+            }
         }
 
-        private UnityEvent<SceneVar> GetEventByID(string varID)
+        private SceneListener GetListenerByID(string varID)
         {
-            return sceneListeners.Find(l => l.SceneVar.ID == varID).events;
+            return sceneListeners.Find(l => l.SceneVar.ID == varID);
         }
         #endregion
 
+        #region Update Listeners & Actions
         private void OnValidate()
         {
             UpdateSceneVariables();
@@ -51,6 +60,37 @@ namespace Dhs5.Utility.SceneCreation
             {
                 listener.sceneVariablesSO = sceneVariablesSO;
             }
+            foreach (SceneAction action in sceneActions)
+            {
+                action.sceneVariablesSO = sceneVariablesSO;
+            }
         }
+        #endregion
+
+        #region Trigger Action
+        public void TriggerSceneAction(string actionID)
+        {
+            SceneAction action = sceneActions.Find(a => a.actionID == actionID);
+            action.Trigger();
+            DebugAction(action);
+        }
+        #endregion
+
+        #region Debug
+        [Header("Debug")]
+        public bool debugListeners;
+        public bool debugActions;
+
+        private void DebugListener(SceneListener listener)
+        {
+            if (debugListeners)
+                Debug.Log("Received event : " + listener.SceneVar.ID + " = " + listener.SceneVar.Value);
+        }
+        private void DebugAction(SceneAction action)
+        {
+            if (debugActions)
+                Debug.Log("Triggered action : " + action.actionID);
+        }
+        #endregion
     }
 }

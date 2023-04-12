@@ -5,8 +5,8 @@ using UnityEditor;
 
 namespace Dhs5.Utility.SceneCreation
 {
-    [CustomPropertyDrawer(typeof(SceneListener))]
-    public class SceneListenerEditor : PropertyDrawer
+    [CustomPropertyDrawer(typeof(SceneAction))]
+    public class SceneActionEditor : PropertyDrawer
     {
         private float propertyHeight;
         private float propertyOffset;
@@ -15,7 +15,6 @@ namespace Dhs5.Utility.SceneCreation
         SerializedObject sceneVariablesObj;
         SerializedProperty sceneVars;
 
-        private SerializedProperty hasConditionP;
         private SerializedProperty sceneVarUniqueIDP;
 
         int sceneVarIndex = 0;
@@ -34,6 +33,12 @@ namespace Dhs5.Utility.SceneCreation
                 EditorGUI.EndProperty();
                 return;
             }
+            
+            // ActionID property field
+            Rect idPosition = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+            EditorGUI.PropertyField(idPosition, property.FindPropertyRelative("actionID"));
+            propertyOffset = EditorGUIUtility.singleLineHeight * 2;
+            propertyHeight += EditorGUIUtility.singleLineHeight * 2;
             
             // Get the SceneVars from the SceneVariablesSO
             sceneVariablesObj = new SerializedObject(sceneVariablesSO.objectReferenceValue);
@@ -61,60 +66,44 @@ namespace Dhs5.Utility.SceneCreation
             }
             
             // SceneVar choice popup
-            Rect popupPosition = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+            Rect popupPosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
             sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndex, varIDs.ToArray());
             sceneVarUniqueIDP.intValue = varUniqueIDs[sceneVarIndex];
-            propertyOffset = EditorGUIUtility.singleLineHeight;
+            propertyOffset += EditorGUIUtility.singleLineHeight;
             
             // Type label
             Rect typePosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
             EditorGUI.LabelField(typePosition, "Type", ((SceneVarType) varTypes[sceneVarIndex]).ToString());
             propertyHeight += EditorGUIUtility.singleLineHeight * 2;
             propertyOffset += EditorGUIUtility.singleLineHeight * 2;
-            
-            // Condition
-            hasConditionP = property.FindPropertyRelative("hasCondition");
-            Rect togglePosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
-            EditorGUI.PropertyField(togglePosition, hasConditionP);
-            propertyHeight += EditorGUIUtility.singleLineHeight;
-            propertyOffset += EditorGUIUtility.singleLineHeight;
-            
-            // Condition creation
-            if (hasConditionP.boolValue)
-            {
-                Rect compPosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
-                propertyOffset += EditorGUIUtility.singleLineHeight;
-                Rect valuePosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
-                propertyOffset += EditorGUIUtility.singleLineHeight;
-                SceneVarType type = (SceneVarType) varTypes[sceneVarIndex];
-                switch (type)
-                {
-                    case SceneVarType.BOOL:
-                        EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("boolComp"));
-                        EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("boolValue"));
-                        break;
-                    case SceneVarType.INT:
-                        EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("intComp"));
-                        EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("intValue"));
-                        break;
-                    case SceneVarType.FLOAT:
-                        EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("floatComp"));
-                        EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("floatValue"));
-                        break;
-                    case SceneVarType.STRING:
-                        EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("stringComp"));
-                        EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("stringValue"));
-                        break;
-                }
-                propertyHeight += EditorGUIUtility.singleLineHeight * 2;
-            }
 
-            // Event property
+            // Operation creation
+            Rect opPosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
             propertyOffset += EditorGUIUtility.singleLineHeight;
-            propertyHeight += EditorGUIUtility.singleLineHeight;
-            Rect eventPosition = new(position.x, position.y + propertyOffset, position.width, position.height);
-            EditorGUI.PropertyField(eventPosition, property.FindPropertyRelative("events"));
-            propertyHeight += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("events"), true);
+            Rect valuePosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
+            propertyOffset += EditorGUIUtility.singleLineHeight;
+            SceneVarType type = (SceneVarType) varTypes[sceneVarIndex];
+            switch (type)
+            {
+                case SceneVarType.BOOL:
+                    EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("boolOP"));
+                    if (property.FindPropertyRelative("boolOP").enumValueIndex == 0)
+                        EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("boolValue"));
+                    break;
+                case SceneVarType.INT:
+                    EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("intOP"));
+                    EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("intValue"));
+                    break;
+                case SceneVarType.FLOAT:
+                    EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("floatOP"));
+                    EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("floatValue"));
+                    break;
+                case SceneVarType.STRING:
+                    EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("stringOP"));
+                    EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("stringValue"));
+                    break;
+            }
+            propertyHeight += EditorGUIUtility.singleLineHeight * 2;
 
             // End
             EditorGUI.EndProperty();
