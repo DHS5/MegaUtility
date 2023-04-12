@@ -6,90 +6,37 @@ using UnityEngine;
 using UnityEngine.Events;
 
 namespace Dhs5.Utility.SceneCreation
-{
-    [Serializable]
-    public enum TimelineObjectType
-    {
-        ACTION,
-        SEQUENCE,
-        PARALLEL,
-    }
-    
+{    
     [Serializable]
     public class TimelineObject
     {
-        public TimelineObjectType type;
-
         public SceneTimedCondition startCondition;
         public bool loop;
-        public SceneTimedCondition endLoopCondition;
+        public SceneLoopCondition endLoopCondition;
         
         // Action
-        public UnityEvent<EventParam> events;
-        
-        // Sequence / Parallel
-        public List<TimelineObject> timelineObjects;
+        public UnityEvent<TimelineEventParam> events;
 
-        public IEnumerator Process(Action onComplete = null)
+        public IEnumerator Process(SceneTimeline sceneTimeline, int step)
         {
             // Start the end loop condition to be verified
             if (loop && endLoopCondition.timedCondition)
-                StartCoroutine(endLoopCondition.Condition());
+                endLoopCondition.StartTimer();
             
             do
             {
                 // Wait for the condition to be verified
                 yield return StartCoroutine(startCondition.Condition());
-                // Wait for the Action to be complete
-                yield return StartCoroutine(Action());
+                // Trigger Events
+                Action(sceneTimeline, step);
+
             } while (loop && endLoopCondition.CurrentConditionResult);
-            
-            onComplete?.Invoke();
         }
 
-        #region Actions
-        private IEnumerator Action()
+        private void Action(SceneTimeline sceneTimeline, int step)
         {
-            switch (type)
-            {
-                case TimelineObjectType.ACTION:
-                    SimpleAction();
-                    yield break;
-                case TimelineObjectType.SEQUENCE:
-                    yield return StartCoroutine(SequenceAction());
-                    break;
-                case TimelineObjectType.PARALLEL:
-                    yield return StartCoroutine(ParallelAction());
-                    break;
-            }
+            events?.Invoke(new TimelineEventParam(sceneTimeline.ID, step));
         }
-
-        private void SimpleAction()
-        {
-            // Trigger events
-        }
-
-        private IEnumerator SequenceAction()
-        {
-            foreach (var timelineObj in timelineObjects)
-            {
-                yield return timelineObj.Process();
-            }
-        }
-        private IEnumerator ParallelAction()
-        {
-            int timelineObjectsFinished = 0;
-            int timelineObjectsToFinish = 0;
-            foreach (var timelineObj in timelineObjects)
-            {
-                timelineObj.Process(() => timelineObjectsFinished++);
-                timelineObjectsToFinish++;
-            }
-
-            yield return new WaitUntil(() => timelineObjectsFinished == timelineObjectsToFinish);
-        }
-
-        #endregion
 
         #region Utility
         private IEnumerator StartCoroutine(IEnumerator Coroutine)

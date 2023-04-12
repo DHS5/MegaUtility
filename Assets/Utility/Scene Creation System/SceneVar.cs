@@ -8,6 +8,23 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public class SceneVar
     {
+        public int Reset
+        {
+            set
+            {
+                if (value != 911) return;
+
+                uniqueID = 0;
+                ID = "";
+                type = SceneVarType.BOOL;
+
+                boolValue = false;
+                intValue = 0;
+                floatValue = 0f;
+                stringValue = "";
+            }
+        }
+
         public int uniqueID = 0;
         
         public string ID;

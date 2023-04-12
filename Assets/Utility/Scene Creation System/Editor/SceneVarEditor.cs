@@ -13,7 +13,7 @@ namespace Dhs5.Utility.SceneCreation
         private SerializedProperty uniqueIDProperty;
         private SerializedProperty idProperty;
         private SerializedProperty typeProperty;
-        
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             container = property.serializedObject.targetObject as SceneVariablesSO;

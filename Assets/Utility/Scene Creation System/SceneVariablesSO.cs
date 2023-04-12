@@ -9,6 +9,8 @@ namespace Dhs5.Utility.SceneCreation
     {
         public List<SceneVar> sceneVars;
 
+        private int listSize = 0;
+
         public SceneVar this[int uniqueID]
         {
             get => sceneVars.Find(v => v.uniqueID == uniqueID);
@@ -29,13 +31,23 @@ namespace Dhs5.Utility.SceneCreation
         
         public int GenerateUniqueID()
         {
-            int uniqueID = 0;
+            int uniqueID;
             do
             {
                 uniqueID = Random.Range(1, 10000);
             } while (UniqueIDs.Contains(uniqueID));
             
             return uniqueID;
+        }
+
+        private void OnValidate()
+        {
+            if (listSize < sceneVars.Count)
+            {
+                sceneVars[listSize].Reset = 911;
+            }
+
+            listSize = sceneVars.Count;
         }
     }
 }

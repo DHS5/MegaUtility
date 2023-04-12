@@ -13,16 +13,9 @@ MonoBehaviour:
   m_Name: SceneVars
   m_EditorClassIdentifier: 
   sceneVars:
-  - uniqueID: 7412
+  - uniqueID: 4629
     ID: A
     type: 0
-    boolValue: 0
-    intValue: 0
-    floatValue: 0
-    stringValue: 
-  - uniqueID: 5895
-    ID: C
-    type: 3
     boolValue: 0
     intValue: 0
     floatValue: 0
@@ -30,6 +23,13 @@ MonoBehaviour:
   - uniqueID: 9424
     ID: B
     type: 1
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: 
+  - uniqueID: 5895
+    ID: C
+    type: 3
     boolValue: 0
     intValue: 0
     floatValue: 0
