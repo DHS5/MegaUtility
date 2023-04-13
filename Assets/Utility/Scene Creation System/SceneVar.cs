@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace SceneCreation
+namespace Dhs5.Utility.SceneCreation
 {
     [Serializable]
     public class SceneVar

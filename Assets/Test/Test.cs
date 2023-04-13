@@ -5,6 +5,7 @@ using System.IO;
 using Dhs5.Utility;
 using Dhs5.Utility.SaveSystem;
 using NaughtyAttributes;
+using Dhs5.Utility.SceneCreation;
 
 namespace Dhs5.Test
 {
@@ -19,8 +20,9 @@ namespace Dhs5.Test
         //public bool testIntActive = true;
         //[ShowIf("testIntActive")]
         //public int theTestInt;
-        public Teest teest;
+        //public Teest teest;
         // Start is called before the first frame update
+        
         void Start()
         {
             SaveClassTest save1 = new();

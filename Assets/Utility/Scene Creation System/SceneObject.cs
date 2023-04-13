@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace SceneCreation
+namespace Dhs5.Utility.SceneCreation
 {
     [DisallowMultipleComponent]
     public class SceneObject : MonoBehaviour
@@ -21,7 +21,7 @@ namespace SceneCreation
         {
             foreach (SceneListener listener in sceneListeners)
             {
-                SceneEventManager.StartListening(listener.SceneVar.uniqueID, OnEventReceived);
+                listener.Register();
             }
             RegisterTweens();
         }
@@ -29,23 +29,9 @@ namespace SceneCreation
         {
             foreach (SceneListener listener in sceneListeners)
             {
-                SceneEventManager.StopListening(listener.SceneVar.uniqueID, OnEventReceived);
+                listener.Unregister();
             }
-
             UnregisterTweens();
-        }
-
-        private void OnEventReceived(SceneVar var)
-        {
-            List<SceneListener> listeners = GetListenersByID(var.uniqueID);
-            foreach (var listener in listeners)
-            {
-                if (listener.VerifyCondition())
-                {
-                    listener.events.Invoke(var);
-                    DebugListener(listener);
-                }
-            }
         }
 
         private List<SceneListener> GetListenersByID(int varUniqueID)
@@ -95,18 +81,11 @@ namespace SceneCreation
 
         #region Debug
         [Header("Debug")]
-        public bool debugListeners;
         public bool debugActions;
-
-        private void DebugListener(SceneListener listener)
-        {
-            if (debugListeners)
-                Debug.LogError("Received event : " + listener.SceneVar.ID + " = " + listener.SceneVar.Value);
-        }
         private void DebugAction(SceneAction action)
         {
             if (debugActions)
-                Debug.LogError("Triggered action : " + action.actionID);
+                Debug.Log("Triggered action : " + action.actionID);
         }
         #endregion
     }

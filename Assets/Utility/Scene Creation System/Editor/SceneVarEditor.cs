@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace SceneCreation
+namespace Dhs5.Utility.SceneCreation
 {
     [CustomPropertyDrawer(typeof(SceneVar))]
     public class SceneVarEditor : PropertyDrawer
@@ -13,6 +13,7 @@ namespace SceneCreation
         private SerializedProperty uniqueIDProperty;
         private SerializedProperty idProperty;
         private SerializedProperty typeProperty;
+        private SerializedProperty staticProperty;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -21,11 +22,29 @@ namespace SceneCreation
             uniqueIDProperty = property.FindPropertyRelative("uniqueID");
             idProperty = property.FindPropertyRelative("ID");
             typeProperty = property.FindPropertyRelative("type");
+            staticProperty = property.FindPropertyRelative("isStatic");
             
             EditorGUI.BeginProperty(position, label, property);
 
+            object GetValue()
+            {
+                switch ((SceneVarType)typeProperty.enumValueIndex)
+                {
+                    case SceneVarType.BOOL:
+                        return property.FindPropertyRelative("boolValue").boolValue;
+                    case SceneVarType.INT:
+                        return property.FindPropertyRelative("intValue").intValue;
+                    case SceneVarType.FLOAT:
+                        return property.FindPropertyRelative("floatValue").floatValue;
+                    case SceneVarType.STRING:
+                        return property.FindPropertyRelative("stringValue").stringValue;
+                    default:
+                        return false;
+                }
+            }
+
             Rect foldoutRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, idProperty.stringValue + " : " + (SceneVarType)typeProperty.enumValueIndex);
+            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, idProperty.stringValue + " (" + (SceneVarType)typeProperty.enumValueIndex + ") = " + GetValue());
             if (property.isExpanded)
             {
                 // Unique ID
@@ -74,6 +93,11 @@ namespace SceneCreation
                         EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("stringValue"), new GUIContent("Initial Value"));
                         break;
                 }
+
+                // Static
+                Rect staticRect = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight * 6, position.width,
+                    EditorGUIUtility.singleLineHeight);
+                EditorGUI.PropertyField(staticRect, staticProperty);
             }
 
             EditorGUI.EndProperty();
@@ -81,7 +105,7 @@ namespace SceneCreation
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return property.isExpanded ? EditorGUIUtility.singleLineHeight * 6.5f : EditorGUIUtility.singleLineHeight;
+            return property.isExpanded ? EditorGUIUtility.singleLineHeight * 7.5f : EditorGUIUtility.singleLineHeight;
         }
     }
 }

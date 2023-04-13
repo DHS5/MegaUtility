@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace SceneCreation
+namespace Dhs5.Utility.SceneCreation
 {
     [Serializable]
     public class SceneAction
@@ -31,6 +31,10 @@ namespace SceneCreation
         
         public StringOperation stringOP;
         public string stringValue;
+
+
+        public bool debug = false;
+        public float propertyHeight;
 
 
         public void Trigger()

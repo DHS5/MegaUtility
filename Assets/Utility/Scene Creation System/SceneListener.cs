@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 
-namespace SceneCreation
+namespace Dhs5.Utility.SceneCreation
 {
     [Serializable]
     public class SceneListener
@@ -32,6 +32,29 @@ namespace SceneCreation
         public string stringValue;
         
         public UnityEvent<SceneVar> events;
+
+        public bool debug = false;
+        public float propertyHeight;
+
+        #region Event Subscription
+        public void Register()
+        {
+            SceneEventManager.StartListening(SceneVar.uniqueID, OnListenerEvent);
+        }
+        public void Unregister()
+        {
+            SceneEventManager.StopListening(SceneVar.uniqueID, OnListenerEvent);
+        }
+        private void OnListenerEvent(SceneVar var)
+        {
+            if (VerifyCondition())
+            {
+                events.Invoke(var);
+                if (debug)
+                    Debug.Log("Received event : " + SceneVar.ID + " = " + SceneVar.Value);
+            }
+        }
+        #endregion
 
 
         public bool VerifyCondition()
