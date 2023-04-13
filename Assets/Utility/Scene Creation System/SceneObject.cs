@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Dhs5.Utility.SceneCreation
+namespace SceneCreation
 {
     [DisallowMultipleComponent]
     public class SceneObject : MonoBehaviour
@@ -21,34 +21,42 @@ namespace Dhs5.Utility.SceneCreation
         {
             foreach (SceneListener listener in sceneListeners)
             {
-                SceneEventManager.StartListening(listener.SceneVar.ID, OnEventReceived);
+                SceneEventManager.StartListening(listener.SceneVar.uniqueID, OnEventReceived);
             }
+            RegisterTweens();
         }
         private void OnDisable()
         {
             foreach (SceneListener listener in sceneListeners)
             {
-                SceneEventManager.StopListening(listener.SceneVar.ID, OnEventReceived);
+                SceneEventManager.StopListening(listener.SceneVar.uniqueID, OnEventReceived);
             }
+
+            UnregisterTweens();
         }
 
         private void OnEventReceived(SceneVar var)
         {
-            SceneListener listener = GetListenerByID(var.ID);
-            if (listener.VerifyCondition())
+            List<SceneListener> listeners = GetListenersByID(var.uniqueID);
+            foreach (var listener in listeners)
             {
-                listener.events.Invoke(var);
-                DebugListener(listener);
+                if (listener.VerifyCondition())
+                {
+                    listener.events.Invoke(var);
+                    DebugListener(listener);
+                }
             }
         }
 
-        private SceneListener GetListenerByID(string varID)
+        private List<SceneListener> GetListenersByID(int varUniqueID)
         {
-            return sceneListeners.Find(l => l.SceneVar.ID == varID);
+            return sceneListeners.FindAll(l => l.SceneVar.uniqueID == varUniqueID);
         }
+        protected virtual void RegisterTweens() {} // SceneEventManager.StartListening(tween.ID, tween.OnEventReceived)
+        protected virtual void UnregisterTweens() {}
         #endregion
 
-        #region Update Listeners & Actions
+        #region Update Listeners, Actions & Tweens
         private void OnValidate()
         {
             UpdateSceneVariables();
@@ -65,14 +73,23 @@ namespace Dhs5.Utility.SceneCreation
                 action.sceneVariablesSO = sceneVariablesSO;
             }
         }
+
         #endregion
 
         #region Trigger Action
+
+        protected List<SceneAction> GetSceneActionsByID(string actionID)
+        {
+            return sceneActions.FindAll(a => a.actionID == actionID);
+        }
         public void TriggerSceneAction(string actionID)
         {
-            SceneAction action = sceneActions.Find(a => a.actionID == actionID);
-            action.Trigger();
-            DebugAction(action);
+            List<SceneAction> actions = GetSceneActionsByID(actionID);
+            foreach (var action in actions)
+            {
+                DebugAction(action);
+                action.Trigger();
+            }
         }
         #endregion
 
@@ -84,12 +101,12 @@ namespace Dhs5.Utility.SceneCreation
         private void DebugListener(SceneListener listener)
         {
             if (debugListeners)
-                Debug.Log("Received event : " + listener.SceneVar.ID + " = " + listener.SceneVar.Value);
+                Debug.LogError("Received event : " + listener.SceneVar.ID + " = " + listener.SceneVar.Value);
         }
         private void DebugAction(SceneAction action)
         {
             if (debugActions)
-                Debug.Log("Triggered action : " + action.actionID);
+                Debug.LogError("Triggered action : " + action.actionID);
         }
         #endregion
     }

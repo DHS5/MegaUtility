@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Dhs5.Utility.SceneCreation
+namespace SceneCreation
 {
     [RequireComponent(typeof(SceneObject))]
     public class SceneTrigger : MonoBehaviour

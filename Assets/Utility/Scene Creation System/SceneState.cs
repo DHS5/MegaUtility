@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace Dhs5.Utility.SceneCreation
+namespace SceneCreation
 {
     #region Enums
     [Serializable]
@@ -56,7 +56,7 @@ namespace Dhs5.Utility.SceneCreation
 
     public static class SceneState
     {
-        private static Dictionary<string, SceneVar> SceneVariables = new();
+        private static Dictionary<int, SceneVar> SceneVariables = new();
 
         #region Private Utility functions
         private static void Clear()
@@ -65,91 +65,92 @@ namespace Dhs5.Utility.SceneCreation
         }
         private static void AddVar(SceneVar variable)
         {
-            SceneVariables[variable.ID] = variable;
+            SceneVariables[variable.uniqueID] = variable;
+            ChangedVar(variable.uniqueID);
         }
-        private static void ChangedVar(string varID)
+        private static void ChangedVar(int varUniqueID)
         {
-            if (SceneVariables.ContainsKey(varID))
+            if (SceneVariables.ContainsKey(varUniqueID))
             {
-                SceneEventManager.TriggerEvent(varID, SceneVariables[varID]);
+                SceneEventManager.TriggerEvent(varUniqueID, SceneVariables[varUniqueID]);
             }
         }
         #endregion
 
         #region Public accessors
-        public static object GetObjectValue(string varID)
+        public static object GetObjectValue(int varUniqueID)
         {
-            if (SceneVariables.ContainsKey(varID))
-                return SceneVariables[varID].Value;
-            IncorrectID(varID);
+            if (SceneVariables.ContainsKey(varUniqueID))
+                return SceneVariables[varUniqueID].Value;
+            IncorrectID(varUniqueID);
             return null;
         }
-        public static bool TryGetBoolValue(string varID, out bool value)
+        public static bool TryGetBoolValue(int varUniqueID, out bool value)
         {
             value = false;
-            if (SceneVariables.ContainsKey(varID))
+            if (SceneVariables.ContainsKey(varUniqueID))
             {
-                SceneVar sceneVar = SceneVariables[varID];
+                SceneVar sceneVar = SceneVariables[varUniqueID];
                 if (sceneVar.type == SceneVarType.BOOL)
                 {
                     value = sceneVar.boolValue;
                     return true;
                 }
-                IncorrectType(varID, SceneVarType.BOOL);
+                IncorrectType(varUniqueID, SceneVarType.BOOL);
                 return false;
             }
-            IncorrectID(varID);
+            IncorrectID(varUniqueID);
             return false;
         }
-        public static bool TryGetIntValue(string varID, out int value)
+        public static bool TryGetIntValue(int varUniqueID, out int value)
         {
             value = 0;
-            if (SceneVariables.ContainsKey(varID))
+            if (SceneVariables.ContainsKey(varUniqueID))
             {
-                SceneVar sceneVar = SceneVariables[varID];
+                SceneVar sceneVar = SceneVariables[varUniqueID];
                 if (sceneVar.type == SceneVarType.INT)
                 {
                     value = sceneVar.intValue;
                     return true;
                 }
-                IncorrectType(varID, SceneVarType.INT);
+                IncorrectType(varUniqueID, SceneVarType.INT);
                 return false;
             }
-            IncorrectID(varID);
+            IncorrectID(varUniqueID);
             return false;
         }
-        public static bool TryGetFloatValue(string varID, out float value)
+        public static bool TryGetFloatValue(int varUniqueID, out float value)
         {
             value = 0f;
-            if (SceneVariables.ContainsKey(varID))
+            if (SceneVariables.ContainsKey(varUniqueID))
             {
-                SceneVar sceneVar = SceneVariables[varID];
+                SceneVar sceneVar = SceneVariables[varUniqueID];
                 if (sceneVar.type == SceneVarType.FLOAT)
                 {
                     value = sceneVar.floatValue;
                     return true;
                 }
-                IncorrectType(varID, SceneVarType.FLOAT);
+                IncorrectType(varUniqueID, SceneVarType.FLOAT);
                 return false;
             }
-            IncorrectID(varID);
+            IncorrectID(varUniqueID);
             return false;
         }
-        public static bool TryGetStringValue(string varID, out string value)
+        public static bool TryGetStringValue(int varUniqueID, out string value)
         {
             value = null;
-            if (SceneVariables.ContainsKey(varID))
+            if (SceneVariables.ContainsKey(varUniqueID))
             {
-                SceneVar sceneVar = SceneVariables[varID];
+                SceneVar sceneVar = SceneVariables[varUniqueID];
                 if (sceneVar.type == SceneVarType.STRING)
                 {
                     value = sceneVar.stringValue;
                     return true;
                 }
-                IncorrectType(varID, SceneVarType.STRING);
+                IncorrectType(varUniqueID, SceneVarType.STRING);
                 return false;
             }
-            IncorrectID(varID);
+            IncorrectID(varUniqueID);
             return false;
         }
         #endregion
@@ -157,6 +158,7 @@ namespace Dhs5.Utility.SceneCreation
         #region Public setters
         public static void SetSceneVars(SceneVariablesSO sceneVariablesSO)
         {
+            Clear();
             if (sceneVariablesSO == null) return;
             List<SceneVar> sceneVars = sceneVariablesSO.sceneVars;
             SetSceneVars(sceneVars);
@@ -167,140 +169,140 @@ namespace Dhs5.Utility.SceneCreation
                 AddVar(sceneVar);
         }
 
-        public static void ModifySceneVar(string varID, SceneVar newVar)
+        private static void ModifySceneVar(int varUniqueID, SceneVar newVar)
         {
-            if (SceneVariables.ContainsKey(varID))
+            if (SceneVariables.ContainsKey(varUniqueID))
             {
-                SceneVariables[varID] = newVar;
-                ChangedVar(varID);
+                SceneVariables[varUniqueID] = newVar;
+                ChangedVar(varUniqueID);
             }
-            IncorrectID(varID);
+            IncorrectID(varUniqueID);
         }
-        public static void ModifyBoolVar(string varID, BoolOperation op, bool param = false)
+        public static void ModifyBoolVar(int varUniqueID, BoolOperation op, bool param = false)
         {
-            if (SceneVariables.ContainsKey(varID))
+            if (SceneVariables.ContainsKey(varUniqueID))
             {
-                SceneVar var = SceneVariables[varID];
-                if (var.type == SceneVarType.BOOL)
+                SceneVar var = SceneVariables[varUniqueID];
+                if (var.type == SceneVarType.BOOL && !var.isStatic)
                 {
                     switch (op)
                     {
                         case BoolOperation.SET:
-                            SceneVariables[varID].boolValue = param;
+                            SceneVariables[varUniqueID].boolValue = param;
                             break;
                         case BoolOperation.INVERSE:
-                            SceneVariables[varID].boolValue = !SceneVariables[varID].boolValue;
+                            SceneVariables[varUniqueID].boolValue = !SceneVariables[varUniqueID].boolValue;
                             break;
 
                         default:
-                            SceneVariables[varID].boolValue = param;
+                            SceneVariables[varUniqueID].boolValue = param;
                             break;
                     }
-                    ChangedVar(varID);
+                    ChangedVar(varUniqueID);
                     return;
                 }
-                IncorrectType(varID, SceneVarType.BOOL);
+                IncorrectType(varUniqueID, SceneVarType.BOOL);
                 return;
             }
-            IncorrectID(varID);
+            IncorrectID(varUniqueID);
         }
-        public static void ModifyIntVar(string varID, IntOperation op, int param)
+        public static void ModifyIntVar(int varUniqueID, IntOperation op, int param)
         {
-            if (SceneVariables.ContainsKey(varID))
+            if (SceneVariables.ContainsKey(varUniqueID))
             {
-                SceneVar var = SceneVariables[varID];
-                if (var.type == SceneVarType.INT)
+                SceneVar var = SceneVariables[varUniqueID];
+                if (var.type == SceneVarType.INT && !var.isStatic)
                 {
                     switch (op)
                     {
                         case IntOperation.SET:
-                            SceneVariables[varID].intValue = param;
+                            SceneVariables[varUniqueID].intValue = param;
                             break;
                         case IntOperation.ADD:
-                            SceneVariables[varID].intValue += param;
+                            SceneVariables[varUniqueID].intValue += param;
                             break;
 
                         default:
-                            SceneVariables[varID].intValue = param;
+                            SceneVariables[varUniqueID].intValue = param;
                             break;
                     }
-                    ChangedVar(varID);
+                    ChangedVar(varUniqueID);
                     return;
                 }
-                IncorrectType(varID, SceneVarType.INT);
+                IncorrectType(varUniqueID, SceneVarType.INT);
                 return;
             }
-            IncorrectID(varID);
+            IncorrectID(varUniqueID);
         }
-        public static void ModifyFloatVar(string varID, FloatOperation op, float param)
+        public static void ModifyFloatVar(int varUniqueID, FloatOperation op, float param)
         {
-            if (SceneVariables.ContainsKey(varID))
+            if (SceneVariables.ContainsKey(varUniqueID))
             {
-                SceneVar var = SceneVariables[varID];
-                if (var.type == SceneVarType.FLOAT)
+                SceneVar var = SceneVariables[varUniqueID];
+                if (var.type == SceneVarType.FLOAT && !var.isStatic)
                 {
                     switch (op)
                     {
                         case FloatOperation.SET:
-                            SceneVariables[varID].floatValue = param;
+                            SceneVariables[varUniqueID].floatValue = param;
                             break;
                         case FloatOperation.ADD:
-                            SceneVariables[varID].floatValue += param;
+                            SceneVariables[varUniqueID].floatValue += param;
                             break;
 
                         default:
-                            SceneVariables[varID].floatValue = param;
+                            SceneVariables[varUniqueID].floatValue = param;
                             break;
                     }
-                    ChangedVar(varID);
+                    ChangedVar(varUniqueID);
                     return;
                 }
-                IncorrectType(varID, SceneVarType.FLOAT);
+                IncorrectType(varUniqueID, SceneVarType.FLOAT);
                 return;
             }
-            IncorrectID(varID);
+            IncorrectID(varUniqueID);
         }
-        public static void ModifyStringVar(string varID, StringOperation op, string param)
+        public static void ModifyStringVar(int varUniqueID, StringOperation op, string param)
         {
-            if (SceneVariables.ContainsKey(varID))
+            if (SceneVariables.ContainsKey(varUniqueID))
             {
-                SceneVar var = SceneVariables[varID];
-                if (var.type == SceneVarType.STRING)
+                SceneVar var = SceneVariables[varUniqueID];
+                if (var.type == SceneVarType.STRING && !var.isStatic)
                 {
                     switch (op)
                     {
                         case StringOperation.SET:
-                            SceneVariables[varID].stringValue = param;
+                            SceneVariables[varUniqueID].stringValue = param;
                             break;
                         case StringOperation.APPEND:
-                            SceneVariables[varID].stringValue += param;
+                            SceneVariables[varUniqueID].stringValue += param;
                             break;
                         case StringOperation.REMOVE:
-                            SceneVariables[varID].stringValue.Replace(param, "");
+                            SceneVariables[varUniqueID].stringValue.Replace(param, "");
                             break;
 
                         default:
-                            SceneVariables[varID].stringValue = param;
+                            SceneVariables[varUniqueID].stringValue = param;
                             break;
                     }
-                    ChangedVar(varID);
+                    ChangedVar(varUniqueID);
                     return;
                 }
-                IncorrectType(varID, SceneVarType.FLOAT);
+                IncorrectType(varUniqueID, SceneVarType.FLOAT);
                 return;
             }
-            IncorrectID(varID);
+            IncorrectID(varUniqueID);
         }
         #endregion
 
         #region Log
-        private static void IncorrectID(string ID)
+        private static void IncorrectID(int ID)
         {
-            ZDebug.LogE("Variable ID : '", ID, "' doesn't exist in the current scene.");
+            Debug.LogError("Variable ID : '" + ID + "' doesn't exist in the current scene.");
         }
-        private static void IncorrectType(string ID, SceneVarType type)
+        private static void IncorrectType(int ID, SceneVarType type)
         {
-            ZDebug.LogE("Variable ID : '", ID, "' is not of type : '", type.ToString(), "'.");
+            Debug.LogError("Variable ID : '" + ID + "' is not of type : '" + type.ToString() + "'.");
         }
         #endregion
     }

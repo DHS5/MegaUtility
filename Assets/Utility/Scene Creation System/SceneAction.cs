@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace Dhs5.Utility.SceneCreation
+namespace SceneCreation
 {
     [Serializable]
     public class SceneAction
@@ -35,21 +35,25 @@ namespace Dhs5.Utility.SceneCreation
 
         public void Trigger()
         {
-            if (SceneVar == null) return;
+            if (SceneVar == null)
+            {
+                Debug.LogError("Trigger doesn't have a SceneVar");
+                return;
+            }
 
             switch (SceneVar.type)
             {
                 case SceneVarType.BOOL:
-                    SceneState.ModifyBoolVar(SceneVar.ID, boolOP, boolValue);
+                    SceneState.ModifyBoolVar(SceneVar.uniqueID, boolOP, boolValue);
                     break;
                 case SceneVarType.INT:
-                    SceneState.ModifyIntVar(SceneVar.ID, intOP, intValue);
+                    SceneState.ModifyIntVar(SceneVar.uniqueID, intOP, intValue);
                     break;
                 case SceneVarType.FLOAT:
-                    SceneState.ModifyFloatVar(SceneVar.ID, floatOP, floatValue);
+                    SceneState.ModifyFloatVar(SceneVar.uniqueID, floatOP, floatValue);
                     break;
                 case SceneVarType.STRING:
-                    SceneState.ModifyStringVar(SceneVar.ID, stringOP, stringValue);
+                    SceneState.ModifyStringVar(SceneVar.uniqueID, stringOP, stringValue);
                     break;
 
                 default:

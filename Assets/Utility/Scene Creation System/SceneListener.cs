@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 
-namespace Dhs5.Utility.SceneCreation
+namespace SceneCreation
 {
     [Serializable]
     public class SceneListener
@@ -41,23 +41,21 @@ namespace Dhs5.Utility.SceneCreation
             switch (SceneVar.type)
             {
                 case SceneVarType.BOOL:
-                    return VerifyBoolCondition(conditionIndex, SceneVar.boolValue, boolValue);
+                    return VerifyBoolCondition(SceneVar.boolValue, boolValue);
                 case SceneVarType.INT:
-                    return VerifyIntCondition(conditionIndex, SceneVar.intValue, intValue);
+                    return VerifyIntCondition(SceneVar.intValue, intValue);
                 case SceneVarType.FLOAT:
-                    return VerifyFloatCondition(conditionIndex, SceneVar.floatValue, floatValue);
+                    return VerifyFloatCondition(SceneVar.floatValue, floatValue);
                 case SceneVarType.STRING:
-                    return VerifyStringCondition(conditionIndex, SceneVar.stringValue, stringValue);
+                    return VerifyStringCondition(SceneVar.stringValue, stringValue);
             }
 
             return true;
         }
 
-        private bool VerifyBoolCondition(int conditionIndex, bool valueToCompare, bool valueToCompareTo)
+        private bool VerifyBoolCondition(bool valueToCompare, bool valueToCompareTo)
         {
-            BoolComparison comp = (BoolComparison)conditionIndex;
-
-            switch (comp)
+            switch (boolComp)
             {
                 case BoolComparison.EQUAL:
                     return valueToCompare == valueToCompareTo;
@@ -66,11 +64,9 @@ namespace Dhs5.Utility.SceneCreation
             }
             return true;
         }
-        private bool VerifyIntCondition(int conditionIndex, int valueToCompare, int valueToCompareTo)
+        private bool VerifyIntCondition(int valueToCompare, int valueToCompareTo)
         {
-            IntComparison comp = (IntComparison)conditionIndex;
-
-            switch (comp)
+            switch (intComp)
             {
                 case IntComparison.EQUAL:
                     return valueToCompare == valueToCompareTo;
@@ -87,11 +83,9 @@ namespace Dhs5.Utility.SceneCreation
             }
             return true;
         }
-        private bool VerifyFloatCondition(int conditionIndex, float valueToCompare, float valueToCompareTo)
+        private bool VerifyFloatCondition(float valueToCompare, float valueToCompareTo)
         {
-            FloatComparison comp = (FloatComparison)conditionIndex;
-
-            switch (comp)
+            switch (floatComp)
             {
                 case FloatComparison.EQUAL:
                     return valueToCompare == valueToCompareTo;
@@ -108,11 +102,9 @@ namespace Dhs5.Utility.SceneCreation
             }
             return true;
         }
-        private bool VerifyStringCondition(int conditionIndex, string valueToCompare, string valueToCompareTo)
+        private bool VerifyStringCondition(string valueToCompare, string valueToCompareTo)
         {
-            StringComparison comp = (StringComparison)conditionIndex;
-
-            switch (comp)
+            switch (stringComp)
             {
                 case StringComparison.EQUAL:
                     return valueToCompare == valueToCompareTo;

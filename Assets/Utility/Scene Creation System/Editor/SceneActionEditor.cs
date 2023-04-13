@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-namespace Dhs5.Utility.SceneCreation
+namespace SceneCreation
 {
     [CustomPropertyDrawer(typeof(SceneAction))]
     public class SceneActionEditor : PropertyDrawer

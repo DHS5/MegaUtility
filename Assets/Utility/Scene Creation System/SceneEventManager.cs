@@ -3,20 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace Dhs5.Utility.SceneCreation
+namespace SceneCreation
 {
-    public class EventParam
+    public class EventParam2
     {
         string sceneObjectID;
         SceneVar sceneVar;
+        // Type : change, has_changed, init
+        private string triggerObjectID;
     }
 
     public static class SceneEventManager
     {
-        private static Dictionary<string, Action<SceneVar>> eventDico = new();
+        private static Dictionary<int, Action<SceneVar>> eventDico = new();
 
 
-        public static void StartListening(string keyEvent, Action<SceneVar> listener)
+        public static void StartListening(int keyEvent, Action<SceneVar> listener)
         {
             if (eventDico.ContainsKey(keyEvent))
             {
@@ -28,7 +30,7 @@ namespace Dhs5.Utility.SceneCreation
             }
         }
 
-        public static void StopListening(string keyEvent, Action<SceneVar> listener)
+        public static void StopListening(int keyEvent, Action<SceneVar> listener)
         {
             if (eventDico.ContainsKey(keyEvent))
             {
@@ -36,7 +38,7 @@ namespace Dhs5.Utility.SceneCreation
             }
         }
 
-        public static void TriggerEvent(string keyEvent, SceneVar param)
+        public static void TriggerEvent(int keyEvent, SceneVar param)
         {
             if (eventDico.TryGetValue(keyEvent, out Action<SceneVar> thisEvent))
             {

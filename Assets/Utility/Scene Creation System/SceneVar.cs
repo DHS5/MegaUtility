@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace Dhs5.Utility.SceneCreation
+namespace SceneCreation
 {
     [Serializable]
     public class SceneVar
@@ -49,5 +49,7 @@ namespace Dhs5.Utility.SceneCreation
                 return null;
             }
         }
+
+        public bool isStatic = false;
     }
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Dhs5.Utility.SceneCreation
+namespace SceneCreation
 {
     [CreateAssetMenu(fileName = "SceneVars", menuName = "Scene Creation/Scene Vars")]
     public class SceneVariablesSO : ScriptableObject
@@ -42,7 +42,7 @@ namespace Dhs5.Utility.SceneCreation
 
         private void OnValidate()
         {
-            if (listSize < sceneVars.Count)
+            if (listSize == sceneVars.Count - 1 && listSize != 0)
             {
                 sceneVars[listSize].Reset = 911;
             }
