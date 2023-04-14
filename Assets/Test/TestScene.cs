@@ -7,6 +7,18 @@ namespace Dhs5.Test
 {
     public class TestScene : MonoBehaviour
     {
-        
+        public SceneVariablesSO sceneVariablesSO;
+
+        public SceneVarTween maxEnemy;
+
+        private void OnValidate()
+        {
+            maxEnemy.sceneVariablesSO = sceneVariablesSO;
+        }
+
+        private void Test()
+        {
+            Debug.Log(maxEnemy.IntValue);
+        }
     }
 }

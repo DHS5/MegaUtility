@@ -397,6 +397,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a19462f9b0c318489b28e4a4220f095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+  maxEnemy:
+    sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+    sceneVarUniqueID: 4629
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
