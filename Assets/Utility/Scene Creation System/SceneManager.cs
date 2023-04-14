@@ -8,7 +8,7 @@ namespace Dhs5.Utility.SceneCreation
     {
         public SceneVariablesSO sceneVariablesSO;
 
-        void Awake()
+        void Start()
         {
             SceneState.SetSceneVars(sceneVariablesSO);
         }

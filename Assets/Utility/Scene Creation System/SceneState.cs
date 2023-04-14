@@ -25,7 +25,7 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public enum IntOperation
     {
-        SET, ADD
+        SET, ADD, MULTIPLY, POWER
     }
     [Serializable]
     public enum IntComparison
@@ -35,7 +35,7 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public enum FloatOperation
     {
-        SET, ADD
+        SET, ADD, MULTIPLY, POWER
     }
     [Serializable]
     public enum FloatComparison
@@ -65,7 +65,7 @@ namespace Dhs5.Utility.SceneCreation
         }
         private static void AddVar(SceneVar variable)
         {
-            SceneVariables[variable.uniqueID] = variable;
+            SceneVariables[variable.uniqueID] = new(variable);
             ChangedVar(variable.uniqueID);
         }
         private static void ChangedVar(int varUniqueID)
@@ -84,6 +84,11 @@ namespace Dhs5.Utility.SceneCreation
                 return SceneVariables[varUniqueID].Value;
             IncorrectID(varUniqueID);
             return null;
+        }
+
+        public static SceneVar GetSceneVar(int uniqueID)
+        {
+            return SceneVariables[uniqueID];
         }
         public static bool TryGetBoolValue(int varUniqueID, out bool value)
         {
@@ -160,7 +165,7 @@ namespace Dhs5.Utility.SceneCreation
         {
             Clear();
             if (sceneVariablesSO == null) return;
-            List<SceneVar> sceneVars = sceneVariablesSO.sceneVars;
+            List<SceneVar> sceneVars = new(sceneVariablesSO.sceneVars);
             SetSceneVars(sceneVars);
         }
         public static void SetSceneVars(List<SceneVar> sceneVars)
@@ -221,7 +226,13 @@ namespace Dhs5.Utility.SceneCreation
                         case IntOperation.ADD:
                             SceneVariables[varUniqueID].intValue += param;
                             break;
-
+                        case IntOperation.MULTIPLY:
+                            SceneVariables[varUniqueID].intValue *= param;
+                            break;
+                        case IntOperation.POWER:
+                            SceneVariables[varUniqueID].intValue = (int)Mathf.Pow(SceneVariables[varUniqueID].intValue, param);
+                            break;
+                        
                         default:
                             SceneVariables[varUniqueID].intValue = param;
                             break;
@@ -249,7 +260,13 @@ namespace Dhs5.Utility.SceneCreation
                         case FloatOperation.ADD:
                             SceneVariables[varUniqueID].floatValue += param;
                             break;
-
+                        case FloatOperation.MULTIPLY:
+                            SceneVariables[varUniqueID].floatValue *= param;
+                            break;
+                        case FloatOperation.POWER:
+                            SceneVariables[varUniqueID].floatValue = Mathf.Pow(SceneVariables[varUniqueID].floatValue, param);
+                            break;
+                        
                         default:
                             SceneVariables[varUniqueID].floatValue = param;
                             break;

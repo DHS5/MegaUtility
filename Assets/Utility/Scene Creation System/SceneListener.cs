@@ -14,6 +14,10 @@ namespace Dhs5.Utility.SceneCreation
         // SceneVar selection
         public int varUniqueID;
         public SceneVar SceneVar { get { return sceneVariablesSO[varUniqueID]; } }
+        public SceneVar CurrentSceneVar
+        {
+            get { return SceneState.GetSceneVar(varUniqueID); }
+        }
         
         // Condition
         public bool hasCondition;
@@ -39,11 +43,11 @@ namespace Dhs5.Utility.SceneCreation
         #region Event Subscription
         public void Register()
         {
-            SceneEventManager.StartListening(SceneVar.uniqueID, OnListenerEvent);
+            SceneEventManager.StartListening(CurrentSceneVar.uniqueID, OnListenerEvent);
         }
         public void Unregister()
         {
-            SceneEventManager.StopListening(SceneVar.uniqueID, OnListenerEvent);
+            SceneEventManager.StopListening(CurrentSceneVar.uniqueID, OnListenerEvent);
         }
         private void OnListenerEvent(SceneVar var)
         {
@@ -51,7 +55,7 @@ namespace Dhs5.Utility.SceneCreation
             {
                 events.Invoke(var);
                 if (debug)
-                    Debug.Log("Received event : " + SceneVar.ID + " = " + SceneVar.Value);
+                    Debug.Log("Received event : " + CurrentSceneVar.ID + " = " + CurrentSceneVar.Value);
             }
         }
         #endregion
@@ -64,13 +68,13 @@ namespace Dhs5.Utility.SceneCreation
             switch (SceneVar.type)
             {
                 case SceneVarType.BOOL:
-                    return VerifyBoolCondition(SceneVar.boolValue, boolValue);
+                    return VerifyBoolCondition(CurrentSceneVar.boolValue, boolValue);
                 case SceneVarType.INT:
-                    return VerifyIntCondition(SceneVar.intValue, intValue);
+                    return VerifyIntCondition(CurrentSceneVar.intValue, intValue);
                 case SceneVarType.FLOAT:
-                    return VerifyFloatCondition(SceneVar.floatValue, floatValue);
+                    return VerifyFloatCondition(CurrentSceneVar.floatValue, floatValue);
                 case SceneVarType.STRING:
-                    return VerifyStringCondition(SceneVar.stringValue, stringValue);
+                    return VerifyStringCondition(CurrentSceneVar.stringValue, stringValue);
             }
 
             return true;

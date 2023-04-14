@@ -8,6 +8,18 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public class SceneVar
     {
+        public SceneVar(SceneVar var)
+        {
+            uniqueID = var.uniqueID;
+            ID = var.ID;
+            type = var.type;
+            boolValue = var.boolValue;
+            intValue = var.intValue;
+            floatValue = var.floatValue;
+            stringValue = var.stringValue;
+            isStatic = var.isStatic;
+        }
+        
         public int Reset
         {
             set

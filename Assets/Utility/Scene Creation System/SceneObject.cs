@@ -19,27 +19,29 @@ namespace Dhs5.Utility.SceneCreation
         #region Scene Events subscription
         private void OnEnable()
         {
-            foreach (SceneListener listener in sceneListeners)
+            if (sceneListeners != null)
             {
-                listener.Register();
+                foreach (SceneListener listener in sceneListeners)
+                {
+                    listener.Register();
+                }
             }
-            RegisterTweens();
         }
         private void OnDisable()
         {
-            foreach (SceneListener listener in sceneListeners)
+            if (sceneListeners != null)
             {
-                listener.Unregister();
+                foreach (SceneListener listener in sceneListeners)
+                {
+                    listener.Unregister();
+                }
             }
-            UnregisterTweens();
         }
 
         private List<SceneListener> GetListenersByID(int varUniqueID)
         {
-            return sceneListeners.FindAll(l => l.SceneVar.uniqueID == varUniqueID);
+            return sceneListeners.FindAll(l => l.CurrentSceneVar.uniqueID == varUniqueID);
         }
-        protected virtual void RegisterTweens() {} // SceneEventManager.StartListening(tween.ID, tween.OnEventReceived)
-        protected virtual void UnregisterTweens() {}
         #endregion
 
         #region Update Listeners, Actions & Tweens
@@ -50,13 +52,20 @@ namespace Dhs5.Utility.SceneCreation
 
         protected virtual void UpdateSceneVariables()
         {
-            foreach (SceneListener listener in sceneListeners)
+            if (sceneListeners != null)
             {
-                listener.sceneVariablesSO = sceneVariablesSO;
+                foreach (SceneListener listener in sceneListeners)
+                {
+                    listener.sceneVariablesSO = sceneVariablesSO;
+                }
             }
-            foreach (SceneAction action in sceneActions)
+
+            if (sceneActions != null)
             {
-                action.sceneVariablesSO = sceneVariablesSO;
+                foreach (SceneAction action in sceneActions)
+                {
+                    action.sceneVariablesSO = sceneVariablesSO;
+                }
             }
         }
 
@@ -66,11 +75,13 @@ namespace Dhs5.Utility.SceneCreation
 
         protected List<SceneAction> GetSceneActionsByID(string actionID)
         {
+            if (sceneActions != null) return null;
             return sceneActions.FindAll(a => a.actionID == actionID);
         }
         public void TriggerSceneAction(string actionID)
         {
             List<SceneAction> actions = GetSceneActionsByID(actionID);
+            if (actions == null) return;
             foreach (var action in actions)
             {
                 DebugAction(action);

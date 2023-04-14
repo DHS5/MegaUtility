@@ -16,6 +16,10 @@ namespace Dhs5.Utility.SceneCreation
         // SceneVar selection
         public int varUniqueID;
         public SceneVar SceneVar { get { return sceneVariablesSO[varUniqueID]; } }
+        public SceneVar CurrentSceneVar
+        {
+            get { return SceneState.GetSceneVar(varUniqueID); }
+        }
 
         // Operations
         public int operationIndex;
@@ -48,16 +52,16 @@ namespace Dhs5.Utility.SceneCreation
             switch (SceneVar.type)
             {
                 case SceneVarType.BOOL:
-                    SceneState.ModifyBoolVar(SceneVar.uniqueID, boolOP, boolValue);
+                    SceneState.ModifyBoolVar(CurrentSceneVar.uniqueID, boolOP, boolValue);
                     break;
                 case SceneVarType.INT:
-                    SceneState.ModifyIntVar(SceneVar.uniqueID, intOP, intValue);
+                    SceneState.ModifyIntVar(CurrentSceneVar.uniqueID, intOP, intValue);
                     break;
                 case SceneVarType.FLOAT:
-                    SceneState.ModifyFloatVar(SceneVar.uniqueID, floatOP, floatValue);
+                    SceneState.ModifyFloatVar(CurrentSceneVar.uniqueID, floatOP, floatValue);
                     break;
                 case SceneVarType.STRING:
-                    SceneState.ModifyStringVar(SceneVar.uniqueID, stringOP, stringValue);
+                    SceneState.ModifyStringVar(CurrentSceneVar.uniqueID, stringOP, stringValue);
                     break;
 
                 default:
