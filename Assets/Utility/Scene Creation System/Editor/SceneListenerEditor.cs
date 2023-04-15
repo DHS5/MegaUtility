@@ -47,7 +47,8 @@ namespace Dhs5.Utility.SceneCreation
 
             sceneVarUniqueIDP = property.FindPropertyRelative("varUniqueID");
             sceneVarIndex = sceneVarContainer.GetIndexByUniqueID(sceneVarUniqueIDP.intValue);
-            sceneVar = sceneVarContainer[sceneVarUniqueIDP.intValue];
+            if (sceneVarIndex == -1) sceneVarIndex = 0;
+            sceneVar = sceneVarContainer.sceneVars[sceneVarIndex];
 
             Rect foldoutRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
             property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, sceneVar.ID + " : " + sceneVar.type);

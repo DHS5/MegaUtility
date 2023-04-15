@@ -202,7 +202,6 @@ MonoBehaviour:
   - sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
     varUniqueID: 4629
     hasCondition: 0
-    conditionIndex: 0
     boolComp: 0
     boolValue: 0
     intComp: 0
@@ -401,6 +400,10 @@ MonoBehaviour:
   maxEnemy:
     sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
     sceneVarUniqueID: 4629
+  sceneEvent:
+    eventID: 
+    sceneActions: []
+    sceneParameteredEvents: []
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

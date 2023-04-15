@@ -21,7 +21,6 @@ namespace Dhs5.Utility.SceneCreation
         
         // Condition
         public bool hasCondition;
-        public int conditionIndex;
 
         public BoolComparison boolComp;
         public bool boolValue;
