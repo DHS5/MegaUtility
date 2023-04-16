@@ -10,30 +10,63 @@ namespace Dhs5.Utility.SceneCreation
     public class SceneEvent
     {
         public string eventID;
+        [Space(5)]
+
+        public List<SceneCondition> sceneConditions;
 
         public List<SceneAction> sceneActions;
 
         public List<SceneParameteredEvent> sceneParameteredEvents;
 
-        public void Trigger(SceneVar var)
+        public bool debug = false;
+
+        public void Trigger()
         {
-            
+            if (sceneConditions != null)
+            {
+                if (!sceneConditions.VerifyConditions()) return;
+            }
+
+            if (sceneActions != null)
+            {
+                foreach (var action in sceneActions)
+                    action.Trigger();
+            }
+
+            if (sceneParameteredEvents != null)
+            {
+                foreach (var paramEvent in sceneParameteredEvents)
+                    paramEvent.Trigger();
+            }
+
+            if (debug)
+                DebugSceneEvent();
         }
 
         
 
-        public void SetUp(SceneVariablesSO sceneVariablesSO)
+        public void SetUp(SceneVariablesSO _sceneVariablesSO)
         {
+            if (sceneConditions != null)
+            {
+                foreach (var condition in sceneConditions)
+                    condition.sceneVariablesSO = _sceneVariablesSO;
+            }
             if (sceneActions != null)
             {
                 foreach (var action in sceneActions)
-                    action.sceneVariablesSO = sceneVariablesSO;
+                    action.sceneVariablesSO = _sceneVariablesSO;
             }
             if (sceneParameteredEvents != null)
             {
                 foreach (var e in sceneParameteredEvents)
-                    e.SetUp(sceneVariablesSO);
+                    e.SetUp(_sceneVariablesSO);
             }
+        }
+
+        private void DebugSceneEvent()
+        {
+            ZDebug.LogE("Triggered Scene Event : ", eventID);
         }
     }
 }

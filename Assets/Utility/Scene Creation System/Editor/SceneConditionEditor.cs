@@ -5,9 +5,9 @@ using UnityEditor;
 
 namespace Dhs5.Utility.SceneCreation
 {
-    [CustomPropertyDrawer(typeof(SceneAction))]
-    public class SceneActionEditor : PropertyDrawer
-    {        
+    [CustomPropertyDrawer(typeof(SceneCondition))]
+    public class SceneConditionEditor : PropertyDrawer
+    {
         SerializedProperty sceneVariablesSO;
         SerializedObject sceneVariablesObj;
         SceneVariablesSO sceneVarContainer;
@@ -20,17 +20,14 @@ namespace Dhs5.Utility.SceneCreation
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            string operationDescription = "";
+            string conditionDescription = "";
 
-            sceneVarIndex1 = 0;
-            sceneVarIndex2 = 0;
-            
             EditorGUI.BeginProperty(position, label, property);
 
             sceneVariablesSO = property.FindPropertyRelative("sceneVariablesSO");
             if (sceneVariablesSO.objectReferenceValue == null)
             {
-                EditorGUI.LabelField(position, "SceneVariablesSO is not assigned !");
+                EditorGUI.LabelField(position, "SceneVariablesSO is missing !");
                 EditorGUI.EndProperty();
                 return;
             }
@@ -54,26 +51,26 @@ namespace Dhs5.Utility.SceneCreation
             if (sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex1) == 0) sceneVarIndex1 = sceneVarIndexSave1;
             sceneVarUniqueID1P.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex1);
 
-            // Operation creation
-            Rect opPosition = new Rect(position.x + position.width * 0.36f, position.y, position.width * 0.28f, EditorGUIUtility.singleLineHeight);
+            // Comparison operator
+            Rect compPosition = new Rect(position.x + position.width * 0.36f, position.y, position.width * 0.28f, EditorGUIUtility.singleLineHeight);
             SceneVarType type = sceneVarContainer.sceneVars[sceneVarIndex1].type;
             switch (type)
             {
                 case SceneVarType.BOOL:
-                    EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("boolOP"), new GUIContent(""));
-                    operationDescription = SceneAction.BoolOpDescription((BoolOperation)property.FindPropertyRelative("boolOP").enumValueIndex);
+                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("boolComp"), new GUIContent(""));
+                    conditionDescription = SceneCondition.BoolCompDescription((BoolComparison)property.FindPropertyRelative("boolComp").enumValueIndex);
                     break;
                 case SceneVarType.INT:
-                    EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("intOP"), new GUIContent(""));
-                    operationDescription = SceneAction.IntOpDescription((IntOperation)property.FindPropertyRelative("intOP").enumValueIndex);
+                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("intComp"), new GUIContent(""));
+                    conditionDescription = SceneCondition.IntCompDescription((IntComparison)property.FindPropertyRelative("intComp").enumValueIndex);
                     break;
                 case SceneVarType.FLOAT:
-                    EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("floatOP"), new GUIContent(""));
-                    operationDescription = SceneAction.FloatOpDescription((FloatOperation)property.FindPropertyRelative("floatOP").enumValueIndex);
+                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("floatComp"), new GUIContent(""));
+                    conditionDescription = SceneCondition.FloatCompDescription((FloatComparison)property.FindPropertyRelative("floatComp").enumValueIndex);
                     break;
                 case SceneVarType.STRING:
-                    EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("stringOP"), new GUIContent(""));
-                    operationDescription = SceneAction.StringOpDescription((StringOperation)property.FindPropertyRelative("stringOP").enumValueIndex);
+                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("stringComp"), new GUIContent(""));
+                    conditionDescription = SceneCondition.StringCompDescription((StringComparison)property.FindPropertyRelative("stringComp").enumValueIndex);
                     break;
             }
 
@@ -92,8 +89,12 @@ namespace Dhs5.Utility.SceneCreation
             Rect label2Position = new Rect(position.x + position.width * 0.36f, position.y + EditorGUIUtility.singleLineHeight, position.width * 0.28f, EditorGUIUtility.singleLineHeight);
             Rect label3Position = new Rect(position.x + position.width * 0.65f, position.y + EditorGUIUtility.singleLineHeight, position.width * 0.35f, EditorGUIUtility.singleLineHeight);
             EditorGUI.LabelField(label1Position, type.ToString(), EditorStyles.miniLabel);
-            EditorGUI.LabelField(label2Position, operationDescription, EditorStyles.miniLabel);
+            EditorGUI.LabelField(label2Position, conditionDescription, EditorStyles.miniLabel);
             EditorGUI.LabelField(label3Position, sceneVarContainer.sceneVars[sceneVarIndex2].type.ToString(), EditorStyles.miniLabel);
+
+            // Logical Operator property
+            Rect opPosition = new Rect(position.x + position.width * 0.75f, position.y + EditorGUIUtility.singleLineHeight * 1.9f, position.width * 0.25f, EditorGUIUtility.singleLineHeight);
+            EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("logicOperator"), new GUIContent(""));
 
             // End
             EditorGUI.EndProperty();
@@ -101,7 +102,7 @@ namespace Dhs5.Utility.SceneCreation
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUIUtility.singleLineHeight * 1.8f;
+            return EditorGUIUtility.singleLineHeight * 2.8f;
         }
     }
 }

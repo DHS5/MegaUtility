@@ -13,7 +13,6 @@ namespace Dhs5.Utility.SceneCreation
 
         // SceneVar selection
         public int varUniqueID;
-        public SceneVar SceneVar { get { return sceneVariablesSO[varUniqueID]; } }
         public SceneVar CurrentSceneVar
         {
             get { return SceneState.GetSceneVar(varUniqueID); }
@@ -22,17 +21,7 @@ namespace Dhs5.Utility.SceneCreation
         // Condition
         public bool hasCondition;
 
-        public BoolComparison boolComp;
-        public bool boolValue;
-        
-        public IntComparison intComp;
-        public int intValue;
-
-        public FloatComparison floatComp;
-        public float floatValue;
-
-        public StringComparison stringComp;
-        public string stringValue;
+        public List<SceneCondition> conditions;
         
         public UnityEvent<SceneVar> events;
 
@@ -50,7 +39,7 @@ namespace Dhs5.Utility.SceneCreation
         }
         private void OnListenerEvent(SceneVar var)
         {
-            if (VerifyCondition())
+            if (VerifyConditions())
             {
                 events.Invoke(var);
                 if (debug)
@@ -60,89 +49,26 @@ namespace Dhs5.Utility.SceneCreation
         #endregion
 
 
-        public bool VerifyCondition()
+        public void SetUp(SceneVariablesSO _sceneVariablesSO)
+        {
+            sceneVariablesSO = _sceneVariablesSO;
+
+            if (conditions != null)
+            {
+                foreach (var condition in conditions)
+                    condition.sceneVariablesSO = _sceneVariablesSO;
+            }
+        }
+
+        public bool VerifyConditions()
         {
             if (!hasCondition) return true;
 
-            switch (SceneVar.type)
+            if (conditions != null)
             {
-                case SceneVarType.BOOL:
-                    return VerifyBoolCondition(CurrentSceneVar.boolValue, boolValue);
-                case SceneVarType.INT:
-                    return VerifyIntCondition(CurrentSceneVar.intValue, intValue);
-                case SceneVarType.FLOAT:
-                    return VerifyFloatCondition(CurrentSceneVar.floatValue, floatValue);
-                case SceneVarType.STRING:
-                    return VerifyStringCondition(CurrentSceneVar.stringValue, stringValue);
+                return conditions.VerifyConditions();
             }
 
-            return true;
-        }
-
-        private bool VerifyBoolCondition(bool valueToCompare, bool valueToCompareTo)
-        {
-            switch (boolComp)
-            {
-                case BoolComparison.EQUAL:
-                    return valueToCompare == valueToCompareTo;
-                case BoolComparison.DIFF:
-                    return valueToCompare != valueToCompareTo;
-            }
-            return true;
-        }
-        private bool VerifyIntCondition(int valueToCompare, int valueToCompareTo)
-        {
-            switch (intComp)
-            {
-                case IntComparison.EQUAL:
-                    return valueToCompare == valueToCompareTo;
-                case IntComparison.DIFF:
-                    return valueToCompare != valueToCompareTo;
-                case IntComparison.SUP:
-                    return valueToCompare > valueToCompareTo;
-                case IntComparison.SUP_EQUAL:
-                    return valueToCompare >= valueToCompareTo;
-                case IntComparison.INF:
-                    return valueToCompare < valueToCompareTo;
-                case IntComparison.INF_EQUAL:
-                    return valueToCompare <= valueToCompareTo;
-            }
-            return true;
-        }
-        private bool VerifyFloatCondition(float valueToCompare, float valueToCompareTo)
-        {
-            switch (floatComp)
-            {
-                case FloatComparison.EQUAL:
-                    return valueToCompare == valueToCompareTo;
-                case FloatComparison.DIFF:
-                    return valueToCompare != valueToCompareTo;
-                case FloatComparison.SUP:
-                    return valueToCompare > valueToCompareTo;
-                case FloatComparison.SUP_EQUAL:
-                    return valueToCompare >= valueToCompareTo;
-                case FloatComparison.INF:
-                    return valueToCompare < valueToCompareTo;
-                case FloatComparison.INF_EQUAL:
-                    return valueToCompare <= valueToCompareTo;
-            }
-            return true;
-        }
-        private bool VerifyStringCondition(string valueToCompare, string valueToCompareTo)
-        {
-            switch (stringComp)
-            {
-                case StringComparison.EQUAL:
-                    return valueToCompare == valueToCompareTo;
-                case StringComparison.DIFF:
-                    return valueToCompare != valueToCompareTo;
-                case StringComparison.CONTAINS:
-                    return valueToCompare.Contains(valueToCompareTo);
-                case StringComparison.CONTAINED:
-                    return valueToCompareTo.Contains(valueToCompare);
-                case StringComparison.NULL_EMPTY:
-                    return String.IsNullOrEmpty(valueToCompare);
-            }
             return true;
         }
     }

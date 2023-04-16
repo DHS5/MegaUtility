@@ -23,6 +23,7 @@ namespace Dhs5.Utility.SceneCreation
         }
         public int GetIndexByUniqueID(int uniqueID)
         {
+            if (uniqueID == 0) return -1;
             return sceneVars.FindIndex(v => v.uniqueID == uniqueID);
         }
         

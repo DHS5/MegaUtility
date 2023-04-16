@@ -25,23 +25,25 @@ namespace Dhs5.Utility.SceneCreation
         public StringComparison stringComp;
 
 
+        public LogicOperator logicOperator;
+
         public bool VerifyCondition()
         {
             switch (SceneVar1.type)
             {
                 case SceneVarType.BOOL:
-                    if (SceneVar2.type != SceneVarType.BOOL) return VerifyBoolCondition(SceneVar1.boolValue, CastToBool(SceneVar2));
+                    if (SceneVar2.type != SceneVarType.BOOL) return VerifyBoolCondition(SceneVar1.boolValue, SceneState.CastToBool(SceneVar2));
                     return VerifyBoolCondition(SceneVar1.boolValue, SceneVar2.boolValue);
                 case SceneVarType.INT:
-                    if (SceneVar2.type == SceneVarType.BOOL || SceneVar2.type == SceneVarType.STRING) return VerifyIntCondition(SceneVar1.intValue, CastToInt(SceneVar2));
+                    if (SceneVar2.type == SceneVarType.BOOL || SceneVar2.type == SceneVarType.STRING) return VerifyIntCondition(SceneVar1.intValue, SceneState.CastToInt(SceneVar2));
                     if (SceneVar2.type == SceneVarType.INT) return VerifyIntCondition(SceneVar1.intValue, SceneVar2.intValue);
                     return VerifyIntCondition(SceneVar1.intValue, SceneVar2.floatValue);
                 case SceneVarType.FLOAT:
-                    if (SceneVar2.type == SceneVarType.BOOL || SceneVar2.type == SceneVarType.STRING) return VerifyFloatCondition(SceneVar1.intValue, CastToFloat(SceneVar2));
+                    if (SceneVar2.type == SceneVarType.BOOL || SceneVar2.type == SceneVarType.STRING) return VerifyFloatCondition(SceneVar1.intValue, SceneState.CastToFloat(SceneVar2));
                     if (SceneVar2.type == SceneVarType.INT) return VerifyFloatCondition(SceneVar1.intValue, SceneVar2.intValue);
                     return VerifyFloatCondition(SceneVar1.intValue, SceneVar2.floatValue);
                 case SceneVarType.STRING:
-                    if (SceneVar2.type != SceneVarType.STRING) return VerifyStringCondition(SceneVar1.stringValue, CastToString(SceneVar2));
+                    if (SceneVar2.type != SceneVarType.STRING) return VerifyStringCondition(SceneVar1.stringValue, SceneState.CastToString(SceneVar2));
                     return VerifyStringCondition(SceneVar1.stringValue, SceneVar2.stringValue);
             }
 
@@ -155,72 +157,52 @@ namespace Dhs5.Utility.SceneCreation
         }
         #endregion
 
-        #region Cast To Bool
-        private bool CastToBool(SceneVar var)
+        #region Operator Description
+        public static string BoolCompDescription(BoolComparison comp)
         {
-            switch (var.type)
+            switch (comp)
             {
-                case SceneVarType.INT:
-                    return var.intValue != 0;
-                case SceneVarType.FLOAT:
-                    return var.floatValue != 0;
-                case SceneVarType.STRING:
-                    return (var.stringValue.ToLower() == "true");
-                default:
-                    return false;
+                case BoolComparison.EQUAL: return " == ";
+                case BoolComparison.DIFF: return " != ";
+                default: return "";
             }
         }
-        #endregion
-
-        #region Cast To Int
-        private int CastToInt(SceneVar var)
+        public static string IntCompDescription(IntComparison comp)
         {
-            int i;
-            switch (var.type)
+            switch (comp)
             {
-                case SceneVarType.BOOL:
-                    return var.boolValue ? 1 : 0;
-                case SceneVarType.STRING:
-                    try { i = int.Parse(var.stringValue); }
-                    catch { i = 0; }
-                    return i;
-                default:
-                    return 0;
+                case IntComparison.EQUAL: return " == ";
+                case IntComparison.DIFF: return " != ";
+                case IntComparison.SUP: return " > ";
+                case IntComparison.INF: return " < ";
+                case IntComparison.SUP_EQUAL: return " >= ";
+                case IntComparison.INF_EQUAL: return " <= ";
+                default: return "";
             }
         }
-        #endregion
-        
-        #region Cast To Float
-        private float CastToFloat(SceneVar var)
+        public static string FloatCompDescription(FloatComparison comp)
         {
-            float f;
-            switch (var.type)
+            switch (comp)
             {
-                case SceneVarType.BOOL:
-                    return var.boolValue ? 1f : 0f;
-                case SceneVarType.STRING:
-                    try { f = float.Parse(var.stringValue); }
-                    catch { f = 0f; }
-                    return f;
-                default:
-                    return 0f;
+                case FloatComparison.EQUAL: return " == ";
+                case FloatComparison.DIFF: return " != ";
+                case FloatComparison.SUP: return " > ";
+                case FloatComparison.INF: return " < ";
+                case FloatComparison.SUP_EQUAL: return " >= ";
+                case FloatComparison.INF_EQUAL: return " <= ";
+                default: return "";
             }
         }
-        #endregion
-
-        #region Cast To String
-        private string CastToString(SceneVar var)
+        public static string StringCompDescription(StringComparison comp)
         {
-            switch (var.type)
+            switch (comp)
             {
-                case SceneVarType.BOOL:
-                    return var.boolValue.ToString();
-                case SceneVarType.INT:
-                    return var.intValue.ToString();
-                case SceneVarType.FLOAT:
-                    return var.floatValue.ToString();
-                default:
-                    return "";
+                case StringComparison.EQUAL: return " == ";
+                case StringComparison.DIFF: return " != ";
+                case StringComparison.CONTAINS: return " Contains : ";
+                case StringComparison.CONTAINED: return " Contained in : ";
+                case StringComparison.NULL_EMPTY: return " is null or empty. ";
+                default: return "";
             }
         }
         #endregion

@@ -9,6 +9,8 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public class SceneParameteredEvent
     {
+        public SceneVariablesSO sceneVariablesSO;
+
         [Serializable]
         public enum ParameterType
         {
@@ -21,16 +23,34 @@ namespace Dhs5.Utility.SceneCreation
         public ParameterType parameterType;
 
         public int paramUniqueID;
-        public SceneCondition conditionParam;
+        public List<SceneCondition> conditionsParam;
 
-        public void SetUp(SceneVariablesSO sceneVariablesSO)
+        public float propertyHeight;
+
+        public void SetUp(SceneVariablesSO _sceneVariablesSO)
         {
-            conditionParam.sceneVariablesSO = sceneVariablesSO;
+            sceneVariablesSO = _sceneVariablesSO;
+
+            if (conditionsParam != null)
+            {
+                foreach (var condition in conditionsParam)
+                    condition.sceneVariablesSO = _sceneVariablesSO;
+            }
         }
 
         public void Trigger()
         {
-            events?.Invoke(parameterType == ParameterType.SCENE_PARAM ? SceneState.GetObjectValue(paramUniqueID) : conditionParam.VerifyCondition());
+            events?.Invoke(parameterType == ParameterType.SCENE_PARAM ? SceneState.GetObjectValue(paramUniqueID) : VerifyConditions());
+        }
+
+        private bool VerifyConditions()
+        {
+            if (conditionsParam != null)
+            {
+                foreach (var condition in conditionsParam)
+                    if (!condition.VerifyCondition()) return false;
+            }
+            return true;
         }
     }
 }

@@ -26,25 +26,8 @@ namespace Dhs5.Utility.SceneCreation
             
             EditorGUI.BeginProperty(position, label, property);
 
-            object GetValue()
-            {
-                switch ((SceneVarType)typeProperty.enumValueIndex)
-                {
-                    case SceneVarType.BOOL:
-                        return property.FindPropertyRelative("boolValue").boolValue;
-                    case SceneVarType.INT:
-                        return property.FindPropertyRelative("intValue").intValue;
-                    case SceneVarType.FLOAT:
-                        return property.FindPropertyRelative("floatValue").floatValue;
-                    case SceneVarType.STRING:
-                        return property.FindPropertyRelative("stringValue").stringValue;
-                    default:
-                        return false;
-                }
-            }
-
             Rect foldoutRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, idProperty.stringValue + " (" + (SceneVarType)typeProperty.enumValueIndex + ") = " + GetValue());
+            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, container[uniqueIDProperty.intValue].ToString());
             if (property.isExpanded)
             {
                 // Unique ID

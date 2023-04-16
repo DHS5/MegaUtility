@@ -62,6 +62,11 @@ namespace Dhs5.Utility.SceneCreation
             }
         }
 
+        public override string ToString()
+        {
+            return ID + " (" + type.ToString() + ") = " + Value;
+        }
+
         public bool isStatic = false;
     }
 }

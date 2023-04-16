@@ -16,6 +16,7 @@ namespace Dhs5.Utility.SceneCreation
         SceneVariablesSO sceneVarContainer;
 
         private SerializedProperty hasConditionP;
+        private SerializedProperty conditionP;
         private SerializedProperty sceneVarUniqueIDP;
 
         int sceneVarIndex = 0;
@@ -64,57 +65,38 @@ namespace Dhs5.Utility.SceneCreation
                 // Type label
                 Rect typePosition = new Rect(position.x + position.width * 0.65f, position.y, position.width * 0.3f, EditorGUIUtility.singleLineHeight);
                 EditorGUI.LabelField(typePosition, sceneVar.type.ToString());
-                propertyOffset = EditorGUIUtility.singleLineHeight * 1.5f;
-                propertyHeight += EditorGUIUtility.singleLineHeight * 1.5f;
+                propertyOffset = EditorGUIUtility.singleLineHeight * 1.2f;
+                propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
 
                 // Condition
                 hasConditionP = property.FindPropertyRelative("hasCondition");
                 Rect togglePosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
-                EditorGUI.PropertyField(togglePosition, hasConditionP);
-                propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
-                propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
+                EditorGUI.PropertyField(togglePosition, hasConditionP, new GUIContent("Conditionned"));
+                propertyHeight += EditorGUIUtility.singleLineHeight;
+                propertyOffset += EditorGUIUtility.singleLineHeight;
 
                 // Condition creation
                 if (hasConditionP.boolValue)
                 {
-                    Rect compPosition = new Rect(position.x, position.y + propertyOffset, position.width / 2, EditorGUIUtility.singleLineHeight);
-                    Rect valuePosition = new Rect(position.x + position.width * 0.6f, position.y + propertyOffset, position.width * 0.4f, EditorGUIUtility.singleLineHeight);
-                    propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
-                    SceneVarType type = sceneVar.type;
-                    switch (type)
-                    {
-                        case SceneVarType.BOOL:
-                            EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("boolComp"), new GUIContent(""));
-                            EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("boolValue"), new GUIContent(""));
-                            break;
-                        case SceneVarType.INT:
-                            EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("intComp"), new GUIContent(""));
-                            EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("intValue"), new GUIContent(""));
-                            break;
-                        case SceneVarType.FLOAT:
-                            EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("floatComp"), new GUIContent(""));
-                            EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("floatValue"), new GUIContent(""));
-                            break;
-                        case SceneVarType.STRING:
-                            EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("stringComp"), new GUIContent(""));
-                            EditorGUI.PropertyField(valuePosition, property.FindPropertyRelative("stringValue"), new GUIContent(""));
-                            break;
-                    }
-                    propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
+                    conditionP = property.FindPropertyRelative("conditions");
+                    Rect compPosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
+                    EditorGUI.PropertyField(compPosition, conditionP);
+                    propertyOffset += EditorGUI.GetPropertyHeight(conditionP);
+                    propertyHeight += EditorGUI.GetPropertyHeight(conditionP);
                 }
 
                 // Event property
-                propertyOffset += EditorGUIUtility.singleLineHeight * 0.5f;
-                propertyHeight += EditorGUIUtility.singleLineHeight * 0.5f;
+                propertyOffset += EditorGUIUtility.singleLineHeight * 0.25f;
+                propertyHeight += EditorGUIUtility.singleLineHeight * 0.25f;
                 Rect eventPosition = new(position.x, position.y + propertyOffset, position.width, position.height);
                 EditorGUI.PropertyField(eventPosition, property.FindPropertyRelative("events"));
-                propertyHeight += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("events"), true);
-                propertyOffset += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("events"), true);
+                propertyHeight += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("events"), true) - EditorGUIUtility.singleLineHeight * 0.5f;
+                propertyOffset += EditorGUI.GetPropertyHeight(property.FindPropertyRelative("events"), true) - EditorGUIUtility.singleLineHeight * 0.75f;
 
                 // Debug toggle
                 Rect debugTogglePosition = new(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
                 EditorGUI.PropertyField(debugTogglePosition, property.FindPropertyRelative("debug"));
-                propertyHeight += EditorGUIUtility.singleLineHeight;
+                propertyHeight += EditorGUIUtility.singleLineHeight * 0.85f;
             }
             // End
             EditorGUI.EndProperty();

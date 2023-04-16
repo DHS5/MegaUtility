@@ -25,7 +25,7 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public enum IntOperation
     {
-        SET, ADD, MULTIPLY, POWER
+        SET, ADD, SUBSTRACT, MULTIPLY, DIVIDE, POWER
     }
     [Serializable]
     public enum IntComparison
@@ -35,7 +35,7 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public enum FloatOperation
     {
-        SET, ADD, MULTIPLY, POWER
+        SET, ADD, SUBSTRACT, MULTIPLY, DIVIDE, POWER
     }
     [Serializable]
     public enum FloatComparison
@@ -51,6 +51,11 @@ namespace Dhs5.Utility.SceneCreation
     public enum StringComparison
     {
         EQUAL, DIFF, CONTAINS, CONTAINED, NULL_EMPTY
+    }
+    [Serializable]
+    public enum LogicOperator
+    {
+        AND, OR, NAND, NOR, XOR, XNOR
     }
     #endregion
 
@@ -226,8 +231,14 @@ namespace Dhs5.Utility.SceneCreation
                         case IntOperation.ADD:
                             SceneVariables[varUniqueID].intValue += param;
                             break;
+                        case IntOperation.SUBSTRACT:
+                            SceneVariables[varUniqueID].intValue -= param;
+                            break;
                         case IntOperation.MULTIPLY:
                             SceneVariables[varUniqueID].intValue *= param;
+                            break;
+                        case IntOperation.DIVIDE:
+                            SceneVariables[varUniqueID].intValue /= param;
                             break;
                         case IntOperation.POWER:
                             SceneVariables[varUniqueID].intValue = (int)Mathf.Pow(SceneVariables[varUniqueID].intValue, param);
@@ -260,8 +271,14 @@ namespace Dhs5.Utility.SceneCreation
                         case FloatOperation.ADD:
                             SceneVariables[varUniqueID].floatValue += param;
                             break;
+                        case FloatOperation.SUBSTRACT:
+                            SceneVariables[varUniqueID].floatValue -= param;
+                            break;
                         case FloatOperation.MULTIPLY:
                             SceneVariables[varUniqueID].floatValue *= param;
+                            break;
+                        case FloatOperation.DIVIDE:
+                            SceneVariables[varUniqueID].floatValue /= param;
                             break;
                         case FloatOperation.POWER:
                             SceneVariables[varUniqueID].floatValue = Mathf.Pow(SceneVariables[varUniqueID].floatValue, param);
@@ -320,6 +337,144 @@ namespace Dhs5.Utility.SceneCreation
         private static void IncorrectType(int ID, SceneVarType type)
         {
             Debug.LogError("Variable ID : '" + ID + "' is not of type : '" + type.ToString() + "'.");
+        }
+        #endregion
+
+        #region Casts
+        #region Cast To Bool
+        public static bool CastToBool(SceneVar var)
+        {
+            switch (var.type)
+            {
+                case SceneVarType.BOOL:
+                    return var.boolValue;
+                case SceneVarType.INT:
+                    return var.intValue != 0;
+                case SceneVarType.FLOAT:
+                    return var.floatValue != 0;
+                case SceneVarType.STRING:
+                    return (var.stringValue.ToLower() == "true");
+                default:
+                    return false;
+            }
+        }
+        #endregion
+
+        #region Cast To Int
+        public static int CastToInt(SceneVar var)
+        {
+            int i;
+            switch (var.type)
+            {
+                case SceneVarType.INT:
+                    return var.intValue;
+                case SceneVarType.FLOAT:
+                    return (int)var.floatValue;
+                case SceneVarType.BOOL:
+                    return var.boolValue ? 1 : 0;
+                case SceneVarType.STRING:
+                    try { i = int.Parse(var.stringValue); }
+                    catch { i = 0; }
+                    return i;
+                default:
+                    return 0;
+            }
+        }
+        #endregion
+
+        #region Cast To Float
+        public static float CastToFloat(SceneVar var)
+        {
+            float f;
+            switch (var.type)
+            {
+                case SceneVarType.FLOAT:
+                    return var.floatValue;
+                case SceneVarType.INT:
+                    return var.intValue;
+                case SceneVarType.BOOL:
+                    return var.boolValue ? 1f : 0f;
+                case SceneVarType.STRING:
+                    try { f = float.Parse(var.stringValue); }
+                    catch { f = 0f; }
+                    return f;
+                default:
+                    return 0f;
+            }
+        }
+        #endregion
+
+        #region Cast To String
+        public static string CastToString(SceneVar var)
+        {
+            switch (var.type)
+            {
+                case SceneVarType.STRING:
+                    return var.stringValue;
+                case SceneVarType.BOOL:
+                    return var.boolValue.ToString();
+                case SceneVarType.INT:
+                    return var.intValue.ToString();
+                case SceneVarType.FLOAT:
+                    return var.floatValue.ToString();
+                default:
+                    return "";
+            }
+        }
+        #endregion
+        #endregion
+
+        #region Scene Condition list verification (Extension Method)
+        public static bool VerifyConditions(this List<SceneCondition> conditions)
+        {
+            if (conditions == null) return true;
+        
+            bool result = conditions[0].VerifyCondition();
+        
+            for (int i = 1; i < conditions.Count; i++)
+            {
+                result = ApplyLogicOperator(result, conditions[i - 1].logicOperator, conditions[i].VerifyCondition());
+            }
+        
+            return false;
+        }
+        private static bool ApplyLogicOperator(bool bool1, LogicOperator op, bool bool2)
+        {
+            switch (op)
+            {
+                case LogicOperator.AND: return bool1 & bool2;
+                case LogicOperator.OR: return bool1 | bool2;
+                case LogicOperator.NAND: return !(bool1 & bool2);
+                case LogicOperator.NOR: return !(bool1 | bool2);
+                case LogicOperator.XOR: return bool1 ^ bool2;
+                case LogicOperator.XNOR: return !(bool1 ^ bool2);
+                default: return true;
+            }
+        }
+        #endregion
+
+        #region Random Scene Event triggering (Extension Method)
+        /// <summary>
+        /// Triggers a random SceneEvent in the list
+        /// </summary>
+        /// <param name="sceneEvents"></param>
+        /// <param name="filter">Trigger a random SceneEvent among ones which eventID contains filter</param>
+        public static void TriggerRandom(this List<SceneEvent> sceneEvents, string filter = null)
+        {
+            List<SceneEvent> events = new();
+
+            if (filter != null)
+            {
+                foreach (SceneEvent sceneEvent in sceneEvents)
+                    if (sceneEvent.eventID.Contains(filter))
+                        events.Add(sceneEvent);
+            }
+            else
+            {
+                events = new(sceneEvents);
+            }
+
+            events[UnityEngine.Random.Range(0, events.Count)].Trigger();
         }
         #endregion
     }

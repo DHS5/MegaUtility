@@ -198,51 +198,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-  sceneListeners:
-  - sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-    varUniqueID: 4629
-    hasCondition: 0
-    boolComp: 0
-    boolValue: 0
-    intComp: 0
-    intValue: 0
-    floatComp: 0
-    floatValue: 0
-    stringComp: 2
-    stringValue: 
-    events:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 365116974}
-          m_TargetAssemblyTypeName: Dhs5.Utility.SceneCreation.SceneObject, SceneCreationSystem
-          m_MethodName: TriggerSceneAction
-          m_Mode: 5
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: Do
-            m_BoolArgument: 0
-          m_CallState: 2
-    debug: 0
-    propertyHeight: 0
-  sceneActions:
-  - sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-    actionID: Do
-    varUniqueID: 4629
-    operationIndex: 0
-    boolOP: 0
-    boolValue: 0
-    intOP: 0
-    intValue: 1
-    floatOP: 0
-    floatValue: 0
-    stringOP: 2
-    stringValue: 
-    debug: 0
-    propertyHeight: 79.2
-  debugActions: 1
+  sceneListeners: []
+  sceneEvents: []
 --- !u!4 &365116975
 Transform:
   m_ObjectHideFlags: 0
@@ -402,8 +359,10 @@ MonoBehaviour:
     sceneVarUniqueID: 4629
   sceneEvent:
     eventID: 
+    sceneConditions: []
     sceneActions: []
     sceneParameteredEvents: []
+    debug: 0
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,8 +556,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
   sceneListeners: []
-  sceneActions: []
-  debugActions: 0
+  sceneEvents: []
   sceneTimelines: []
 --- !u!4 &2137021935
 Transform:

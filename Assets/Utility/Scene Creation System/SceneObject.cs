@@ -14,7 +14,7 @@ namespace Dhs5.Utility.SceneCreation
         public List<SceneListener> sceneListeners;
 
         [Header("Actions")]
-        public List<SceneAction> sceneActions;
+        public List<SceneEvent> sceneEvents;
 
         #region Scene Events subscription
         private void OnEnable()
@@ -56,15 +56,15 @@ namespace Dhs5.Utility.SceneCreation
             {
                 foreach (SceneListener listener in sceneListeners)
                 {
-                    listener.sceneVariablesSO = sceneVariablesSO;
+                    listener.SetUp(sceneVariablesSO);
                 }
             }
 
-            if (sceneActions != null)
+            if (sceneEvents != null)
             {
-                foreach (SceneAction action in sceneActions)
+                foreach (SceneEvent sceneEvent in sceneEvents)
                 {
-                    action.sceneVariablesSO = sceneVariablesSO;
+                    sceneEvent.SetUp(sceneVariablesSO);
                 }
             }
         }
@@ -73,30 +73,19 @@ namespace Dhs5.Utility.SceneCreation
 
         #region Trigger Action
 
-        protected List<SceneAction> GetSceneActionsByID(string actionID)
+        protected List<SceneEvent> GetSceneEventsByID(string eventID)
         {
-            if (sceneActions != null) return null;
-            return sceneActions.FindAll(a => a.actionID == actionID);
+            if (sceneEvents == null) return null;
+            return sceneEvents.FindAll(a => a.eventID == eventID);
         }
-        public void TriggerSceneAction(string actionID)
+        public void TriggerSceneEvent(string eventID)
         {
-            List<SceneAction> actions = GetSceneActionsByID(actionID);
-            if (actions == null) return;
-            foreach (var action in actions)
+            List<SceneEvent> events = GetSceneEventsByID(eventID);
+            if (events == null) return;
+            foreach (var sceneEvent in events)
             {
-                DebugAction(action);
-                action.Trigger();
+                sceneEvent.Trigger();
             }
-        }
-        #endregion
-
-        #region Debug
-        [Header("Debug")]
-        public bool debugActions;
-        private void DebugAction(SceneAction action)
-        {
-            if (debugActions)
-                Debug.Log("Triggered action : " + action.actionID);
         }
         #endregion
     }
