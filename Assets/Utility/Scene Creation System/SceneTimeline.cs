@@ -12,12 +12,14 @@ namespace Dhs5.Utility.SceneCreation
         public bool loop;
         public SceneLoopCondition endLoopCondition;
         public List<TimelineObject> timelineObjects;
-
+        public bool debug = true;
+        
         public bool IsActive { get; private set; }
 
         private Coroutine coroutine;
         private Queue<TimelineObject> timelineQueue = new();
         private TimelineObject currentTimelineObject;
+        private int currentStep;
         
         public void SetUp(SceneVariablesSO sceneVariablesSO)
         {
@@ -25,22 +27,25 @@ namespace Dhs5.Utility.SceneCreation
             timelineObjects.SetUp(sceneVariablesSO);
         }
 
-        private IEnumerator TimelineRoutine(int step = 0)
+        private IEnumerator TimelineRoutine()
         {
             IsActive = true;
 
+            //Reset the end loop condition
+            endLoopCondition.Reset();
+            // TODO : Stop timeline execution
             do
             {
-                for (;;)
+                if (debug) Debug.LogError(ID + " begin at step : " + currentStep + " at : " + Time.time);
+                for (;timelineQueue.Count > 0;)
                 {
-                    if (timelineQueue.Count < 1)
-                    {
-                        break;
-                    }
                     currentTimelineObject = timelineQueue.Dequeue();
-                    yield return StartCoroutine(currentTimelineObject.Process(this, 0));
+                    currentStep++;
+                    yield return StartCoroutine(currentTimelineObject.Process(this, currentStep));
                 }
+                SetUpQueue();
             } while (loop && !endLoopCondition.CurrentConditionResult);
+            if (debug) Debug.LogError(ID + " ended at : " + Time.time);
 
             IsActive = false;
         }
@@ -51,20 +56,22 @@ namespace Dhs5.Utility.SceneCreation
             if (IsActive) return;
             
             SetUpQueue(step);
-            coroutine = StartMainCR(TimelineRoutine(step));
+            coroutine = StartMainCR(TimelineRoutine());
         }
         public void Stop()
         {
             if (!IsActive) return;
             
             StopMainCR();
-            currentTimelineObject.StopExecution();
+            currentTimelineObject.StopCoroutine();
 
             IsActive = false;
         }
         public void GoToStep(int step)
         {
+            Debug.LogError(ID + " GoTo step : " + step);
             SetUpQueue(step);
+            currentTimelineObject.StopExecution();
         }
         public void StartOrGoTo(int step)
         {
@@ -81,6 +88,7 @@ namespace Dhs5.Utility.SceneCreation
         private void SetUpQueue(int step = 0)
         {
             timelineQueue = new();
+            currentStep = step - 1;
 
             for (int i = step; i < timelineObjects.Count; i++)
             {

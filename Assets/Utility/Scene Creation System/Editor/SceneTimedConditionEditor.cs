@@ -25,7 +25,7 @@ namespace Dhs5.Utility.SceneCreation
             EditorGUI.BeginProperty(position, label, property);
             
             Rect foldoutPosition = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-            property.isExpanded = EditorGUI.Foldout(foldoutPosition, property.isExpanded, "Timed condition");
+            property.isExpanded = EditorGUI.Foldout(foldoutPosition, property.isExpanded, label);
             propertyOffset += EditorGUIUtility.singleLineHeight;
             if (property.isExpanded)
             {
@@ -69,9 +69,9 @@ namespace Dhs5.Utility.SceneCreation
             conditionTypeProperty = property.FindPropertyRelative("conditionType");
             sceneConditionsProperty = property.FindPropertyRelative("sceneConditions");
             return property.isExpanded ? 
-                conditionTypeProperty.enumValueIndex == 0 ? EditorGUIUtility.singleLineHeight * 3.3f :
-                    EditorGUI.GetPropertyHeight(sceneConditionsProperty) + EditorGUIUtility.singleLineHeight * 2.3f
-                    : EditorGUIUtility.singleLineHeight;
+                conditionTypeProperty.enumValueIndex == 0 ? EditorGUIUtility.singleLineHeight * 3.4f :
+                    EditorGUI.GetPropertyHeight(sceneConditionsProperty) + EditorGUIUtility.singleLineHeight * 2.4f
+                    : EditorGUIUtility.singleLineHeight * 1.4f;
         }
     }
 }

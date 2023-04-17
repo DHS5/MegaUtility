@@ -59,5 +59,11 @@ namespace Dhs5.Utility.SceneCreation
         {
             startTime = Time.time;
         }
+
+        public void Reset()
+        {
+            currentIteration = 0;
+            startTime = Time.time;
+        }
     }
 }

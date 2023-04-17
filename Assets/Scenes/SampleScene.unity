@@ -356,7 +356,7 @@ MonoBehaviour:
   sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
   maxEnemy:
     sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-    sceneVarUniqueID: 4629
+    sceneVarUniqueID: 5895
   sceneEvent:
     eventID: 
     sceneConditions: []
@@ -557,7 +557,237 @@ MonoBehaviour:
   sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
   sceneListeners: []
   sceneEvents: []
-  sceneTimelines: []
+  sceneTimelines:
+  - ID: Timeline1
+    loop: 0
+    endLoopCondition:
+      conditionType: 2
+      timeToWait: 0
+      iterationNumber: 3
+      sceneConditions: []
+    timelineObjects:
+    - startCondition:
+        conditionType: 0
+        timeToWait: 2
+        sceneConditions: []
+      loop: 1
+      endLoopCondition:
+        conditionType: 2
+        timeToWait: 0
+        iterationNumber: 5
+        sceneConditions: []
+      sceneEvents: []
+      sceneTimelineEvents:
+      - sceneConditions: []
+        events:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 2137021934}
+              m_TargetAssemblyTypeName: Dhs5.Utility.SceneCreation.SceneClock, SceneCreationSystem
+              m_MethodName: DebugTest
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        param:
+          timelineID: 
+          timelineStep: -1
+    - startCondition:
+        conditionType: 0
+        timeToWait: 5
+        sceneConditions: []
+      loop: 0
+      endLoopCondition:
+        conditionType: 0
+        timeToWait: 0
+        iterationNumber: 0
+        sceneConditions: []
+      sceneEvents: []
+      sceneTimelineEvents:
+      - sceneConditions: []
+        events:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 2137021934}
+              m_TargetAssemblyTypeName: Dhs5.Utility.SceneCreation.SceneClock, SceneCreationSystem
+              m_MethodName: DebugTest
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        param:
+          timelineID: 
+          timelineStep: -1
+      - sceneConditions: []
+        events:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 2137021934}
+              m_TargetAssemblyTypeName: Dhs5.Utility.SceneCreation.SceneClock, SceneCreationSystem
+              m_MethodName: StartTimeline
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        param:
+          timelineID: Timeline2
+          timelineStep: 0
+      - sceneConditions: []
+        events:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 2137021934}
+              m_TargetAssemblyTypeName: Dhs5.Utility.SceneCreation.SceneClock, SceneCreationSystem
+              m_MethodName: GoToStep
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        param:
+          timelineID: 
+          timelineStep: 0
+    - startCondition:
+        conditionType: 0
+        timeToWait: 0
+        sceneConditions: []
+      loop: 0
+      endLoopCondition:
+        conditionType: 0
+        timeToWait: 0
+        iterationNumber: 0
+        sceneConditions: []
+      sceneEvents: []
+      sceneTimelineEvents:
+      - sceneConditions: []
+        events:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 2137021934}
+              m_TargetAssemblyTypeName: Dhs5.Utility.SceneCreation.SceneClock, SceneCreationSystem
+              m_MethodName: DebugTest
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        param:
+          timelineID: 
+          timelineStep: -1
+    debug: 0
+  - ID: Timeline2
+    loop: 0
+    endLoopCondition:
+      conditionType: 1
+      timeToWait: 10
+      iterationNumber: 0
+      sceneConditions: []
+    timelineObjects:
+    - startCondition:
+        conditionType: 0
+        timeToWait: 3
+        sceneConditions: []
+      loop: 0
+      endLoopCondition:
+        conditionType: 0
+        timeToWait: 0
+        iterationNumber: 0
+        sceneConditions: []
+      sceneEvents: []
+      sceneTimelineEvents:
+      - sceneConditions: []
+        events:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 2137021934}
+              m_TargetAssemblyTypeName: Dhs5.Utility.SceneCreation.SceneClock, SceneCreationSystem
+              m_MethodName: DebugTest
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        param:
+          timelineID: 
+          timelineStep: -1
+    - startCondition:
+        conditionType: 0
+        timeToWait: 5
+        sceneConditions: []
+      loop: 0
+      endLoopCondition:
+        conditionType: 0
+        timeToWait: 0
+        iterationNumber: 0
+        sceneConditions: []
+      sceneEvents: []
+      sceneTimelineEvents:
+      - sceneConditions: []
+        events:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 2137021934}
+              m_TargetAssemblyTypeName: Dhs5.Utility.SceneCreation.SceneClock, SceneCreationSystem
+              m_MethodName: DebugTest
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        param:
+          timelineID: 
+          timelineStep: -1
+      - sceneConditions: []
+        events:
+          m_PersistentCalls:
+            m_Calls:
+            - m_Target: {fileID: 2137021934}
+              m_TargetAssemblyTypeName: Dhs5.Utility.SceneCreation.SceneClock, SceneCreationSystem
+              m_MethodName: GoToStep
+              m_Mode: 0
+              m_Arguments:
+                m_ObjectArgument: {fileID: 0}
+                m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+                m_IntArgument: 0
+                m_FloatArgument: 0
+                m_StringArgument: 
+                m_BoolArgument: 0
+              m_CallState: 2
+        param:
+          timelineID: Timeline1
+          timelineStep: 2
+    debug: 0
 --- !u!4 &2137021935
 Transform:
   m_ObjectHideFlags: 0

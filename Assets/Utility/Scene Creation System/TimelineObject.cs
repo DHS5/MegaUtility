@@ -22,6 +22,7 @@ namespace Dhs5.Utility.SceneCreation
         public List<SceneTimelineEvent> sceneTimelineEvents;
 
         private IEnumerator startConditionCR;
+        private bool executing;
 
         public void SetUp(SceneVariablesSO sceneVariablesSO)
         {
@@ -37,26 +38,27 @@ namespace Dhs5.Utility.SceneCreation
             TimelineID = sceneTimeline.ID;
             StepNumber = step;
             
-            // Start the end loop condition to be verified
-            if (loop && endLoopCondition.TimedCondition)
-                endLoopCondition.StartTimer();
+            // Reset the end loop condition
+            endLoopCondition.Reset();
             
             do
             {
+                executing = true;
+                
                 // Wait for the condition to be verified
                 startConditionCR = startCondition.Condition();
                 yield return StartCoroutine(startConditionCR);
                 // Trigger Events
                 Trigger();
 
-            } while (loop && !endLoopCondition.CurrentConditionResult);
+            } while (loop && !endLoopCondition.CurrentConditionResult && executing);
         }
 
         private void Trigger()
         {
             sceneEvents.Trigger();
             
-            sceneTimelineEvents.Trigger(TimelineID);
+            sceneTimelineEvents.Trigger(TimelineID, StepNumber);
         }
 
         #region Utility
@@ -65,6 +67,10 @@ namespace Dhs5.Utility.SceneCreation
             yield return SceneClock.Instance.StartCoroutine(Coroutine);
         }
         public void StopExecution()
+        {
+            executing = false;
+        }
+        public void StopCoroutine()
         {
             SceneClock.Instance.StopCoroutine(startConditionCR);
         }

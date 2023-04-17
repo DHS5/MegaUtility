@@ -425,7 +425,7 @@ namespace Dhs5.Utility.SceneCreation
         
         public static void SetUp<T>(this List<T> setupables, SceneVariablesSO sceneVariablesSO) where T : ISceneVarSetupable
         {
-            if (setupables == null) return;
+            if (setupables == null || setupables.Count < 1) return;
 
             foreach (var setupable in setupables)
             {
@@ -437,7 +437,7 @@ namespace Dhs5.Utility.SceneCreation
         #region Scene Condition list verification (Extension Method)
         public static bool VerifyConditions(this List<SceneCondition> conditions)
         {
-            if (conditions == null) return true;
+            if (conditions == null || conditions.Count < 1) return true;
         
             bool result = conditions[0].VerifyCondition();
         
@@ -471,6 +471,8 @@ namespace Dhs5.Utility.SceneCreation
         /// <param name="filter">Trigger a random SceneEvent among ones which eventID contains filter</param>
         public static void TriggerRandom(this List<SceneEvent> sceneEvents, string filter = null)
         {
+            if (sceneEvents == null || sceneEvents.Count < 1) return;
+
             List<SceneEvent> events = new();
 
             if (filter != null)
@@ -497,7 +499,7 @@ namespace Dhs5.Utility.SceneCreation
         /// <param name="ID">ID of the SceneEvents to trigger</param>
         public static void Trigger(this List<SceneEvent> sceneEvents, string ID = null)
         {
-            if (sceneEvents == null) return;
+            if (sceneEvents == null || sceneEvents.Count < 1) return;
             
             List<SceneEvent> events = new();
 
@@ -524,13 +526,13 @@ namespace Dhs5.Utility.SceneCreation
         /// </summary>
         /// <param name="sceneTEvents"></param>
         /// <param name="timelineID">timelineID of the SceneTimelineEvents to trigger</param>
-        public static void Trigger(this List<SceneTimelineEvent> sceneTEvents, string timelineID)
+        public static void Trigger(this List<SceneTimelineEvent> sceneTEvents, string timelineID, int step)
         {
-            if (sceneTEvents == null) return;
+            if (sceneTEvents == null || sceneTEvents.Count < 1) return;
             
             foreach (var sceneEvent in sceneTEvents)
             {
-                sceneEvent.Trigger(timelineID);
+                sceneEvent.Trigger(timelineID, step);
             }
         }
         #endregion
