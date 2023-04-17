@@ -28,20 +28,49 @@ namespace Dhs5.Utility.SceneCreation
         
         public IEnumerator Condition()
         {
+            startTime = Time.time;
+            stop = false;
             switch (conditionType)
             {
                 case TimedConditionType.WAIT_FOR_TIME:
-                    yield return new WaitForSeconds(timeToWait);
+                    //yield return new WaitForSeconds(timeToWait);
+                    yield return new WaitUntil(TimeIsUp);
                     break;
                 case TimedConditionType.WAIT_UNTIL_SCENE_CONDITION:
-                    yield return new WaitUntil(sceneConditions.VerifyConditions);
+                    //yield return new WaitUntil(sceneConditions.VerifyConditions);
+                    yield return new WaitUntil(SceneConditionVerified);
                     break;
                 case TimedConditionType.WAIT_WHILE_SCENE_CONDITION:
-                    yield return new WaitWhile(sceneConditions.VerifyConditions);
+                    //yield return new WaitWhile(sceneConditions.VerifyConditions);
+                    yield return new WaitWhile(SceneConditionUnverified);
                     break;
             }
-            
+
+            stop = false;
             yield break;
+        }
+
+
+        private bool stop = false;
+        public void BreakCoroutine()
+        {
+            stop = true;
+        }
+
+        private float startTime;
+        private bool TimeIsUp()
+        {
+            return stop || (Time.time - startTime >= timeToWait);
+        }
+
+        private bool SceneConditionVerified()
+        {
+            return stop || sceneConditions.VerifyConditions();
+        }
+
+        private bool SceneConditionUnverified()
+        {
+            return !stop && sceneConditions.VerifyConditions();
         }
     }
 }

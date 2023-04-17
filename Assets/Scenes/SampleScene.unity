@@ -597,6 +597,7 @@ MonoBehaviour:
         param:
           timelineID: 
           timelineStep: -1
+          interrupt: 0
     - startCondition:
         conditionType: 0
         timeToWait: 5
@@ -628,6 +629,7 @@ MonoBehaviour:
         param:
           timelineID: 
           timelineStep: -1
+          interrupt: 0
       - sceneConditions: []
         events:
           m_PersistentCalls:
@@ -647,6 +649,7 @@ MonoBehaviour:
         param:
           timelineID: Timeline2
           timelineStep: 0
+          interrupt: 0
       - sceneConditions: []
         events:
           m_PersistentCalls:
@@ -666,9 +669,10 @@ MonoBehaviour:
         param:
           timelineID: 
           timelineStep: 0
+          interrupt: 0
     - startCondition:
         conditionType: 0
-        timeToWait: 0
+        timeToWait: 1
         sceneConditions: []
       loop: 0
       endLoopCondition:
@@ -697,6 +701,7 @@ MonoBehaviour:
         param:
           timelineID: 
           timelineStep: -1
+          interrupt: 0
     debug: 0
   - ID: Timeline2
     loop: 0
@@ -737,9 +742,10 @@ MonoBehaviour:
         param:
           timelineID: 
           timelineStep: -1
+          interrupt: 0
     - startCondition:
         conditionType: 0
-        timeToWait: 5
+        timeToWait: 4
         sceneConditions: []
       loop: 0
       endLoopCondition:
@@ -768,6 +774,7 @@ MonoBehaviour:
         param:
           timelineID: 
           timelineStep: -1
+          interrupt: 0
       - sceneConditions: []
         events:
           m_PersistentCalls:
@@ -787,6 +794,7 @@ MonoBehaviour:
         param:
           timelineID: Timeline1
           timelineStep: 2
+          interrupt: 1
     debug: 0
 --- !u!4 &2137021935
 Transform:

@@ -23,6 +23,7 @@ namespace Dhs5.Utility.SceneCreation
 
         private IEnumerator startConditionCR;
         private bool executing;
+        private bool canInterrupt;
 
         public void SetUp(SceneVariablesSO sceneVariablesSO)
         {
@@ -48,8 +49,12 @@ namespace Dhs5.Utility.SceneCreation
                 // Wait for the condition to be verified
                 startConditionCR = startCondition.Condition();
                 yield return StartCoroutine(startConditionCR);
-                // Trigger Events
-                Trigger();
+
+                if (executing || !canInterrupt)
+                {
+                    // Trigger Events
+                    Trigger();
+                }
 
             } while (loop && !endLoopCondition.CurrentConditionResult && executing);
         }
@@ -66,9 +71,11 @@ namespace Dhs5.Utility.SceneCreation
         {
             yield return SceneClock.Instance.StartCoroutine(Coroutine);
         }
-        public void StopExecution()
+        public void StopExecution(bool interrupt)
         {
             executing = false;
+            canInterrupt = interrupt;
+            if (interrupt) startCondition.BreakCoroutine();
         }
         public void StopCoroutine()
         {

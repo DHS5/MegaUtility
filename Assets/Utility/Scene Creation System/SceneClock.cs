@@ -62,7 +62,7 @@ namespace Dhs5.Utility.SceneCreation
         public void GoToStep(TimelineEventParam param)
         {
             sceneTimelines.Find(t => t.ID == param.GetParamTimelineID)?.
-                StartOrGoTo(param.GetParamTimelineStep);
+                StartOrGoTo(param.GetParamTimelineStep, param.interrupt);
         }
         #endregion
         
@@ -92,6 +92,8 @@ namespace Dhs5.Utility.SceneCreation
         public string timelineID;
         [Tooltip("Set to -1 to call own step number")]
         public int timelineStep;
+        [Tooltip("Whether a GoTo will interrupt the current action or wait")]
+        public bool interrupt;
 
         public string GetParamTimelineID
         {

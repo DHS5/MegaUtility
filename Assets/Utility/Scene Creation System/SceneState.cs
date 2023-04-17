@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using Codice.Client.Commands;
 using Random = UnityEngine.Random;
 
 namespace Dhs5.Utility.SceneCreation
@@ -365,8 +364,7 @@ namespace Dhs5.Utility.SceneCreation
                 case SceneVarType.BOOL:
                     return var.boolValue ? 1 : 0;
                 case SceneVarType.STRING:
-                    try { i = int.Parse(var.stringValue); }
-                    catch { i = 0; }
+                    int.TryParse(var.stringValue, out i);
                     return i;
                 default:
                     return 0;
@@ -387,8 +385,7 @@ namespace Dhs5.Utility.SceneCreation
                 case SceneVarType.BOOL:
                     return var.boolValue ? 1f : 0f;
                 case SceneVarType.STRING:
-                    try { f = float.Parse(var.stringValue); }
-                    catch { f = 0f; }
+                    float.TryParse(var.stringValue, out f);
                     return f;
                 default:
                     return 0f;

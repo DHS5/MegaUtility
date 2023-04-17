@@ -12,7 +12,6 @@ namespace Dhs5.Utility.SceneCreation
         public bool loop;
         public SceneLoopCondition endLoopCondition;
         public List<TimelineObject> timelineObjects;
-        public bool debug = true;
         
         public bool IsActive { get; private set; }
 
@@ -33,10 +32,10 @@ namespace Dhs5.Utility.SceneCreation
 
             //Reset the end loop condition
             endLoopCondition.Reset();
-            // TODO : Stop timeline execution
+
             do
             {
-                if (debug) Debug.LogError(ID + " begin at step : " + currentStep + " at : " + Time.time);
+                //Debug.LogError(ID + " begin at step : " + currentStep + " at : " + Time.time);
                 for (;timelineQueue.Count > 0;)
                 {
                     currentTimelineObject = timelineQueue.Dequeue();
@@ -45,7 +44,7 @@ namespace Dhs5.Utility.SceneCreation
                 }
                 SetUpQueue();
             } while (loop && !endLoopCondition.CurrentConditionResult);
-            if (debug) Debug.LogError(ID + " ended at : " + Time.time);
+            //Debug.LogError(ID + " ended at : " + Time.time);
 
             IsActive = false;
         }
@@ -67,17 +66,17 @@ namespace Dhs5.Utility.SceneCreation
 
             IsActive = false;
         }
-        public void GoToStep(int step)
+        public void GoToStep(int step, bool interrupt)
         {
             Debug.LogError(ID + " GoTo step : " + step);
             SetUpQueue(step);
-            currentTimelineObject.StopExecution();
+            currentTimelineObject.StopExecution(interrupt);
         }
-        public void StartOrGoTo(int step)
+        public void StartOrGoTo(int step, bool interrupt)
         {
             if (IsActive)
             {
-                GoToStep(step);
+                GoToStep(step, interrupt);
                 return;
             }
             Start(step);
