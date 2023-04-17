@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Codice.Client.Commands;
+using Random = UnityEngine.Random;
 
 namespace Dhs5.Utility.SceneCreation
 {
@@ -71,7 +73,7 @@ namespace Dhs5.Utility.SceneCreation
         private static void AddVar(SceneVar variable)
         {
             SceneVariables[variable.uniqueID] = new(variable);
-            ChangedVar(variable.uniqueID);
+            //ChangedVar(variable.uniqueID);
         }
         private static void ChangedVar(int varUniqueID)
         {
@@ -177,16 +179,6 @@ namespace Dhs5.Utility.SceneCreation
         {
             foreach (SceneVar sceneVar in sceneVars)
                 AddVar(sceneVar);
-        }
-
-        private static void ModifySceneVar(int varUniqueID, SceneVar newVar)
-        {
-            if (SceneVariables.ContainsKey(varUniqueID))
-            {
-                SceneVariables[varUniqueID] = newVar;
-                ChangedVar(varUniqueID);
-            }
-            IncorrectID(varUniqueID);
         }
         public static void ModifyBoolVar(int varUniqueID, BoolOperation op, bool param = false)
         {
@@ -424,6 +416,24 @@ namespace Dhs5.Utility.SceneCreation
         #endregion
         #endregion
 
+        #region Extension Methods
+        #region Set Ups
+        public interface ISceneVarSetupable
+        {
+            public void SetUp(SceneVariablesSO sceneVariablesSO);
+        }
+        
+        public static void SetUp<T>(this List<T> setupables, SceneVariablesSO sceneVariablesSO) where T : ISceneVarSetupable
+        {
+            if (setupables == null) return;
+
+            foreach (var setupable in setupables)
+            {
+                setupable.SetUp(sceneVariablesSO);
+            }
+        }
+        #endregion
+        
         #region Scene Condition list verification (Extension Method)
         public static bool VerifyConditions(this List<SceneCondition> conditions)
         {
@@ -476,6 +486,54 @@ namespace Dhs5.Utility.SceneCreation
 
             events[UnityEngine.Random.Range(0, events.Count)].Trigger();
         }
+        #endregion
+        
+        #region Trigger a list of SceneEvents (Extension Method)
+        /// <summary>
+        /// Trigger every SceneEvent which eventID == ID in the list
+        /// (Trigger all if ID == null)
+        /// </summary>
+        /// <param name="sceneEvents"></param>
+        /// <param name="ID">ID of the SceneEvents to trigger</param>
+        public static void Trigger(this List<SceneEvent> sceneEvents, string ID = null)
+        {
+            if (sceneEvents == null) return;
+            
+            List<SceneEvent> events = new();
+
+            if (ID != null)
+            {
+                events = sceneEvents.FindAll(e => e.eventID == ID);
+            }
+            else
+            {
+                events = new(sceneEvents);
+            }
+
+            foreach (var sceneEvent in events)
+            {
+                sceneEvent.Trigger();
+            }
+        }
+        #endregion
+        
+        #region Trigger a list of SceneTimelineEvents (Extension Method)
+        /// <summary>
+        /// Trigger every SceneTimelineEvent in the list
+        /// (Trigger all if ID == null)
+        /// </summary>
+        /// <param name="sceneTEvents"></param>
+        /// <param name="timelineID">timelineID of the SceneTimelineEvents to trigger</param>
+        public static void Trigger(this List<SceneTimelineEvent> sceneTEvents, string timelineID)
+        {
+            if (sceneTEvents == null) return;
+            
+            foreach (var sceneEvent in sceneTEvents)
+            {
+                sceneEvent.Trigger(timelineID);
+            }
+        }
+        #endregion
         #endregion
     }
 }

@@ -8,9 +8,52 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public class SceneLoopCondition
     {
-        public bool timedCondition;
-        public float startTime;
-        public bool CurrentConditionResult { get; private set; }
+        public enum LoopConditionType
+        {
+            SCENE = 0,
+            TIMED = 1,
+            ITERATION = 2,
+        }
+
+        public LoopConditionType conditionType;
+        
+        public float timeToWait;
+        public int iterationNumber;
+        public List<SceneCondition> sceneConditions;
+        
+        
+        private float startTime;
+        private int currentIteration = 0;
+        
+        
+        public bool TimedCondition
+        {
+            get => conditionType == LoopConditionType.TIMED;
+        }
+
+        public bool CurrentConditionResult
+        {
+            get
+            {
+                switch (conditionType)
+                {
+                    case LoopConditionType.TIMED:
+                        return Time.time - startTime >= timeToWait;
+                    case LoopConditionType.SCENE:
+                        return sceneConditions.VerifyConditions();
+                    case LoopConditionType.ITERATION:
+                        currentIteration++;
+                        return currentIteration >= iterationNumber;
+                    default:
+                        return true;
+                }
+            }
+        }
+
+        public void SetUp(SceneVariablesSO sceneVariablesSO)
+        {
+            sceneConditions.SetUp(sceneVariablesSO);
+        }
 
         public void StartTimer()
         {

@@ -24,18 +24,17 @@ namespace Dhs5.Utility.SceneCreation
 
         #endregion
         
-        [Header("Scene Timelines")]
+        [Header("Timelines")]
         public List<SceneTimeline> sceneTimelines;
 
+        #region Update SceneVariables
         protected override void UpdateSceneVariables()
         {
             base.UpdateSceneVariables();
 
-            foreach (var timeline in sceneTimelines)
-            {
-                timeline.sceneVariablesSO = sceneVariablesSO;
-            }
+            sceneTimelines.SetUp(sceneVariablesSO);
         }
+        #endregion
 
         #region Listener functions
         public void StartTimeline(TimelineEventParam param)
@@ -44,24 +43,20 @@ namespace Dhs5.Utility.SceneCreation
         }
         public void StartTimeline(string timelineID, int step = 0)
         {
-            sceneTimelines.Find(t => t.ID == timelineID).Start(step);
+            sceneTimelines.Find(t => t.ID == timelineID)?.Start(step);
         }
-        public void StartTimeline(string timelineID) { StartTimeline(timelineID); }
+        public void StartTimeline(string timelineID) { StartTimeline(timelineID, 0); }
         public void StopTimeline(TimelineEventParam param)
         {
             StopTimeline(param.timelineID);
         }
         public void StopTimeline(string timelineID)
         {
-            sceneTimelines.Find(t => t.ID == timelineID).Stop();
+            sceneTimelines.Find(t => t.ID == timelineID)?.Stop();
         }
-        public void TimelineGoToStep(TimelineEventParam param)
+        public void GoToStep(TimelineEventParam param)
         {
-            sceneTimelines.Find(t => t.ID == param.timelineID).GoToStep(param.timelineStep);
-        }
-        public void TimelineGoToStep(TimelineEventParam param, int step)
-        {
-            sceneTimelines.Find(t => t.ID == param.timelineID).GoToStep(param.timelineStep);
+            sceneTimelines.Find(t => t.ID == param.timelineID)?.GoToStep(param.timelineStep);
         }
         #endregion
     }
@@ -75,7 +70,15 @@ namespace Dhs5.Utility.SceneCreation
             timelineStep = _step;
         }
 
+        public TimelineEventParam Send(string ID)
+        {
+            timelineID = ID;
+            return this;
+        }
+        
+        [Tooltip("Leave blank to call parent timeline")]
         public string timelineID;
+        [Tooltip("Index of the step in the TimelineObjects list")]
         public int timelineStep;
     }
 }

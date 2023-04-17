@@ -52,21 +52,8 @@ namespace Dhs5.Utility.SceneCreation
 
         protected virtual void UpdateSceneVariables()
         {
-            if (sceneListeners != null)
-            {
-                foreach (SceneListener listener in sceneListeners)
-                {
-                    listener.SetUp(sceneVariablesSO);
-                }
-            }
-
-            if (sceneEvents != null)
-            {
-                foreach (SceneEvent sceneEvent in sceneEvents)
-                {
-                    sceneEvent.SetUp(sceneVariablesSO);
-                }
-            }
+            sceneListeners.SetUp(sceneVariablesSO);
+            sceneEvents.SetUp(sceneVariablesSO);
         }
 
         #endregion
@@ -80,12 +67,7 @@ namespace Dhs5.Utility.SceneCreation
         }
         public void TriggerSceneEvent(string eventID)
         {
-            List<SceneEvent> events = GetSceneEventsByID(eventID);
-            if (events == null) return;
-            foreach (var sceneEvent in events)
-            {
-                sceneEvent.Trigger();
-            }
+            sceneEvents.Trigger(eventID);
         }
         #endregion
     }

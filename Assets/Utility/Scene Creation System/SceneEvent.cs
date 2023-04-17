@@ -7,7 +7,7 @@ using System;
 namespace Dhs5.Utility.SceneCreation
 {
     [Serializable]
-    public class SceneEvent
+    public class SceneEvent : SceneState.ISceneVarSetupable
     {
         public string eventID;
         [Space(5)]

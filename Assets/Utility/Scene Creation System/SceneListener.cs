@@ -7,7 +7,7 @@ using System;
 namespace Dhs5.Utility.SceneCreation
 {
     [Serializable]
-    public class SceneListener
+    public class SceneListener : SceneState.ISceneVarSetupable
     {
         public SceneVariablesSO sceneVariablesSO;
 

@@ -6,7 +6,7 @@ using System;
 namespace Dhs5.Utility.SceneCreation
 {
     [Serializable]
-    public class SceneAction
+    public class SceneAction : SceneState.ISceneVarSetupable
     {
         public SceneVariablesSO sceneVariablesSO;
 
@@ -25,7 +25,11 @@ namespace Dhs5.Utility.SceneCreation
         
         public StringOperation stringOP;
 
-
+        public void SetUp(SceneVariablesSO sceneVariablesSO)
+        {
+            this.sceneVariablesSO = sceneVariablesSO;
+        }
+        
         public void Trigger()
         {
             if (SceneVar1 == null)

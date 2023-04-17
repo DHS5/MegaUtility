@@ -6,7 +6,7 @@ using System;
 namespace Dhs5.Utility.SceneCreation
 {
     [Serializable]
-    public class SceneCondition
+    public class SceneCondition : SceneState.ISceneVarSetupable
     {
         public SceneVariablesSO sceneVariablesSO;
 
@@ -27,6 +27,11 @@ namespace Dhs5.Utility.SceneCreation
 
         public LogicOperator logicOperator;
 
+        public void SetUp(SceneVariablesSO sceneVariablesSO)
+        {
+            this.sceneVariablesSO = sceneVariablesSO;
+        }
+        
         public bool VerifyCondition()
         {
             switch (SceneVar1.type)

@@ -8,40 +8,65 @@ using UnityEngine.Events;
 namespace Dhs5.Utility.SceneCreation
 {    
     [Serializable]
-    public class TimelineObject
+    public class TimelineObject : SceneState.ISceneVarSetupable
     {
+        public string TimelineID { get; private set; }
+        public int StepNumber { get; private set; }
+        
         public SceneTimedCondition startCondition;
         public bool loop;
         public SceneLoopCondition endLoopCondition;
         
         // Action
-        public UnityEvent<TimelineEventParam> events;
+        public List<SceneEvent> sceneEvents;
+        public List<SceneTimelineEvent> sceneTimelineEvents;
 
+        private IEnumerator startConditionCR;
+
+        public void SetUp(SceneVariablesSO sceneVariablesSO)
+        {
+            sceneEvents.SetUp(sceneVariablesSO);
+            sceneTimelineEvents.SetUp(sceneVariablesSO);
+            
+            startCondition.SetUp(sceneVariablesSO);
+            endLoopCondition.SetUp(sceneVariablesSO);
+        }
+        
         public IEnumerator Process(SceneTimeline sceneTimeline, int step)
         {
+            TimelineID = sceneTimeline.ID;
+            StepNumber = step;
+            
             // Start the end loop condition to be verified
-            if (loop && endLoopCondition.timedCondition)
+            if (loop && endLoopCondition.TimedCondition)
                 endLoopCondition.StartTimer();
             
             do
             {
                 // Wait for the condition to be verified
-                yield return StartCoroutine(startCondition.Condition());
+                startConditionCR = startCondition.Condition();
+                yield return StartCoroutine(startConditionCR);
                 // Trigger Events
-                Action(sceneTimeline, step);
+                Trigger();
 
-            } while (loop && endLoopCondition.CurrentConditionResult);
+            } while (loop && !endLoopCondition.CurrentConditionResult);
         }
 
-        private void Action(SceneTimeline sceneTimeline, int step)
+        private void Trigger()
         {
-            events?.Invoke(new TimelineEventParam(sceneTimeline.ID, step));
+            sceneEvents.Trigger();
+            
+            sceneTimelineEvents.Trigger(TimelineID);
         }
 
         #region Utility
         private IEnumerator StartCoroutine(IEnumerator Coroutine)
         {
             yield return SceneClock.Instance.StartCoroutine(Coroutine);
+        }
+        public void StopExecution()
+        {
+            SceneClock.Instance.StopCoroutine(startConditionCR);
         }
         #endregion
     }
