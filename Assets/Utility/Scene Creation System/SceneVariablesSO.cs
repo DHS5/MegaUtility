@@ -54,6 +54,21 @@ namespace Dhs5.Utility.SceneCreation
                 return list;
             }
         }
+        public List<string> SceneVarStrings
+        {
+            get
+            {
+                List<string> list = new();
+                foreach (var var in sceneVars)
+                {
+                    if (var.uniqueID != 0)
+                        list.Add(var.PopupString());
+                    else
+                        list.Add("No unique ID");
+                }
+                return list;
+            }
+        }
         
         public int GenerateUniqueID()
         {

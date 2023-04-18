@@ -64,7 +64,11 @@ namespace Dhs5.Utility.SceneCreation
 
         public override string ToString()
         {
-            return ID + " (" + type.ToString() + ") = " + Value;
+            return ID + " (" + type.ToString() + ") = " + Value + (isStatic ? " (static)" : "");
+        }
+        public string PopupString()
+        {
+            return ID + " (" + type.ToString() + ")" + (isStatic ? " = " + Value : "");
         }
 
         public bool isStatic = false;

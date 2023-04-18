@@ -356,7 +356,7 @@ MonoBehaviour:
   sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
   maxEnemy:
     sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-    sceneVarUniqueID: 5895
+    sceneVarUniqueID: 9424
   sceneEvent:
     eventID: 
     sceneConditions: []
@@ -702,7 +702,6 @@ MonoBehaviour:
           timelineID: 
           timelineStep: -1
           interrupt: 0
-    debug: 0
   - ID: Timeline2
     loop: 0
     endLoopCondition:
@@ -795,7 +794,6 @@ MonoBehaviour:
           timelineID: Timeline1
           timelineStep: 2
           interrupt: 1
-    debug: 0
 --- !u!4 &2137021935
 Transform:
   m_ObjectHideFlags: 0

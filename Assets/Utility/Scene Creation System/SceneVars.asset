@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneVars:
   - uniqueID: 4629
-    ID: A
+    ID: Aaaaaaaaaaaaaaaaa
     type: 0
     boolValue: 0
     intValue: 0
@@ -28,7 +28,7 @@ MonoBehaviour:
     intValue: 5
     floatValue: 0
     stringValue: 
-    isStatic: 0
+    isStatic: 1
   - uniqueID: 5895
     ID: C
     type: 3

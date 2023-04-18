@@ -51,7 +51,7 @@ namespace Dhs5.Utility.SceneCreation
 
                 if ((SceneParameteredEvent.ParameterType)paramTypeProperty.enumValueIndex == SceneParameteredEvent.ParameterType.SCENE_PARAM)
                 {
-                    Rect popupPosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
+                    Rect popupPosition = new Rect(position.x, position.y + propertyOffset, position.width * 0.75f, EditorGUIUtility.singleLineHeight);
 
                     sceneVariablesSO = property.FindPropertyRelative("sceneVariablesSO");
                     if (sceneVariablesSO.objectReferenceValue == null)
@@ -75,10 +75,14 @@ namespace Dhs5.Utility.SceneCreation
                     if (sceneVarIndexSave == -1) sceneVarIndexSave = 0;
 
                     // SceneVar choice popup
-                    sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndexSave, sceneVarContainer.IDs.ToArray());
+                    sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndexSave, sceneVarContainer.SceneVarStrings.ToArray());
                     if (sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex) == 0) sceneVarIndex = sceneVarIndexSave;
                     sceneVarUniqueIDP.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex);
                     propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
+
+                    // Type label
+                    Rect typeLabelPosition = new Rect(position.x + position.width * 0.77f, position.y + propertyOffset, position.width * 0.23f, EditorGUIUtility.singleLineHeight);
+                    EditorGUI.LabelField(typeLabelPosition, sceneVarContainer.sceneVars[sceneVarIndex].type.ToString());
                 }
 
                 else if ((SceneParameteredEvent.ParameterType)paramTypeProperty.enumValueIndex == SceneParameteredEvent.ParameterType.CONDITION_PARAM)

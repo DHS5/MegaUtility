@@ -47,7 +47,7 @@ namespace Dhs5.Utility.SceneCreation
             if (sceneVarIndexSave1 == -1) sceneVarIndexSave1 = 0;
             // SceneVar1 choice popup
             Rect popup1Position = new Rect(position.x, position.y, position.width * 0.35f, EditorGUIUtility.singleLineHeight);
-            sceneVarIndex1 = EditorGUI.Popup(popup1Position, sceneVarIndexSave1, sceneVarContainer.IDs.ToArray());
+            sceneVarIndex1 = EditorGUI.Popup(popup1Position, sceneVarIndexSave1, sceneVarContainer.SceneVarStrings.ToArray());
             if (sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex1) == 0) sceneVarIndex1 = sceneVarIndexSave1;
             sceneVarUniqueID1P.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex1);
 
@@ -80,7 +80,7 @@ namespace Dhs5.Utility.SceneCreation
             if (sceneVarIndexSave2 == -1) sceneVarIndexSave2 = 0;
             // SceneVar1 choice popup
             Rect popup2Position = new Rect(position.x + position.width * 0.65f, position.y, position.width * 0.35f, EditorGUIUtility.singleLineHeight);
-            sceneVarIndex2 = EditorGUI.Popup(popup2Position, sceneVarIndexSave2, sceneVarContainer.IDs.ToArray());
+            sceneVarIndex2 = EditorGUI.Popup(popup2Position, sceneVarIndexSave2, sceneVarContainer.SceneVarStrings.ToArray());
             if (sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex2) == 0) sceneVarIndex2 = sceneVarIndexSave2;
             sceneVarUniqueID2P.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex2);
 
