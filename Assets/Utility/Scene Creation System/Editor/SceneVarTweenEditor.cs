@@ -42,6 +42,7 @@ namespace Dhs5.Utility.SceneCreation
 
             sceneVarUniqueIDP = property.FindPropertyRelative("sceneVarUniqueID");
             sceneVarIndexSave = sceneVarContainer.GetIndexByUniqueID(sceneVarUniqueIDP.intValue);
+            if (sceneVarIndexSave == -1) sceneVarIndexSave = 0;
 
             // Label
             Rect labelPosition = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight * 0.25f, position.width * 0.3f, EditorGUIUtility.singleLineHeight);

@@ -20,27 +20,17 @@ namespace Dhs5.Utility.SceneCreation
 
         public bool debug = false;
 
-        public void Trigger()
+        public bool Trigger()
         {
-            if (sceneConditions != null)
-            {
-                if (!sceneConditions.VerifyConditions()) return;
-            }
+            if (!sceneConditions.VerifyConditions()) return false;
 
-            if (sceneActions != null)
-            {
-                foreach (var action in sceneActions)
-                    action.Trigger();
-            }
-
-            if (sceneParameteredEvents != null)
-            {
-                foreach (var paramEvent in sceneParameteredEvents)
-                    paramEvent.Trigger();
-            }
+            sceneActions.Trigger();
+            sceneParameteredEvents.Trigger();
 
             if (debug)
                 DebugSceneEvent();
+
+            return true;
         }
 
         

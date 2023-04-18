@@ -31,11 +31,11 @@ namespace Dhs5.Utility.SceneCreation
         #region Event Subscription
         public void Register()
         {
-            SceneEventManager.StartListening(CurrentSceneVar.uniqueID, OnListenerEvent);
+            SceneEventManager.StartListening(varUniqueID, OnListenerEvent);
         }
         public void Unregister()
         {
-            SceneEventManager.StopListening(CurrentSceneVar.uniqueID, OnListenerEvent);
+            SceneEventManager.StopListening(varUniqueID, OnListenerEvent);
         }
         private void OnListenerEvent(SceneVar var)
         {
@@ -62,14 +62,7 @@ namespace Dhs5.Utility.SceneCreation
 
         public bool VerifyConditions()
         {
-            if (!hasCondition) return true;
-
-            if (conditions != null)
-            {
-                return conditions.VerifyConditions();
-            }
-
-            return true;
+            return !hasCondition || conditions.VerifyConditions();
         }
     }
 }

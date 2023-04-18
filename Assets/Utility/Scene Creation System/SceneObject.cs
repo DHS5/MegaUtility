@@ -17,7 +17,7 @@ namespace Dhs5.Utility.SceneCreation
         public List<SceneEvent> sceneEvents;
 
         #region Scene Events subscription
-        private void OnEnable()
+        protected virtual void OnEnable()
         {
             if (sceneListeners != null)
             {
@@ -27,7 +27,7 @@ namespace Dhs5.Utility.SceneCreation
                 }
             }
         }
-        private void OnDisable()
+        protected virtual void OnDisable()
         {
             if (sceneListeners != null)
             {

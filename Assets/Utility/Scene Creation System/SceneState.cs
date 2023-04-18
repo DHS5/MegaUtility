@@ -443,7 +443,7 @@ namespace Dhs5.Utility.SceneCreation
                 result = ApplyLogicOperator(result, conditions[i - 1].logicOperator, conditions[i].VerifyCondition());
             }
         
-            return false;
+            return result;
         }
         private static bool ApplyLogicOperator(bool bool1, LogicOperator op, bool bool2)
         {
@@ -466,9 +466,10 @@ namespace Dhs5.Utility.SceneCreation
         /// </summary>
         /// <param name="sceneEvents"></param>
         /// <param name="filter">Trigger a random SceneEvent among ones which eventID contains filter</param>
-        public static void TriggerRandom(this List<SceneEvent> sceneEvents, string filter = null)
+        /// <returns>Whether an event was triggered</returns>
+        public static bool TriggerRandom(this List<SceneEvent> sceneEvents, string filter = null)
         {
-            if (sceneEvents == null || sceneEvents.Count < 1) return;
+            if (sceneEvents == null || sceneEvents.Count < 1) return false;
 
             List<SceneEvent> events = new();
 
@@ -483,7 +484,15 @@ namespace Dhs5.Utility.SceneCreation
                 events = new(sceneEvents);
             }
 
-            events[UnityEngine.Random.Range(0, events.Count)].Trigger();
+            SceneEvent ev;
+            for (;events.Count > 0;)
+            {
+                ev = events[UnityEngine.Random.Range(0, events.Count)];
+                if (ev.Trigger()) return true;
+                events.Remove(ev);
+            }
+
+            return false;
         }
         #endregion
         
@@ -512,6 +521,27 @@ namespace Dhs5.Utility.SceneCreation
             foreach (var sceneEvent in events)
             {
                 sceneEvent.Trigger();
+            }
+        }
+        #endregion
+        
+        #region Trigger a list of SceneActions or SceneParameteredEvents (Extension Method)
+        public static void Trigger(this List<SceneAction> sceneActions)
+        {
+            if (sceneActions == null || sceneActions.Count < 1) return;
+            
+            foreach (var action in sceneActions)
+            {
+                action.Trigger();
+            }
+        }
+        public static void Trigger(this List<SceneParameteredEvent> sceneEvents)
+        {
+            if (sceneEvents == null || sceneEvents.Count < 1) return;
+            
+            foreach (var action in sceneEvents)
+            {
+                action.Trigger();
             }
         }
         #endregion
