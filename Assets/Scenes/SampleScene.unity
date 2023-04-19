@@ -198,7 +198,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-  sceneListeners: []
+  sceneListeners:
+  - sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+    varUniqueID: 4629
+    hasCondition: 0
+    conditions: []
+    events:
+      m_PersistentCalls:
+        m_Calls: []
+    debug: 0
+    propertyHeight: 145.40001
   sceneEvents: []
 --- !u!4 &365116975
 Transform:

@@ -34,6 +34,8 @@ namespace Dhs5.Utility.SceneCreation
                 intValue = 0;
                 floatValue = 0f;
                 stringValue = "";
+
+                isStatic = false;
             }
         }
 

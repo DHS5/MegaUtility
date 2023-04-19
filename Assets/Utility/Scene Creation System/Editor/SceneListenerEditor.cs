@@ -52,7 +52,7 @@ namespace Dhs5.Utility.SceneCreation
             sceneVar = sceneVarContainer.sceneVars[sceneVarIndex];
 
             Rect foldoutRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, sceneVar.ID + " : " + sceneVar.type);
+            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, property.isExpanded ? "" : sceneVar.ID + " : " + sceneVar.type);
             if (property.isExpanded)
             {
                 // SceneVar choice popup
