@@ -37,3 +37,35 @@ MonoBehaviour:
     floatValue: 0
     stringValue: 
     isStatic: 0
+  - uniqueID: 9478
+    ID: TestInt1
+    type: 1
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: 
+    isStatic: 0
+  - uniqueID: 720
+    ID: TestFloat1
+    type: 2
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: 
+    isStatic: 0
+  - uniqueID: 2612
+    ID: TestStatic
+    type: 2
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: 
+    isStatic: 1
+  - uniqueID: 3693
+    ID: TestEvent
+    type: 4
+    boolValue: 0
+    intValue: 0
+    floatValue: 0
+    stringValue: 
+    isStatic: 0

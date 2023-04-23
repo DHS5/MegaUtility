@@ -45,18 +45,19 @@ namespace Dhs5.Utility.SceneCreation
             }
 
             // SceneVar 1
+            List<SceneVar> sceneVarList1 = sceneVarContainer.NonStatics;
             sceneVarUniqueID1P = property.FindPropertyRelative("var1UniqueID");
-            int sceneVarIndexSave1 = sceneVarContainer.GetIndexByUniqueID(sceneVarUniqueID1P.intValue);
+            int sceneVarIndexSave1 = sceneVarContainer.GetIndexByUniqueID(sceneVarList1, sceneVarUniqueID1P.intValue);
             if (sceneVarIndexSave1 == -1) sceneVarIndexSave1 = 0;
             // SceneVar1 choice popup
             Rect popup1Position = new Rect(position.x, position.y, position.width * 0.35f, EditorGUIUtility.singleLineHeight);
-            sceneVarIndex1 = EditorGUI.Popup(popup1Position, sceneVarIndexSave1, sceneVarContainer.SceneVarStrings.ToArray());
-            if (sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex1) == 0) sceneVarIndex1 = sceneVarIndexSave1;
-            sceneVarUniqueID1P.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex1);
+            sceneVarIndex1 = EditorGUI.Popup(popup1Position, sceneVarIndexSave1, sceneVarContainer.VarStrings(sceneVarList1).ToArray());
+            if (sceneVarContainer.GetUniqueIDByIndex(sceneVarList1, sceneVarIndex1) == 0) sceneVarIndex1 = sceneVarIndexSave1;
+            sceneVarUniqueID1P.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarList1, sceneVarIndex1);
 
             // Operation creation
             Rect opPosition = new Rect(position.x + position.width * 0.36f, position.y, position.width * 0.28f, EditorGUIUtility.singleLineHeight);
-            SceneVarType type = sceneVarContainer.sceneVars[sceneVarIndex1].type;
+            SceneVarType type = sceneVarContainer[sceneVarUniqueID1P.intValue].type;
             switch (type)
             {
                 case SceneVarType.BOOL:
@@ -75,17 +76,22 @@ namespace Dhs5.Utility.SceneCreation
                     EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("stringOP"), new GUIContent(""));
                     operationDescription = SceneAction.StringOpDescription((StringOperation)property.FindPropertyRelative("stringOP").enumValueIndex);
                     break;
+                case SceneVarType.EVENT:
+                    EditorGUI.LabelField(opPosition, "Trigger");
+                    EditorGUI.EndProperty();
+                    return;
             }
 
             // SceneVar 2
+            List<SceneVar> sceneVarList2 = sceneVarContainer.GetListByType(type);
             sceneVarUniqueID2P = property.FindPropertyRelative("var2UniqueID");
-            int sceneVarIndexSave2 = sceneVarContainer.GetIndexByUniqueID(sceneVarUniqueID2P.intValue);
+            int sceneVarIndexSave2 = sceneVarContainer.GetIndexByUniqueID(sceneVarList2 ,sceneVarUniqueID2P.intValue);
             if (sceneVarIndexSave2 == -1) sceneVarIndexSave2 = 0;
             // SceneVar1 choice popup
             Rect popup2Position = new Rect(position.x + position.width * 0.65f, position.y, position.width * 0.35f, EditorGUIUtility.singleLineHeight);
-            sceneVarIndex2 = EditorGUI.Popup(popup2Position, sceneVarIndexSave2, sceneVarContainer.SceneVarStrings.ToArray());
-            if (sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex2) == 0) sceneVarIndex2 = sceneVarIndexSave2;
-            sceneVarUniqueID2P.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex2);
+            sceneVarIndex2 = EditorGUI.Popup(popup2Position, sceneVarIndexSave2, sceneVarContainer.VarStrings(sceneVarList2).ToArray());
+            if (sceneVarContainer.GetUniqueIDByIndex(sceneVarList2, sceneVarIndex2) == 0) sceneVarIndex2 = sceneVarIndexSave2;
+            sceneVarUniqueID2P.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarList2, sceneVarIndex2);
 
             // Description labels
             Rect label1Position = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight, position.width * 0.35f, EditorGUIUtility.singleLineHeight);
@@ -93,7 +99,7 @@ namespace Dhs5.Utility.SceneCreation
             Rect label3Position = new Rect(position.x + position.width * 0.65f, position.y + EditorGUIUtility.singleLineHeight, position.width * 0.35f, EditorGUIUtility.singleLineHeight);
             EditorGUI.LabelField(label1Position, type.ToString(), EditorStyles.miniLabel);
             EditorGUI.LabelField(label2Position, operationDescription, EditorStyles.miniLabel);
-            EditorGUI.LabelField(label3Position, sceneVarContainer.sceneVars[sceneVarIndex2].type.ToString(), EditorStyles.miniLabel);
+            EditorGUI.LabelField(label3Position, sceneVarList2[sceneVarIndex2].type.ToString(), EditorStyles.miniLabel);
 
             // End
             EditorGUI.EndProperty();

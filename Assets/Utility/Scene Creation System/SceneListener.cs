@@ -43,7 +43,7 @@ namespace Dhs5.Utility.SceneCreation
             {
                 events.Invoke(var);
                 if (debug)
-                    Debug.Log("Received event : " + CurrentSceneVar.ID + " = " + CurrentSceneVar.Value);
+                    Debug.Log("Received event : " + CurrentSceneVar.ToString());
             }
         }
         #endregion

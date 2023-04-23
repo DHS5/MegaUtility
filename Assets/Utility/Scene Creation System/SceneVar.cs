@@ -59,6 +59,7 @@ namespace Dhs5.Utility.SceneCreation
                     case SceneVarType.INT: return intValue;
                     case SceneVarType.FLOAT: return floatValue;
                     case SceneVarType.STRING: return stringValue;
+                    case SceneVarType.EVENT: return null;
                 }
                 return null;
             }
@@ -66,10 +67,12 @@ namespace Dhs5.Utility.SceneCreation
 
         public override string ToString()
         {
+            if (type == SceneVarType.EVENT) return ID + " (EVENT)";
             return ID + " (" + type.ToString() + ") = " + Value + (isStatic ? " (static)" : "");
         }
         public string PopupString()
         {
+            if (type == SceneVarType.EVENT) return ID + " (EVENT)";
             return ID + " (" + type.ToString() + ")" + (isStatic ? " = " + Value : "");
         }
 

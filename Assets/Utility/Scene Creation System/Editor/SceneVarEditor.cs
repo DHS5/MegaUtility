@@ -75,6 +75,9 @@ namespace Dhs5.Utility.SceneCreation
                     case SceneVarType.STRING:
                         EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("stringValue"), new GUIContent("Initial Value"));
                         break;
+                    case SceneVarType.EVENT:
+                        EditorGUI.EndProperty();
+                        return;
                 }
 
                 // Static

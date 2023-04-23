@@ -46,21 +46,21 @@ namespace Dhs5.Utility.SceneCreation
                 return;
             }
 
+            List<SceneVar> sceneVarList = sceneVarContainer.NonStatics;
             sceneVarUniqueIDP = property.FindPropertyRelative("varUniqueID");
-            sceneVarIndex = sceneVarContainer.GetIndexByUniqueID(sceneVarUniqueIDP.intValue);
-            if (sceneVarIndex == -1) sceneVarIndex = 0;
-            sceneVar = sceneVarContainer.sceneVars[sceneVarIndex];
+            int sceneVarIndexSave = sceneVarContainer.GetIndexByUniqueID(sceneVarList, sceneVarUniqueIDP.intValue);
+            if (sceneVarIndexSave == -1) sceneVarIndexSave = 0;
+            sceneVar = sceneVarList[sceneVarIndexSave];
 
             Rect foldoutRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
             property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, property.isExpanded ? "" : sceneVar.ID + " : " + sceneVar.type);
             if (property.isExpanded)
             {
                 // SceneVar choice popup
-                int sceneVarIndexSave = sceneVarIndex;
                 Rect popupPosition = new Rect(position.x, position.y, position.width * 0.6f, EditorGUIUtility.singleLineHeight);
-                sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndex, sceneVarContainer.SceneVarStrings.ToArray());
-                if (sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex) == 0) sceneVarIndex = sceneVarIndexSave;
-                sceneVarUniqueIDP.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex);
+                sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndexSave, sceneVarContainer.VarStrings(sceneVarList).ToArray());
+                if (sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex) == 0) sceneVarIndex = sceneVarIndexSave;
+                sceneVarUniqueIDP.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex);
 
                 // Type label
                 Rect typePosition = new Rect(position.x + position.width * 0.65f, position.y, position.width * 0.3f, EditorGUIUtility.singleLineHeight);

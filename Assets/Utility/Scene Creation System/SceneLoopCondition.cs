@@ -17,8 +17,8 @@ namespace Dhs5.Utility.SceneCreation
 
         public LoopConditionType conditionType;
         
-        public float timeToWait;
-        public int iterationNumber;
+        public SceneVarTween timeToWait;
+        public SceneVarTween iterationNumber;
         public List<SceneCondition> sceneConditions;
         
         
@@ -38,12 +38,12 @@ namespace Dhs5.Utility.SceneCreation
                 switch (conditionType)
                 {
                     case LoopConditionType.TIMED:
-                        return Time.time - startTime >= timeToWait;
+                        return Time.time - startTime >= timeToWait.FloatValue;
                     case LoopConditionType.SCENE:
                         return sceneConditions.VerifyConditions();
                     case LoopConditionType.ITERATION:
                         currentIteration++;
-                        return currentIteration >= iterationNumber;
+                        return currentIteration >= iterationNumber.IntValue;
                     default:
                         return true;
                 }
@@ -53,6 +53,8 @@ namespace Dhs5.Utility.SceneCreation
         public void SetUp(SceneVariablesSO sceneVariablesSO)
         {
             sceneConditions.SetUp(sceneVariablesSO);
+            timeToWait.SetUp(sceneVariablesSO, SceneVarType.FLOAT);
+            iterationNumber.SetUp(sceneVariablesSO, SceneVarType.INT);
         }
 
         public void StartTimer()

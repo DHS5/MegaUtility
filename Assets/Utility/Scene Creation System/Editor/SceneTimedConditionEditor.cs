@@ -42,7 +42,7 @@ namespace Dhs5.Utility.SceneCreation
                 {
                     case SceneTimedCondition.TimedConditionType.WAIT_FOR_TIME:
                         EditorGUI.PropertyField(paramPosition, timeToWaitProperty);
-                        propertyOffset += EditorGUIUtility.singleLineHeight * 1.15f;
+                        propertyOffset += EditorGUIUtility.singleLineHeight * 1.5f;
                         break;
                     case SceneTimedCondition.TimedConditionType.WAIT_UNTIL_SCENE_CONDITION:
                         EditorGUI.PropertyField(paramPosition, sceneConditionsProperty);
@@ -69,7 +69,7 @@ namespace Dhs5.Utility.SceneCreation
             conditionTypeProperty = property.FindPropertyRelative("conditionType");
             sceneConditionsProperty = property.FindPropertyRelative("sceneConditions");
             return property.isExpanded ? 
-                conditionTypeProperty.enumValueIndex == 0 ? EditorGUIUtility.singleLineHeight * 3.4f :
+                conditionTypeProperty.enumValueIndex == 0 ? EditorGUIUtility.singleLineHeight * 3.8f :
                     EditorGUI.GetPropertyHeight(sceneConditionsProperty) + EditorGUIUtility.singleLineHeight * 2.4f
                     : EditorGUIUtility.singleLineHeight * 1.4f;
         }

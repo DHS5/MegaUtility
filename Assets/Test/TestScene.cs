@@ -1,30 +1,51 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using Dhs5.Utility.SceneCreation;
+using System;
 
 namespace Dhs5.Test
 {
     public class TestScene : MonoBehaviour
     {
-        public SceneVariablesSO sceneVariablesSO;
+        //public SceneVariablesSO sceneVariablesSO;
+        //
+        //public SceneVarTween maxEnemy;
+        //
+        //public SceneEvent sceneEvent;
+        //
+        //public UnityEvent event1;
 
-        public SceneVarTween maxEnemy;
+        public AdvancedUnityEvent advancedEvent;
 
-        public SceneEvent sceneEvent;
+        //private void OnValidate()
+        //{
+        //    maxEnemy.SetUp(sceneVariablesSO, SceneVarType.INT);
+        //    sceneEvent.SetUp(sceneVariablesSO);
+        //}
 
-        private void OnValidate()
+        public void Trigger()
         {
-            maxEnemy.sceneVariablesSO = sceneVariablesSO;
-            sceneEvent.SetUp(sceneVariablesSO);
+            advancedEvent.Trigger();
         }
 
-        private void Test()
+        public void Test()
         {
-            Debug.Log(maxEnemy.IntValue);
+            Debug.Log("It works");
         }
 
-        public void Test2(object obj)
+        public void Test(object obj)
+        {
+
+        }
+
+        public void Test(int test)
+        {
+
+        }
+
+        public void Test(bool test)
         {
 
         }

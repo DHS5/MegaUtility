@@ -18,12 +18,13 @@ namespace Dhs5.Utility.SceneCreation
 
         public TimedConditionType conditionType;
         
-        public float timeToWait;
+        public SceneVarTween timeToWait;
         public List<SceneCondition> sceneConditions;
         
         public void SetUp(SceneVariablesSO sceneVariablesSO)
         {
             sceneConditions.SetUp(sceneVariablesSO);
+            timeToWait.SetUp(sceneVariablesSO, SceneVarType.FLOAT);
         }
         
         public IEnumerator Condition()
@@ -60,7 +61,7 @@ namespace Dhs5.Utility.SceneCreation
         private float startTime;
         private bool TimeIsUp()
         {
-            return stop || (Time.time - startTime >= timeToWait);
+            return stop || (Time.time - startTime >= timeToWait.FloatValue);
         }
 
         private bool SceneConditionVerified()

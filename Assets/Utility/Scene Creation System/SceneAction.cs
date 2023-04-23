@@ -52,6 +52,9 @@ namespace Dhs5.Utility.SceneCreation
                 case SceneVarType.STRING:
                     SceneState.ModifyStringVar(SceneVar1.uniqueID, stringOP, SceneState.CastToString(SceneVar2));
                     break;
+                case SceneVarType.EVENT:
+                    SceneState.TriggerEventVar(SceneVar1.uniqueID);
+                    break;
 
                 default:
                     break;

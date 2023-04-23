@@ -44,7 +44,7 @@ namespace Dhs5.Utility.SceneCreation
                 {
                     case SceneLoopCondition.LoopConditionType.TIMED:
                         EditorGUI.PropertyField(paramPosition, timeToWaitProperty);
-                        propertyOffset += EditorGUIUtility.singleLineHeight * 1.15f;
+                        propertyOffset += EditorGUIUtility.singleLineHeight * 1.5f;
                         break;
                     case SceneLoopCondition.LoopConditionType.SCENE:
                         EditorGUI.PropertyField(paramPosition, sceneConditionsProperty);
@@ -52,7 +52,7 @@ namespace Dhs5.Utility.SceneCreation
                         break;
                     case SceneLoopCondition.LoopConditionType.ITERATION:
                         EditorGUI.PropertyField(paramPosition, iterationNumberProperty);
-                        propertyOffset += EditorGUIUtility.singleLineHeight * 1.15f;
+                        propertyOffset += EditorGUIUtility.singleLineHeight * 1.5f;
                         break;
                 }
                 
@@ -72,7 +72,7 @@ namespace Dhs5.Utility.SceneCreation
             sceneConditionsProperty = property.FindPropertyRelative("sceneConditions");
             return property.isExpanded ? 
                 conditionTypeProperty.enumValueIndex == 0 ? EditorGUI.GetPropertyHeight(sceneConditionsProperty) + EditorGUIUtility.singleLineHeight * 2.4f : 
-                    EditorGUIUtility.singleLineHeight * 3.4f
+                    EditorGUIUtility.singleLineHeight * 3.8f
                 : EditorGUIUtility.singleLineHeight * 1.4f;
         }
     }

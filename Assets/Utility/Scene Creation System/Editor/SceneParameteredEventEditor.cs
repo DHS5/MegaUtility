@@ -70,19 +70,20 @@ namespace Dhs5.Utility.SceneCreation
                         return;
                     }
 
+                    List<SceneVar> sceneVarList = sceneVarContainer.NonEvents;
                     sceneVarUniqueIDP = property.FindPropertyRelative("paramUniqueID");
-                    int sceneVarIndexSave = sceneVarContainer.GetIndexByUniqueID(sceneVarUniqueIDP.intValue);
+                    int sceneVarIndexSave = sceneVarContainer.GetIndexByUniqueID(sceneVarList, sceneVarUniqueIDP.intValue);
                     if (sceneVarIndexSave == -1) sceneVarIndexSave = 0;
 
                     // SceneVar choice popup
-                    sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndexSave, sceneVarContainer.SceneVarStrings.ToArray());
-                    if (sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex) == 0) sceneVarIndex = sceneVarIndexSave;
-                    sceneVarUniqueIDP.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarIndex);
+                    sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndexSave, sceneVarContainer.VarStrings(sceneVarList).ToArray());
+                    if (sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex) == 0) sceneVarIndex = sceneVarIndexSave;
+                    sceneVarUniqueIDP.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex);
                     propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
 
                     // Type label
                     Rect typeLabelPosition = new Rect(position.x + position.width * 0.77f, position.y + propertyOffset, position.width * 0.23f, EditorGUIUtility.singleLineHeight);
-                    EditorGUI.LabelField(typeLabelPosition, sceneVarContainer.sceneVars[sceneVarIndex].type.ToString());
+                    EditorGUI.LabelField(typeLabelPosition, sceneVarList[sceneVarIndex].type.ToString());
                 }
 
                 else if ((SceneParameteredEvent.ParameterType)paramTypeProperty.enumValueIndex == SceneParameteredEvent.ParameterType.CONDITION_PARAM)

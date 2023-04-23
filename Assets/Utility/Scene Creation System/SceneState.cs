@@ -10,7 +10,7 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public enum SceneVarType
     {
-        BOOL, INT, FLOAT, STRING
+        BOOL, INT, FLOAT, STRING, EVENT
     }
 
     [Serializable]
@@ -69,10 +69,10 @@ namespace Dhs5.Utility.SceneCreation
         {
             SceneVariables.Clear();
         }
-        private static void AddVar(SceneVar variable)
+        private static void AddVar(SceneVar variable, bool triggerEvent)
         {
             SceneVariables[variable.uniqueID] = new(variable);
-            //ChangedVar(variable.uniqueID);
+            if (triggerEvent && variable.type != SceneVarType.EVENT) ChangedVar(variable.uniqueID);
         }
         private static void ChangedVar(int varUniqueID)
         {
@@ -172,12 +172,12 @@ namespace Dhs5.Utility.SceneCreation
             Clear();
             if (sceneVariablesSO == null) return;
             List<SceneVar> sceneVars = new(sceneVariablesSO.sceneVars);
-            SetSceneVars(sceneVars);
+            SetSceneVars(sceneVars, true);
         }
-        public static void SetSceneVars(List<SceneVar> sceneVars)
+        public static void SetSceneVars(List<SceneVar> sceneVars, bool triggerEvent)
         {
             foreach (SceneVar sceneVar in sceneVars)
-                AddVar(sceneVar);
+                AddVar(sceneVar, triggerEvent);
         }
         public static void ModifyBoolVar(int varUniqueID, BoolOperation op, bool param = false)
         {
@@ -313,7 +313,22 @@ namespace Dhs5.Utility.SceneCreation
                     ChangedVar(varUniqueID);
                     return;
                 }
-                IncorrectType(varUniqueID, SceneVarType.FLOAT);
+                IncorrectType(varUniqueID, SceneVarType.STRING);
+                return;
+            }
+            IncorrectID(varUniqueID);
+        }
+        public static void TriggerEventVar(int varUniqueID)
+        {
+            if (SceneVariables.ContainsKey(varUniqueID))
+            {
+                SceneVar var = SceneVariables[varUniqueID];
+                if (var.type == SceneVarType.EVENT)
+                {
+                    ChangedVar(varUniqueID);
+                    return;
+                }
+                IncorrectType(varUniqueID, SceneVarType.EVENT);
                 return;
             }
             IncorrectID(varUniqueID);
