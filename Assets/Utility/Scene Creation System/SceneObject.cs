@@ -69,6 +69,10 @@ namespace Dhs5.Utility.SceneCreation
         {
             sceneEvents.Trigger(eventID);
         }
+        public void TriggerRandom(string filter)
+        {
+            sceneEvents.TriggerRandom(filter);
+        }
         #endregion
     }
 }
