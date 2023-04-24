@@ -466,7 +466,27 @@ MonoBehaviour:
   advancedEvent:
     component: {fileID: 962795332}
     myString: 
-    metadataToken: 100663314
+    metadataToken: 100663319
+    int0: 5
+    int1: 0
+    int2: 0
+    int3: 20
+    int4: 0
+    float0: 0
+    float1: 0
+    float2: 0
+    float3: 0
+    float4: 10
+    bool0: 1
+    bool1: 1
+    bool2: 0
+    bool3: 0
+    bool4: 0
+    string0: Si ce test est
+    string1: That work
+    string2: c un
+    string3: 
+    string4: 
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0

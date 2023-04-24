@@ -42,12 +42,21 @@ namespace Dhs5.Test
 
         public void Test(int test)
         {
-
+            Debug.Log("it works : " + test);
         }
 
-        public void Test(bool test)
+        public void Test2(bool testBool, string testString)
         {
+            Debug.Log(testString + " is " + testBool);
+        }
+        public void Test3(bool testBool, bool testString)
+        {
+            Debug.Log(testString + " is " + testBool);
+        }
 
+        public void TestUltime(string s1, bool b1, string s2, int i1, float f1)
+        {
+            Debug.Log(s1 + " " + b1 + " " + s2 + " " + i1 + " / " + f1 + " c'est incroyable");
         }
     }
 }
