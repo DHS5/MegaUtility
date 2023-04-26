@@ -15,6 +15,7 @@ namespace Dhs5.Utility.SceneCreation
         public string myString;
 
         #region Custom Property Drawer variables
+        [SerializeField] UnityEngine.Object obj;
         [SerializeField] private int metadataToken;
         #endregion
 

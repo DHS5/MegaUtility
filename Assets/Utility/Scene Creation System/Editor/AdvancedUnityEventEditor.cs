@@ -11,6 +11,7 @@ namespace Dhs5.Utility.SceneCreation
     [CustomPropertyDrawer(typeof(AdvancedUnityEvent))]
     public class AdvancedUnityEventEditor : PropertyDrawer
     {
+        SerializedProperty objProperty;
         SerializedProperty componentProperty;
         SerializedProperty tokenProperty;
         SerializedProperty actionProperty;
@@ -82,6 +83,7 @@ namespace Dhs5.Utility.SceneCreation
             actionProperty = property.FindPropertyRelative("action");
             tokenProperty = property.FindPropertyRelative("metadataToken");
             componentProperty = property.FindPropertyRelative("component");
+            objProperty = property.FindPropertyRelative("obj");
             MethodInfo[] methods = componentProperty.serializedObject.targetObject.GetType().GetMethods();
             List<MethodInfo> methodInfos = new();
             List<string> methodNames = new();
@@ -100,6 +102,26 @@ namespace Dhs5.Utility.SceneCreation
 
             EditorGUI.BeginProperty(position, label, property);
 
+            Rect objRect = new Rect(position.x, position.y + propertyOffset, position.width * 0.49f, EditorGUIUtility.singleLineHeight);
+            Rect compRect = new Rect(position.x + position.width * 0.51f, position.y + propertyOffset, position.width * 0.49f, EditorGUIUtility.singleLineHeight);
+            EditorGUI.PropertyField(objRect, objProperty, new GUIContent(""));
+            propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
+
+            UnityEngine.Object obj = objProperty.objectReferenceValue;
+            if (obj is GameObject go)
+            {
+                Debug.Log("GO : " + go);
+                Component[] goComponents = go.GetComponents(typeof(Component));
+                List<string> compNames = new();
+                foreach (Component comp in goComponents)
+                    compNames.Add(comp.name);
+                EditorGUI.Popup(compRect, 0, compNames.ToArray());
+            }
+            else if (obj is ScriptableObject so)
+            {
+                Debug.Log("SO : " + so);
+            }
+            
             Rect componentRect = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
             EditorGUI.PropertyField(componentRect, componentProperty);
             propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;

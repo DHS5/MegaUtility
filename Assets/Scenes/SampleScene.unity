@@ -463,9 +463,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a19462f9b0c318489b28e4a4220f095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  event1:
+    m_PersistentCalls:
+      m_Calls: []
   advancedEvent:
     component: {fileID: 962795332}
     myString: 
+    obj: {fileID: 962795330}
     metadataToken: 100663319
     int0: 5
     int1: 0

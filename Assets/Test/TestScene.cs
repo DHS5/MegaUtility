@@ -15,7 +15,7 @@ namespace Dhs5.Test
         //
         //public SceneEvent sceneEvent;
         //
-        //public UnityEvent event1;
+        public UnityEvent event1;
 
         public AdvancedUnityEvent advancedEvent;
 
