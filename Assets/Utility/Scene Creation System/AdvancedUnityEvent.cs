@@ -9,14 +9,16 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public class AdvancedUnityEvent
     {
-        public Component component;
+        //public Component component;
         public BaseEventAction action;
 
         public string myString;
 
         #region Custom Property Drawer variables
         [SerializeField] UnityEngine.Object obj;
+        [SerializeField] private int componentInstanceID;
         [SerializeField] private int metadataToken;
+        [SerializeField] private float propertyHeight;
         #endregion
 
         #region Parameters

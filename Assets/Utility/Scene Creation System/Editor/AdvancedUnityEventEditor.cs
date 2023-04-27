@@ -12,12 +12,13 @@ namespace Dhs5.Utility.SceneCreation
     public class AdvancedUnityEventEditor : PropertyDrawer
     {
         SerializedProperty objProperty;
-        SerializedProperty componentProperty;
+        SerializedProperty compInstIDProperty;
         SerializedProperty tokenProperty;
         SerializedProperty actionProperty;
 
         int methodIndex;
         float propertyOffset;
+        float propertyHeight;
 
         private bool ValidParameters(ParameterInfo[] parameters)
         {
@@ -76,21 +77,91 @@ namespace Dhs5.Utility.SceneCreation
             return sb.ToString();
         }
 
+        private string GetComponentName(Component component)
+        {
+            string[] strings = component.GetType().Name.Split('.');
+            return strings[strings.Length - 1];
+        }
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             propertyOffset = 0;
+            propertyHeight = 0;
 
+            compInstIDProperty = property.FindPropertyRelative("componentInstanceID");
             actionProperty = property.FindPropertyRelative("action");
             tokenProperty = property.FindPropertyRelative("metadataToken");
-            componentProperty = property.FindPropertyRelative("component");
             objProperty = property.FindPropertyRelative("obj");
-            MethodInfo[] methods = componentProperty.serializedObject.targetObject.GetType().GetMethods();
+
+            EditorGUI.BeginProperty(position, label, property);
+
+            Rect inspectorBackgroundRect = new Rect(position.x, position.y, position.width + 5, property.FindPropertyRelative("propertyHeight").floatValue);
+            EditorGUI.DrawRect(inspectorBackgroundRect, new Color(0.3f, 0.3f, 0.3f));
+
+            // FOLDOUT
+            EditorGUI.indentLevel++;
+            Rect labelRect = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
+            EditorGUI.LabelField(labelRect, label, EditorStyles.boldLabel);
+            propertyOffset += EditorGUIUtility.singleLineHeight * 1.5f;
+            propertyHeight += EditorGUIUtility.singleLineHeight * 1.5f;
+
+            Rect objRect = new Rect(position.x, position.y + propertyOffset, position.width * 0.49f, EditorGUIUtility.singleLineHeight);
+            Rect compRect = new Rect(position.x + position.width * 0.51f, position.y + propertyOffset, position.width * 0.49f, EditorGUIUtility.singleLineHeight);
+            EditorGUI.PropertyField(objRect, objProperty, new GUIContent(""));
+            propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
+            propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
+
+            // Object
+            UnityEngine.Object obj = objProperty.objectReferenceValue;
+            object target = null;
+            Component component = null;
+            MethodInfo[] methods = null;
+            // GameObject components
+            if (obj is GameObject go)
+            {
+                int compIndex = 0;
+                Component[] goComponents = go.GetComponents(typeof(Component));
+                List<string> compNames = new();
+                int j = 0;
+                foreach (Component comp in goComponents)
+                {
+                    if (comp.GetInstanceID() == compInstIDProperty.intValue) compIndex = j;
+                    j++;
+
+                    string compName = GetComponentName(comp);
+                    int i = 2;
+                    string compNameTemp = compName;
+                    while (compNames.Contains(compNameTemp))
+                    {
+                        compNameTemp = compName + i;
+                        i++;
+                    }
+                    compNames.Add(compNameTemp);
+                }
+                
+                compIndex = EditorGUI.Popup(compRect, compIndex, compNames.ToArray());
+                component = goComponents[compIndex];
+                target = component;
+                compInstIDProperty.intValue = component.GetInstanceID();
+                methods = component.GetType().GetMethods();
+            }
+            else if (obj is ScriptableObject so)
+            {
+                target = so;
+                methods = so.GetType().GetMethods();
+            }
+            else
+            {
+                EditorGUI.EndProperty();
+            }
+
+            // Methods
             List<MethodInfo> methodInfos = new();
             List<string> methodNames = new();
             foreach (MethodInfo method in methods)
             {
-                if (method.IsPublic && !method.IsStatic && !method.IsAbstract && !method.IsGenericMethod && !method.IsConstructor && !method.IsAssembly 
-                    && !method.IsFamily && !method.ContainsGenericParameters && !method.IsSpecialName && method.ReturnType == typeof(void) 
+                if (method.IsPublic && !method.IsStatic && !method.IsAbstract && !method.IsGenericMethod && !method.IsConstructor && !method.IsAssembly
+                    && !method.IsFamily && !method.ContainsGenericParameters && !method.IsSpecialName && method.ReturnType == typeof(void)
                     && ValidParameters(method.GetParameters()))
                 {
                     methodNames.Add(MethodName(method));
@@ -99,36 +170,12 @@ namespace Dhs5.Utility.SceneCreation
             }
             methodIndex = methodInfos.FindIndex(m => m.MetadataToken == tokenProperty.intValue);
             if (methodIndex == -1) methodIndex = 0;
-
-            EditorGUI.BeginProperty(position, label, property);
-
-            Rect objRect = new Rect(position.x, position.y + propertyOffset, position.width * 0.49f, EditorGUIUtility.singleLineHeight);
-            Rect compRect = new Rect(position.x + position.width * 0.51f, position.y + propertyOffset, position.width * 0.49f, EditorGUIUtility.singleLineHeight);
-            EditorGUI.PropertyField(objRect, objProperty, new GUIContent(""));
-            propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
-
-            UnityEngine.Object obj = objProperty.objectReferenceValue;
-            if (obj is GameObject go)
-            {
-                Debug.Log("GO : " + go);
-                Component[] goComponents = go.GetComponents(typeof(Component));
-                List<string> compNames = new();
-                foreach (Component comp in goComponents)
-                    compNames.Add(comp.name);
-                EditorGUI.Popup(compRect, 0, compNames.ToArray());
-            }
-            else if (obj is ScriptableObject so)
-            {
-                Debug.Log("SO : " + so);
-            }
-            
-            Rect componentRect = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
-            EditorGUI.PropertyField(componentRect, componentProperty);
-            propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
+            //_______________________________________
 
             Rect methodsRect = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
             methodIndex = EditorGUI.Popup(methodsRect, methodIndex, methodNames.ToArray());
             propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
+            propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
 
             tokenProperty.intValue = methodInfos[methodIndex].MetadataToken;
             ParameterInfo[] parameters = methodInfos[methodIndex].GetParameters();
@@ -159,6 +206,7 @@ namespace Dhs5.Utility.SceneCreation
                         break;
                 }
                 propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
+                propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
             }
 
             FieldInfo objField = property.serializedObject.targetObject.GetType().GetField(property.propertyPath);
@@ -169,31 +217,31 @@ namespace Dhs5.Utility.SceneCreation
                 switch (parameters.Length)
                 {
                     case 0:
-                        Action action = (Action)methodInfos[methodIndex].CreateDelegate(typeof(Action), componentProperty.serializedObject.targetObject);
+                        Action action = (Action)methodInfos[methodIndex].CreateDelegate(typeof(Action), target);// Property.serializedObject.targetObject);
                         EventAction eventAction = new(action);
                         actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), eventAction);
                         break;
                     case 1:
                         dynamic arg0 = parameterValues[0];
-                        actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0, methodInfos[methodIndex], componentProperty.serializedObject.targetObject));
+                        actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0, methodInfos[methodIndex], target));//Property.serializedObject.targetObject));
                         break;
                     case 2:
                         dynamic arg0_1 = parameterValues[0];
                         dynamic arg1_1 = parameterValues[1];
-                        actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_1, arg1_1, methodInfos[methodIndex], componentProperty.serializedObject.targetObject));
+                        actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_1, arg1_1, methodInfos[methodIndex], target));//Property.serializedObject.targetObject));
                         break;
                     case 3:
                         dynamic arg0_2 = parameterValues[0];
                         dynamic arg1_2 = parameterValues[1];
                         dynamic arg2_2 = parameterValues[2];
-                        actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_2, arg1_2, arg2_2, methodInfos[methodIndex], componentProperty.serializedObject.targetObject));
+                        actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_2, arg1_2, arg2_2, methodInfos[methodIndex], target));// Property.serializedObject.targetObject));
                         break;
                     case 4:
                         dynamic arg0_3 = parameterValues[0];
                         dynamic arg1_3 = parameterValues[1];
                         dynamic arg2_3 = parameterValues[2];
                         dynamic arg3_3 = parameterValues[3];
-                        actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_3, arg1_3, arg2_3, arg3_3, methodInfos[methodIndex], componentProperty.serializedObject.targetObject));
+                        actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_3, arg1_3, arg2_3, arg3_3, methodInfos[methodIndex], target));// Property.serializedObject.targetObject));
                         break;
                     case 5:
                         dynamic arg0_4 = parameterValues[0];
@@ -201,13 +249,16 @@ namespace Dhs5.Utility.SceneCreation
                         dynamic arg2_4 = parameterValues[2];
                         dynamic arg3_4 = parameterValues[3];
                         dynamic arg4_4 = parameterValues[4];
-                        actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_4, arg1_4, arg2_4, arg3_4, arg4_4, methodInfos[methodIndex], componentProperty.serializedObject.targetObject));
+                        actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_4, arg1_4, arg2_4, arg3_4, arg4_4, methodInfos[methodIndex], target));// Property.serializedObject.targetObject));
                         break;
                 }
                 
             }
+            EditorGUI.indentLevel--;
 
             EditorGUI.EndProperty();
+
+            property.FindPropertyRelative("propertyHeight").floatValue = propertyHeight;
         }
 
         private EventAction<T1> CreateAction<T1>(T1 arg0, MethodInfo methodInfo, object target)
@@ -238,7 +289,7 @@ namespace Dhs5.Utility.SceneCreation
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return EditorGUIUtility.singleLineHeight * 10;
+            return property.FindPropertyRelative("propertyHeight").floatValue;
         }
     }
 }
