@@ -48,7 +48,7 @@ namespace Dhs5.Utility.SceneCreation
 
             // Label
             Rect labelPosition = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight * 0.25f, position.width * 0.3f, EditorGUIUtility.singleLineHeight);
-            EditorGUI.LabelField(labelPosition, property.displayName);
+            EditorGUI.LabelField(labelPosition, label);// property.displayName);
 
             // SceneVar choice popup
             Rect popupPosition = new Rect(position.x + position.width * 0.32f, position.y + EditorGUIUtility.singleLineHeight * 0.25f, position.width * 0.52f, EditorGUIUtility.singleLineHeight);

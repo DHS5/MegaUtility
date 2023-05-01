@@ -139,7 +139,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &285836417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -465,15 +465,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a19462f9b0c318489b28e4a4220f095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
   event1:
     m_PersistentCalls:
       m_Calls: []
   advancedEvent:
-    myString: 
-    obj: {fileID: 962795330}
-    componentInstanceID: 25704
-    metadataToken: 100663313
-    propertyHeight: 43.2
+    obj: {fileID: 962795332}
+    componentInstanceID: 25708
+    metadataToken: 100663320
+    propertyHeight: 27
     int0: 5
     int1: 0
     int2: 0
@@ -494,6 +494,68 @@ MonoBehaviour:
     string2: c un
     string3: 
     string4: 
+  advancedEvents: []
+  sceneParamEvent:
+    sceneVariablesSO: {fileID: 0}
+    action:
+      methodName: TestUltime
+      target: {fileID: 962795332}
+      arguments:
+      - type: 3
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        stringValue: 
+      - type: 0
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        stringValue: 
+      - type: 3
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        stringValue: 
+      - type: 1
+        boolValue: 0
+        intValue: 5
+        floatValue: 0
+        stringValue: 
+      - type: 2
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        stringValue: 
+    obj: {fileID: 962795332}
+    component: {fileID: 962795332}
+    metadataToken: 100663320
+    propertyHeight: 27
+    varTween0:
+      type: 3
+      sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+      sceneVarUniqueID: 5895
+    varTween1:
+      type: 0
+      sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+      sceneVarUniqueID: 4629
+    varTween2:
+      type: 3
+      sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+      sceneVarUniqueID: 5895
+    varTween3:
+      type: 1
+      sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+      sceneVarUniqueID: 9424
+    varTween4:
+      type: 2
+      sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+      sceneVarUniqueID: 2612
+    varType0: 3
+    varType1: 0
+    varType2: 3
+    varType3: 1
+    varType4: 2
+  entier: 0
 --- !u!82 &962795333
 AudioSource:
   m_ObjectHideFlags: 0

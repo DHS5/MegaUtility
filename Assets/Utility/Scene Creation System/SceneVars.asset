@@ -35,7 +35,7 @@ MonoBehaviour:
     boolValue: 0
     intValue: 0
     floatValue: 0
-    stringValue: 
+    stringValue: Elle existe
     isStatic: 0
   - uniqueID: 9478
     ID: TestInt1

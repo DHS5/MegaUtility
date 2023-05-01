@@ -4,15 +4,12 @@ using UnityEngine;
 using UnityEngine.Events;
 using System;
 
-namespace Dhs5.Utility.SceneCreation
+namespace Dhs5.Utility.Events
 {
     [Serializable]
     public class AdvancedUnityEvent
     {
-        //public Component component;
         public BaseEventAction action;
-
-        public string myString;
 
         #region Custom Property Drawer variables
         [SerializeField] UnityEngine.Object obj;
@@ -62,15 +59,8 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public class BaseEventAction
     {
-        protected object[] arguments;
-
-        //public BaseEventAction(object[] args)
-        //{
-        //    arguments = args;
-        //}
         public BaseEventAction() { }
 
-        //public abstract void Invoke();
         public virtual void Invoke() { }
     }
 

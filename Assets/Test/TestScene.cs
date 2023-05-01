@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using Dhs5.Utility.SceneCreation;
+using Dhs5.Utility.Events;
 using System;
 
 namespace Dhs5.Test
 {
     public class TestScene : MonoBehaviour
     {
-        //public SceneVariablesSO sceneVariablesSO;
+        public SceneVariablesSO sceneVariablesSO;
         //
         //public SceneVarTween maxEnemy;
         //
@@ -19,15 +20,22 @@ namespace Dhs5.Test
 
         public AdvancedUnityEvent advancedEvent;
 
-        //private void OnValidate()
-        //{
-        //    maxEnemy.SetUp(sceneVariablesSO, SceneVarType.INT);
-        //    sceneEvent.SetUp(sceneVariablesSO);
-        //}
+        public List<AdvancedUnityEvent> advancedEvents;
+
+        public SceneParameteredEvent2 sceneParamEvent;
+
+        public int entier;
+
+        private void OnValidate()
+        {
+            //maxEnemy.SetUp(sceneVariablesSO, SceneVarType.INT);
+            //sceneEvent.SetUp(sceneVariablesSO);
+            sceneParamEvent.SetUp(sceneVariablesSO);
+        }
 
         public void Trigger()
         {
-            advancedEvent.Trigger();
+            sceneParamEvent.Trigger();
         }
 
         public void Test()
@@ -37,7 +45,7 @@ namespace Dhs5.Test
 
         public void Test(object obj)
         {
-
+            
         }
 
         public void Test(int test)
