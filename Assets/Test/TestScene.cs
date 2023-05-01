@@ -12,7 +12,7 @@ namespace Dhs5.Test
     {
         public SceneVariablesSO sceneVariablesSO;
         //
-        //public SceneVarTween maxEnemy;
+        public SceneVarTween maxEnemy;
         //
         //public SceneEvent sceneEvent;
         //
@@ -28,7 +28,7 @@ namespace Dhs5.Test
 
         private void OnValidate()
         {
-            //maxEnemy.SetUp(sceneVariablesSO, SceneVarType.INT);
+            maxEnemy.SetUp(sceneVariablesSO, SceneVarType.INT, true);
             //sceneEvent.SetUp(sceneVariablesSO);
             sceneParamEvent.SetUp(sceneVariablesSO);
         }

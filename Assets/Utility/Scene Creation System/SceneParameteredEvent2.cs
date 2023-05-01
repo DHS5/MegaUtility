@@ -12,11 +12,11 @@ namespace Dhs5.Utility.SceneCreation
 
         public void SetUp(SceneVariablesSO sceneVariablesSO)
         {
-            varTween0.SetUp(sceneVariablesSO, varType0);
-            varTween1.SetUp(sceneVariablesSO, varType1);
-            varTween2.SetUp(sceneVariablesSO, varType2);
-            varTween3.SetUp(sceneVariablesSO, varType3);
-            varTween4.SetUp(sceneVariablesSO, varType4);
+            varTween0.SetUp(sceneVariablesSO, varType0, true);
+            varTween1.SetUp(sceneVariablesSO, varType1, true);
+            varTween2.SetUp(sceneVariablesSO, varType2, true);
+            varTween3.SetUp(sceneVariablesSO, varType3, true);
+            varTween4.SetUp(sceneVariablesSO, varType4, true);
         }
 
         [SerializeField] private BaseEventAction action;

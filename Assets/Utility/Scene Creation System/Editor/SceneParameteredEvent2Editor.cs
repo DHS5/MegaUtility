@@ -178,7 +178,7 @@ namespace Dhs5.Utility.SceneCreation
                 List<string> methodNames = new();
                 foreach (MethodInfo method in methods)
                 {
-                    if (method.IsPublic && !method.IsStatic && !method.IsAbstract && !method.IsGenericMethod && !method.IsConstructor && !method.IsAssembly
+                    if (method.IsPublic && !method.IsAbstract && !method.IsGenericMethod && !method.IsConstructor && !method.IsAssembly
                         && !method.IsFamily && !method.ContainsGenericParameters && !method.IsSpecialName && method.ReturnType == typeof(void)
                         && ValidParameters(method.GetParameters()))
                     {

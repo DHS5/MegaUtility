@@ -466,6 +466,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+  maxEnemy:
+    type: 1
+    sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+    sceneVarUniqueID: 9424
+    canBeStatic: 1
+    isStatic: 0
+    boolValue: 0
+    intValue: 3
+    floatValue: 0
+    stringValue: 
   event1:
     m_PersistentCalls:
       m_Calls: []
@@ -534,22 +544,52 @@ MonoBehaviour:
       type: 3
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
       sceneVarUniqueID: 5895
+      canBeStatic: 1
+      isStatic: 0
+      boolValue: 0
+      intValue: 0
+      floatValue: 0
+      stringValue: Yes sir
     varTween1:
       type: 0
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
       sceneVarUniqueID: 4629
+      canBeStatic: 1
+      isStatic: 0
+      boolValue: 1
+      intValue: 0
+      floatValue: 0
+      stringValue: 
     varTween2:
       type: 3
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
       sceneVarUniqueID: 5895
+      canBeStatic: 1
+      isStatic: 0
+      boolValue: 0
+      intValue: 0
+      floatValue: 0
+      stringValue: aaaaa
     varTween3:
       type: 1
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
       sceneVarUniqueID: 9424
+      canBeStatic: 1
+      isStatic: 0
+      boolValue: 0
+      intValue: 56
+      floatValue: 0
+      stringValue: 
     varTween4:
       type: 2
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
       sceneVarUniqueID: 2612
+      canBeStatic: 1
+      isStatic: 0
+      boolValue: 0
+      intValue: 0
+      floatValue: 5.6
+      stringValue: 
     varType0: 3
     varType1: 0
     varType2: 3
@@ -1220,10 +1260,22 @@ MonoBehaviour:
         type: 2
         sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
         sceneVarUniqueID: 0
+        canBeStatic: 0
+        isStatic: 0
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        stringValue: 
       iterationNumber:
         type: 1
         sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
         sceneVarUniqueID: 0
+        canBeStatic: 0
+        isStatic: 0
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        stringValue: 
       sceneConditions: []
     timelineObjects:
     - startCondition:
@@ -1232,6 +1284,12 @@ MonoBehaviour:
           type: 2
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 9424
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         sceneConditions: []
       loop: 1
       endLoopCondition:
@@ -1240,10 +1298,22 @@ MonoBehaviour:
           type: 2
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 9424
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         iterationNumber:
           type: 1
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 9424
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         sceneConditions: []
       sceneEvents: []
       sceneTimelineEvents:
@@ -1273,6 +1343,12 @@ MonoBehaviour:
           type: 2
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         sceneConditions: []
       loop: 0
       endLoopCondition:
@@ -1281,10 +1357,22 @@ MonoBehaviour:
           type: 2
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         iterationNumber:
           type: 1
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         sceneConditions: []
       sceneEvents: []
       sceneTimelineEvents:
@@ -1354,6 +1442,12 @@ MonoBehaviour:
           type: 2
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         sceneConditions: []
       loop: 0
       endLoopCondition:
@@ -1362,10 +1456,22 @@ MonoBehaviour:
           type: 2
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         iterationNumber:
           type: 1
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         sceneConditions: []
       sceneEvents: []
       sceneTimelineEvents:
@@ -1397,10 +1503,22 @@ MonoBehaviour:
         type: 2
         sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
         sceneVarUniqueID: 0
+        canBeStatic: 0
+        isStatic: 0
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        stringValue: 
       iterationNumber:
         type: 1
         sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
         sceneVarUniqueID: 0
+        canBeStatic: 0
+        isStatic: 0
+        boolValue: 0
+        intValue: 0
+        floatValue: 0
+        stringValue: 
       sceneConditions: []
     timelineObjects:
     - startCondition:
@@ -1409,6 +1527,12 @@ MonoBehaviour:
           type: 2
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         sceneConditions: []
       loop: 0
       endLoopCondition:
@@ -1417,10 +1541,22 @@ MonoBehaviour:
           type: 2
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         iterationNumber:
           type: 1
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         sceneConditions: []
       sceneEvents: []
       sceneTimelineEvents:
@@ -1450,6 +1586,12 @@ MonoBehaviour:
           type: 2
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         sceneConditions: []
       loop: 0
       endLoopCondition:
@@ -1458,10 +1600,22 @@ MonoBehaviour:
           type: 2
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         iterationNumber:
           type: 1
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
           sceneVarUniqueID: 0
+          canBeStatic: 0
+          isStatic: 0
+          boolValue: 0
+          intValue: 0
+          floatValue: 0
+          stringValue: 
         sceneConditions: []
       sceneEvents: []
       sceneTimelineEvents:
