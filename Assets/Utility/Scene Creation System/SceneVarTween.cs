@@ -55,8 +55,9 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
+                if (IsStatic) return boolValue;
                 if (SceneVar.type != SceneVarType.BOOL) IncorrectType(SceneVarType.BOOL);
-                return IsStatic ? boolValue : SceneVar.boolValue;
+                return SceneVar.boolValue;
             }
             set
             {
@@ -77,9 +78,10 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                if (SceneVar.type == SceneVarType.FLOAT) return IsStatic ? (int)floatValue : (int)SceneVar.floatValue;
+                if (IsStatic) return intValue;
+                if (SceneVar.type == SceneVarType.FLOAT) return (int)SceneVar.floatValue;
                 if (SceneVar.type != SceneVarType.INT) IncorrectType(SceneVarType.INT);
-                return IsStatic ? intValue : SceneVar.intValue;
+                return SceneVar.intValue;
             }
             set
             {
@@ -100,9 +102,10 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                if (SceneVar.type == SceneVarType.INT) return IsStatic ? intValue : SceneVar.intValue;
+                if (IsStatic) return floatValue;
+                if (SceneVar.type == SceneVarType.INT) return SceneVar.intValue;
                 if (SceneVar.type != SceneVarType.FLOAT) IncorrectType(SceneVarType.FLOAT);
-                return IsStatic ? floatValue : SceneVar.floatValue;
+                return SceneVar.floatValue;
             }
             set
             {
@@ -123,8 +126,9 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
+                if (IsStatic) return stringValue;
                 if (SceneVar.type != SceneVarType.STRING) IncorrectType(SceneVarType.STRING);
-                return IsStatic ? stringValue : SceneVar.stringValue;
+                return SceneVar.stringValue;
             }
             set
             {
