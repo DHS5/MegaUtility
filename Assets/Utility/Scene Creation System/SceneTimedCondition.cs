@@ -24,7 +24,7 @@ namespace Dhs5.Utility.SceneCreation
         public void SetUp(SceneVariablesSO sceneVariablesSO)
         {
             sceneConditions.SetUp(sceneVariablesSO);
-            timeToWait.SetUp(sceneVariablesSO, SceneVarType.FLOAT);
+            timeToWait.SetUp(sceneVariablesSO, SceneVarType.FLOAT, true);
         }
         
         public IEnumerator Condition()

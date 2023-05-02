@@ -53,8 +53,8 @@ namespace Dhs5.Utility.SceneCreation
         public void SetUp(SceneVariablesSO sceneVariablesSO)
         {
             sceneConditions.SetUp(sceneVariablesSO);
-            timeToWait.SetUp(sceneVariablesSO, SceneVarType.FLOAT);
-            iterationNumber.SetUp(sceneVariablesSO, SceneVarType.INT);
+            timeToWait.SetUp(sceneVariablesSO, SceneVarType.FLOAT, true);
+            iterationNumber.SetUp(sceneVariablesSO, SceneVarType.INT, true);
         }
 
         public void StartTimer()
