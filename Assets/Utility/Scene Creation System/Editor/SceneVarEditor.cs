@@ -15,11 +15,16 @@ namespace Dhs5.Utility.SceneCreation
         private SerializedProperty typeProperty;
         private SerializedProperty staticProperty;
 
+        private SerializedProperty hasMinProperty;
+        private SerializedProperty hasMaxProperty;
+
         private float propertyOffset;
+        private float propertyHeight;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
             propertyOffset = 0;
+            propertyHeight = 0;
 
             container = property.serializedObject.targetObject as SceneVariablesSO;
             
@@ -55,6 +60,7 @@ namespace Dhs5.Utility.SceneCreation
                 }
 
                 propertyOffset += EditorGUIUtility.singleLineHeight * 1.5f;
+                propertyHeight += EditorGUIUtility.singleLineHeight * 1.5f;
                 
                 // ID
                 Rect idLabelRect = new Rect(position.x, position.y + propertyOffset, 15, EditorGUIUtility.singleLineHeight);
@@ -67,13 +73,15 @@ namespace Dhs5.Utility.SceneCreation
                     EditorGUIUtility.singleLineHeight);
                 EditorGUI.PropertyField(typeRect, typeProperty, new GUIContent(""));
                 propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
+                propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
 
                 // Value
                 Rect valueLabelRect = new Rect(position.x, position.y + propertyOffset, 75, EditorGUIUtility.singleLineHeight);
                 EditorGUI.LabelField(valueLabelRect, "Initial Value");
                 Rect valueRect = new Rect(position.x + 75, position.y + propertyOffset, position.width * 0.75f - 75, EditorGUIUtility.singleLineHeight);
 
-                switch ((SceneVarType)typeProperty.enumValueIndex)
+                SceneVarType type = (SceneVarType)typeProperty.enumValueIndex;
+                switch (type)
                 {
                     case SceneVarType.BOOL:
                         EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("boolValue"), new GUIContent(""));
@@ -96,14 +104,61 @@ namespace Dhs5.Utility.SceneCreation
                 Rect staticRect = new Rect(position.x + position.width * 0.76f, position.y + propertyOffset, position.width * 0.24f,
                     EditorGUIUtility.singleLineHeight);
                 staticProperty.boolValue = EditorGUI.ToggleLeft(staticRect, "Static", staticProperty.boolValue);
+                propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
+                propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
+
+                if (type == SceneVarType.INT || type == SceneVarType.FLOAT)
+                {
+                    hasMinProperty = property.FindPropertyRelative("hasMin");
+                    hasMaxProperty = property.FindPropertyRelative("hasMax");
+
+                    Rect hasMinRect = new Rect(position.x, position.y + propertyOffset, position.width * 0.12f, EditorGUIUtility.singleLineHeight);
+                    Rect hasMaxRect = new Rect(position.x + position.width * 0.5f, position.y + propertyOffset, position.width * 0.12f, EditorGUIUtility.singleLineHeight);
+                    hasMinProperty.boolValue = EditorGUI.ToggleLeft(hasMinRect, new GUIContent("Min"), hasMinProperty.boolValue);
+                    hasMaxProperty.boolValue = EditorGUI.ToggleLeft(hasMaxRect, new GUIContent("Max"), hasMaxProperty.boolValue);
+
+                    if (hasMinProperty.boolValue)
+                    {
+                        Rect minRect = new Rect(position.x + position.width * 0.13f, position.y + propertyOffset, position.width * 0.36f, EditorGUIUtility.singleLineHeight);
+
+                        if (type == SceneVarType.INT)
+                        {
+                            EditorGUI.PropertyField(minRect, property.FindPropertyRelative("minInt"), new GUIContent(""));
+                        }
+                        else if (type == SceneVarType.FLOAT)
+                        {
+                            EditorGUI.PropertyField(minRect, property.FindPropertyRelative("minFloat"), new GUIContent(""));
+                        }
+                    }
+                    if (hasMaxProperty.boolValue)
+                    {
+                        Rect maxRect = new Rect(position.x + position.width * 0.63f, position.y + propertyOffset, position.width * 0.36f, EditorGUIUtility.singleLineHeight);
+
+                        if (type == SceneVarType.INT)
+                        {
+                            EditorGUI.PropertyField(maxRect, property.FindPropertyRelative("maxInt"), new GUIContent(""));
+                        }
+                        else if (type == SceneVarType.FLOAT)
+                        {
+                            EditorGUI.PropertyField(maxRect, property.FindPropertyRelative("maxFloat"), new GUIContent(""));
+                        }
+                    }
+
+                    propertyOffset += EditorGUIUtility.singleLineHeight;
+                    propertyHeight += EditorGUIUtility.singleLineHeight;
+                }
+
+                propertyHeight += EditorGUIUtility.singleLineHeight * 0.2f;
             }
+
+            property.FindPropertyRelative("propertyHeight").floatValue = propertyHeight;
 
             EditorGUI.EndProperty();
         }
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return property.isExpanded ? EditorGUIUtility.singleLineHeight * 4f : EditorGUIUtility.singleLineHeight;
+            return property.isExpanded ? property.FindPropertyRelative("propertyHeight").floatValue : EditorGUIUtility.singleLineHeight;
         }
     }
 }

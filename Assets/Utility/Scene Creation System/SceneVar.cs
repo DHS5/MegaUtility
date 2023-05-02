@@ -49,6 +49,15 @@ namespace Dhs5.Utility.SceneCreation
         public float floatValue;
         public string stringValue;
 
+        public bool hasMin;
+        public bool hasMax;
+        public int minInt;
+        public int maxInt;
+        public float minFloat;
+        public float maxFloat;
+
+        [SerializeField] private float propertyHeight;
+
         public object Value
         {
             get

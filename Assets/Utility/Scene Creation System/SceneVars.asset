@@ -20,6 +20,13 @@ MonoBehaviour:
     intValue: 0
     floatValue: 0
     stringValue: 
+    hasMin: 0
+    hasMax: 0
+    minInt: 0
+    maxInt: 0
+    minFloat: 0
+    maxFloat: 0
+    propertyHeight: 0
     isStatic: 0
   - uniqueID: 9424
     ID: B
@@ -28,6 +35,13 @@ MonoBehaviour:
     intValue: 5
     floatValue: 0
     stringValue: 
+    hasMin: 0
+    hasMax: 0
+    minInt: 0
+    maxInt: 0
+    minFloat: 0
+    maxFloat: 0
+    propertyHeight: 0
     isStatic: 1
   - uniqueID: 5895
     ID: C
@@ -36,6 +50,13 @@ MonoBehaviour:
     intValue: 0
     floatValue: 0
     stringValue: Elle existe
+    hasMin: 0
+    hasMax: 0
+    minInt: 0
+    maxInt: 0
+    minFloat: 0
+    maxFloat: 0
+    propertyHeight: 0
     isStatic: 0
   - uniqueID: 9478
     ID: TestInt1
@@ -44,6 +65,13 @@ MonoBehaviour:
     intValue: 0
     floatValue: 0
     stringValue: 
+    hasMin: 0
+    hasMax: 0
+    minInt: 0
+    maxInt: 0
+    minFloat: 0
+    maxFloat: 0
+    propertyHeight: 0
     isStatic: 0
   - uniqueID: 720
     ID: TestFloat1
@@ -52,6 +80,13 @@ MonoBehaviour:
     intValue: 0
     floatValue: 0
     stringValue: 
+    hasMin: 0
+    hasMax: 0
+    minInt: 0
+    maxInt: 0
+    minFloat: 0
+    maxFloat: 0
+    propertyHeight: 0
     isStatic: 0
   - uniqueID: 2612
     ID: TestStatic
@@ -60,6 +95,13 @@ MonoBehaviour:
     intValue: 0
     floatValue: 0
     stringValue: 
+    hasMin: 0
+    hasMax: 0
+    minInt: 0
+    maxInt: 0
+    minFloat: 0
+    maxFloat: 0
+    propertyHeight: 0
     isStatic: 1
   - uniqueID: 3693
     ID: TestEvent
@@ -68,4 +110,11 @@ MonoBehaviour:
     intValue: 0
     floatValue: 0
     stringValue: 
+    hasMin: 0
+    hasMax: 0
+    minInt: 0
+    maxInt: 0
+    minFloat: 0
+    maxFloat: 0
+    propertyHeight: 0
     isStatic: 0
