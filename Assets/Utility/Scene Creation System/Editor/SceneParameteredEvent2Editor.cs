@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting;
 using UnityEngine.Events;
 using UnityEditor;
 using System.Reflection;
@@ -180,12 +181,21 @@ namespace Dhs5.Utility.SceneCreation
                 {
                     if (method.IsPublic && !method.IsAbstract && !method.IsGenericMethod && !method.IsConstructor && !method.IsAssembly
                         && !method.IsFamily && !method.ContainsGenericParameters && !method.IsSpecialName && method.ReturnType == typeof(void)
-                        && ValidParameters(method.GetParameters()))
+                        && ValidParameters(method.GetParameters()) && method.GetCustomAttribute(typeof(PreserveAttribute)) != null)
                     {
                         methodNames.Add(MethodName(method));
                         methodInfos.Add(method);
                     }
                 }
+                if (methodInfos.Count == 0)
+                {
+                    propertyOffset += EditorGUIUtility.singleLineHeight * 0.5f;
+                    propertyHeight += EditorGUIUtility.singleLineHeight * 0.5f;
+                    property.FindPropertyRelative("propertyHeight").floatValue = propertyHeight;
+                    EditorGUI.EndProperty();
+                    return;
+                }
+
                 methodIndex = methodInfos.FindIndex(m => m.MetadataToken == tokenProperty.intValue);
                 if (methodIndex == -1) methodIndex = 0;
                 //_______________________________________

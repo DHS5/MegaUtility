@@ -239,6 +239,13 @@ namespace Dhs5.Utility.SceneCreation
                             SceneVariables[varUniqueID].intValue = param;
                             break;
                     }
+                    if (var.hasMin || var.hasMax)
+                    {
+                        SceneVariables[varUniqueID].intValue = (int)Mathf.Clamp(SceneVariables[varUniqueID].intValue,
+                            var.hasMin ? var.minInt : -Mathf.Infinity,
+                            var.hasMax ? var.maxInt : Mathf.Infinity);
+                    }
+
                     ChangedVar(varUniqueID);
                     return;
                 }
@@ -279,6 +286,13 @@ namespace Dhs5.Utility.SceneCreation
                             SceneVariables[varUniqueID].floatValue = param;
                             break;
                     }
+                    if (var.hasMin || var.hasMax)
+                    {
+                        SceneVariables[varUniqueID].floatValue = (int)Mathf.Clamp(SceneVariables[varUniqueID].floatValue,
+                            var.hasMin ? var.minFloat : -Mathf.Infinity,
+                            var.hasMax ? var.maxFloat : Mathf.Infinity);
+                    }
+
                     ChangedVar(varUniqueID);
                     return;
                 }
