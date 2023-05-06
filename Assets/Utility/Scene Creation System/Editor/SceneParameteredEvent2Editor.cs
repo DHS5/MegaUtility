@@ -210,11 +210,13 @@ namespace Dhs5.Utility.SceneCreation
                 BaseEventAction.Argument[] parameterValues = new BaseEventAction.Argument[parameters.Length];
 
                 // ---------------
+                SerializedProperty varTweenProperty;
                 for (int i = 0; i < parameters.Length; i++)
                 {
                     Rect valueRect = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
 
-                    EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("varTween" + i), new GUIContent(parameters[i].Name));
+                    varTweenProperty = property.FindPropertyRelative("varTween" + i);
+                    EditorGUI.PropertyField(valueRect, varTweenProperty, new GUIContent(parameters[i].Name));
                     switch (parameters[i].ParameterType.Name)
                     {
                         case nameof(System.Single):
@@ -234,8 +236,8 @@ namespace Dhs5.Utility.SceneCreation
                             parameterValues[i] = new("");
                             break;
                     }
-                    propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
-                    propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
+                    propertyOffset += EditorGUI.GetPropertyHeight(varTweenProperty);
+                    propertyHeight += EditorGUI.GetPropertyHeight(varTweenProperty);
                 }
 
                 FieldInfo objField = property.serializedObject.targetObject.GetType().GetField(property.propertyPath);
@@ -246,46 +248,6 @@ namespace Dhs5.Utility.SceneCreation
                     BaseEventAction baseEventAction = new(methodInfos[methodIndex].Name, target, parameterValues);
                     actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), baseEventAction);
                 }
-                //    switch (parameters.Length)
-                //    {
-                //        case 0:
-                //            //Action action = (Action)methodInfos[methodIndex].CreateDelegate(typeof(Action), target);
-                //            UnityAction action = (UnityAction)methodInfos[methodIndex].CreateDelegate(typeof(UnityAction), target);
-                //            EventAction eventAction = new(action);
-                //            actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), eventAction);
-                //            break;
-                //        case 1:
-                //            dynamic arg0 = parameterValues[0];
-                //            actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0, methodInfos[methodIndex], target));//Property.serializedObject.targetObject));
-                //            break;
-                //        case 2:
-                //            dynamic arg0_1 = parameterValues[0];
-                //            dynamic arg1_1 = parameterValues[1];
-                //            actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_1, arg1_1, methodInfos[methodIndex], target));//Property.serializedObject.targetObject));
-                //            break;
-                //        case 3:
-                //            dynamic arg0_2 = parameterValues[0];
-                //            dynamic arg1_2 = parameterValues[1];
-                //            dynamic arg2_2 = parameterValues[2];
-                //            actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_2, arg1_2, arg2_2, methodInfos[methodIndex], target));// Property.serializedObject.targetObject));
-                //            break;
-                //        case 4:
-                //            dynamic arg0_3 = parameterValues[0];
-                //            dynamic arg1_3 = parameterValues[1];
-                //            dynamic arg2_3 = parameterValues[2];
-                //            dynamic arg3_3 = parameterValues[3];
-                //            actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_3, arg1_3, arg2_3, arg3_3, methodInfos[methodIndex], target));// Property.serializedObject.targetObject));
-                //            break;
-                //        case 5:
-                //            dynamic arg0_4 = parameterValues[0];
-                //            dynamic arg1_4 = parameterValues[1];
-                //            dynamic arg2_4 = parameterValues[2];
-                //            dynamic arg3_4 = parameterValues[3];
-                //            dynamic arg4_4 = parameterValues[4];
-                //            actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), CreateAction(arg0_4, arg1_4, arg2_4, arg3_4, arg4_4, methodInfos[methodIndex], target));// Property.serializedObject.targetObject));
-                //            break;
-                //    }
-                //}
                 propertyOffset += EditorGUIUtility.singleLineHeight * 0.5f;
                 propertyHeight += EditorGUIUtility.singleLineHeight * 0.5f;
                 EditorGUI.indentLevel--;
@@ -295,32 +257,6 @@ namespace Dhs5.Utility.SceneCreation
 
             property.FindPropertyRelative("propertyHeight").floatValue = propertyHeight;
         }
-
-        //private EventAction<T1> CreateAction<T1>(T1 arg0, MethodInfo methodInfo, object target)
-        //{
-        //    Action<T1> action = (Action<T1>)methodInfo.CreateDelegate(typeof(Action<T1>), target);
-        //    return new EventAction<T1>(action, arg0);
-        //}
-        //private EventAction<T1, T2> CreateAction<T1, T2>(T1 arg0, T2 arg1, MethodInfo methodInfo, object target)
-        //{
-        //    Action<T1, T2> action = (Action<T1, T2>)methodInfo.CreateDelegate(typeof(Action<T1, T2>), target);
-        //    return new EventAction<T1, T2>(action, arg0, arg1);
-        //}
-        //private EventAction<T1, T2, T3> CreateAction<T1, T2, T3>(T1 arg0, T2 arg1, T3 arg2, MethodInfo methodInfo, object target)
-        //{
-        //    Action<T1, T2, T3> action = (Action<T1, T2, T3>)methodInfo.CreateDelegate(typeof(Action<T1, T2, T3>), target);
-        //    return new EventAction<T1, T2, T3>(action, arg0, arg1, arg2);
-        //}
-        //private EventAction<T1, T2, T3, T4> CreateAction<T1, T2, T3, T4>(T1 arg0, T2 arg1, T3 arg2, T4 arg3, MethodInfo methodInfo, object target)
-        //{
-        //    Action<T1, T2, T3, T4> action = (Action<T1, T2, T3, T4>)methodInfo.CreateDelegate(typeof(Action<T1, T2, T3, T4>), target);
-        //    return new EventAction<T1, T2, T3, T4>(action, arg0, arg1, arg2, arg3);
-        //}
-        //private EventAction<T1, T2, T3, T4, T5> CreateAction<T1, T2, T3, T4, T5>(T1 arg0, T2 arg1, T3 arg2, T4 arg3, T5 arg4, MethodInfo methodInfo, object target)
-        //{
-        //    Action<T1, T2, T3, T4, T5> action = (Action<T1, T2, T3, T4, T5>)methodInfo.CreateDelegate(typeof(Action<T1, T2, T3, T4, T5>), target);
-        //    return new EventAction<T1, T2, T3, T4, T5>(action, arg0, arg1, arg2, arg3, arg4);
-        //}
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {

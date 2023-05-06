@@ -8,6 +8,13 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public class SceneVarTween
     {
+        [Serializable]
+        public enum BoolType
+        {
+            VAR = 0,
+            CONDITION = 1,
+        }
+
         [SerializeField] private SceneVarType type;
 
         [SerializeField] private SceneVariablesSO sceneVariablesSO;
@@ -23,6 +30,11 @@ namespace Dhs5.Utility.SceneCreation
         [SerializeField] private float floatValue;
         [SerializeField] private string stringValue;
 
+        [SerializeField] private BoolType boolType;
+        [SerializeField] private List<SceneCondition> sceneConditions;
+
+        [SerializeField] private float propertyHeight;
+
         private SceneVar SceneVar
         {
             get => SceneState.GetSceneVar(sceneVarUniqueID);
@@ -34,6 +46,7 @@ namespace Dhs5.Utility.SceneCreation
             sceneVariablesSO = _sceneVariablesSO;
             type = _type;
             if (type != SceneVarType.EVENT) canBeStatic = _canBeStatic;
+            if (type == SceneVarType.BOOL) sceneConditions.SetUp(sceneVariablesSO);
         }
 
         private bool IsStatic => canBeStatic && isStatic;
@@ -56,11 +69,17 @@ namespace Dhs5.Utility.SceneCreation
             get
             {
                 if (IsStatic) return boolValue;
+                if (boolType == BoolType.CONDITION) return sceneConditions.VerifyConditions();
                 if (SceneVar.type != SceneVarType.BOOL) IncorrectType(SceneVarType.BOOL);
                 return SceneVar.boolValue;
             }
             set
             {
+                if (boolType == BoolType.CONDITION)
+                {
+                    CantSetCondition();
+                    return;
+                }
                 if (SceneVar.type != SceneVarType.BOOL)
                 {
                     IncorrectType(SceneVarType.BOOL);
@@ -159,6 +178,10 @@ namespace Dhs5.Utility.SceneCreation
         private void IncorrectType(SceneVarType type)
         {
             ZDebug.LogE("This SceneVarTween is a ", SceneVar.type, " and not a ", type);
+        }
+        private void CantSetCondition()
+        {
+            ZDebug.LogE("This SceneVarTween is a SCENE CONDITION and can't be set");
         }
     }
 }

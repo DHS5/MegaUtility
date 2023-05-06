@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.3069224, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -207,8 +207,21 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls: []
     debug: 0
-    propertyHeight: 0
-  sceneEvents: []
+    propertyHeight: 145.40001
+  sceneEvents:
+  - eventID: 
+    sceneConditions: []
+    sceneActions: []
+    sceneParameteredEvents:
+    - sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+      events:
+        m_PersistentCalls:
+          m_Calls: []
+      parameterType: 1
+      paramUniqueID: 4629
+      conditionsParam: []
+      propertyHeight: 147.2
+    debug: 0
 --- !u!4 &365116975
 Transform:
   m_ObjectHideFlags: 0
@@ -467,15 +480,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
   maxEnemy:
-    type: 1
+    type: 0
     sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-    sceneVarUniqueID: 9424
+    sceneVarUniqueID: 4629
     canBeStatic: 1
     isStatic: 0
     boolValue: 0
     intValue: 3
     floatValue: 0
     stringValue: 
+    boolType: 1
+    sceneConditions: []
+    propertyHeight: 45
   event1:
     m_PersistentCalls:
       m_Calls: []
@@ -550,6 +566,9 @@ MonoBehaviour:
       intValue: 0
       floatValue: 0
       stringValue: Yes sir
+      boolType: 0
+      sceneConditions: []
+      propertyHeight: 27
     varTween1:
       type: 0
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
@@ -560,6 +579,17 @@ MonoBehaviour:
       intValue: 0
       floatValue: 0
       stringValue: 
+      boolType: 1
+      sceneConditions:
+      - sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+        var1UniqueID: 9478
+        var2UniqueID: 9424
+        boolComp: 0
+        intComp: 0
+        floatComp: 0
+        stringComp: 0
+        logicOperator: 0
+      propertyHeight: 45
     varTween2:
       type: 3
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
@@ -570,6 +600,9 @@ MonoBehaviour:
       intValue: 0
       floatValue: 0
       stringValue: aaaaa
+      boolType: 0
+      sceneConditions: []
+      propertyHeight: 27
     varTween3:
       type: 1
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
@@ -580,6 +613,9 @@ MonoBehaviour:
       intValue: 56
       floatValue: 0
       stringValue: 
+      boolType: 0
+      sceneConditions: []
+      propertyHeight: 27
     varTween4:
       type: 2
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
@@ -590,6 +626,9 @@ MonoBehaviour:
       intValue: 0
       floatValue: 5.6
       stringValue: 
+      boolType: 0
+      sceneConditions: []
+      propertyHeight: 27
     varType0: 3
     varType1: 0
     varType2: 3
@@ -1266,6 +1305,9 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         stringValue: 
+        boolType: 0
+        sceneConditions: []
+        propertyHeight: 0
       iterationNumber:
         type: 1
         sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
@@ -1276,6 +1318,9 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         stringValue: 
+        boolType: 0
+        sceneConditions: []
+        propertyHeight: 0
       sceneConditions: []
     timelineObjects:
     - startCondition:
@@ -1290,6 +1335,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         sceneConditions: []
       loop: 1
       endLoopCondition:
@@ -1304,6 +1352,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         iterationNumber:
           type: 1
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
@@ -1314,6 +1365,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
       sceneTimelineEvents:
@@ -1349,6 +1403,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         sceneConditions: []
       loop: 0
       endLoopCondition:
@@ -1363,6 +1420,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         iterationNumber:
           type: 1
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
@@ -1373,6 +1433,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
       sceneTimelineEvents:
@@ -1448,6 +1511,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         sceneConditions: []
       loop: 0
       endLoopCondition:
@@ -1462,6 +1528,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         iterationNumber:
           type: 1
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
@@ -1472,6 +1541,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
       sceneTimelineEvents:
@@ -1509,6 +1581,9 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         stringValue: 
+        boolType: 0
+        sceneConditions: []
+        propertyHeight: 0
       iterationNumber:
         type: 1
         sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
@@ -1519,6 +1594,9 @@ MonoBehaviour:
         intValue: 0
         floatValue: 0
         stringValue: 
+        boolType: 0
+        sceneConditions: []
+        propertyHeight: 0
       sceneConditions: []
     timelineObjects:
     - startCondition:
@@ -1533,6 +1611,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         sceneConditions: []
       loop: 0
       endLoopCondition:
@@ -1547,6 +1628,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         iterationNumber:
           type: 1
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
@@ -1557,6 +1641,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
       sceneTimelineEvents:
@@ -1592,6 +1679,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         sceneConditions: []
       loop: 0
       endLoopCondition:
@@ -1606,6 +1696,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         iterationNumber:
           type: 1
           sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
@@ -1616,6 +1709,9 @@ MonoBehaviour:
           intValue: 0
           floatValue: 0
           stringValue: 
+          boolType: 0
+          sceneConditions: []
+          propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
       sceneTimelineEvents:

@@ -21,7 +21,7 @@ namespace Dhs5.Test
 
         public AdvancedUnityEvent advancedEvent;
 
-        public List<AdvancedUnityEvent> advancedEvents;
+        public List<SceneParameteredEvent2> advancedEvents;
 
         public SceneParameteredEvent2 sceneParamEvent;
 
@@ -29,9 +29,10 @@ namespace Dhs5.Test
 
         private void OnValidate()
         {
-            maxEnemy.SetUp(sceneVariablesSO, SceneVarType.INT, true);
+            maxEnemy.SetUp(sceneVariablesSO, SceneVarType.BOOL, true);
             //sceneEvent.SetUp(sceneVariablesSO);
             sceneParamEvent.SetUp(sceneVariablesSO);
+            advancedEvents.SetUp(sceneVariablesSO);
         }
 
         public void Trigger()

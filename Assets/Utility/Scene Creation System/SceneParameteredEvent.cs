@@ -45,12 +45,7 @@ namespace Dhs5.Utility.SceneCreation
 
         private bool VerifyConditions()
         {
-            if (conditionsParam != null)
-            {
-                foreach (var condition in conditionsParam)
-                    if (!condition.VerifyCondition()) return false;
-            }
-            return true;
+            return conditionsParam.VerifyConditions();
         }
     }
 }
