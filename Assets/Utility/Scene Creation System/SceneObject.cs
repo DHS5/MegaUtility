@@ -45,6 +45,11 @@ namespace Dhs5.Utility.SceneCreation
         #endregion
 
         #region Update Listeners, Actions & Tweens
+        private void Awake()
+        {
+            sceneEvents.Init();
+        }
+
         private void OnValidate()
         {
             UpdateSceneVariables();

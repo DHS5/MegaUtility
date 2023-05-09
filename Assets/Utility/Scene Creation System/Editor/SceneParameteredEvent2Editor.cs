@@ -1,258 +1,100 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Scripting;
-using UnityEngine.Events;
 using UnityEditor;
-using System.Reflection;
-using System;
-using System.Text;
 
 namespace Dhs5.Utility.SceneCreation
 {
     [CustomPropertyDrawer(typeof(SceneParameteredEvent2))]
-    public class AdvancedUnityEventEditor : PropertyDrawer
+    public class SceneParameteredEvent2Editor : PropertyDrawer
     {
-        SerializedProperty objProperty;
-        SerializedProperty componentProperty;
-        SerializedProperty tokenProperty;
-        SerializedProperty actionProperty;
+        private float propertyHeight;
+        private float propertyOffset;
 
-        int methodIndex;
-        float propertyOffset;
-        float propertyHeight;
+        SerializedProperty sceneVariablesSO;
+        SerializedObject sceneVariablesObj;
+        SceneVariablesSO sceneVarContainer;
 
-        private bool ValidParameters(ParameterInfo[] parameters)
-        {
-            foreach (var param in parameters)
-            {
-                if (param.ParameterType != typeof(int)
-                    && param.ParameterType != typeof(float)
-                    && param.ParameterType != typeof(bool)
-                    && param.ParameterType != typeof(string))
-                    return false;
-            }
-            return true;
-        }
+        private SerializedProperty sceneVarUniqueIDP;
+        private SerializedProperty eventProperty;
+        private SerializedProperty paramTypeProperty;
+        private SerializedProperty conditionsProperty;
 
-        private string MethodName(MethodInfo method)
-        {
-            StringBuilder sb = new();
-            sb.Append(method.Name);
-
-            ParameterInfo[] parameters = method.GetParameters();
-            if (parameters.Length > 0)
-            {
-                sb.Append(" (");
-                for (int i = 0; i < parameters.Length - 1; i++)
-                {
-                    sb.Append(ParameterName(parameters[i]));
-                    sb.Append(", ");
-                }
-                sb.Append(ParameterName(parameters[parameters.Length - 1]));
-                sb.Append(")");
-            }
-            return sb.ToString();
-        }
-
-        private string ParameterName(ParameterInfo param)
-        {
-            StringBuilder sb = new();
-            switch (param.ParameterType.Name)
-            {
-                case "String":
-                    sb.Append("string");
-                    break;
-                case "Int32":
-                    sb.Append("int");
-                    break;
-                case "Single":
-                    sb.Append("float");
-                    break;
-                case "Boolean":
-                    sb.Append("bool");
-                    break;
-            }
-            sb.Append(" ");
-            sb.Append(param.Name);
-
-            return sb.ToString();
-        }
-
-        private string GetComponentName(Component component)
-        {
-            string[] strings = component.GetType().Name.Split('.');
-            return strings[strings.Length - 1];
-        }
+        int sceneVarIndex = 0;
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
-            propertyOffset = 0;
             propertyHeight = 0;
+            propertyOffset = 0;
+            sceneVarIndex = 0;
 
-            componentProperty = property.FindPropertyRelative("component");
-            actionProperty = property.FindPropertyRelative("action");
-            tokenProperty = property.FindPropertyRelative("metadataToken");
-            objProperty = property.FindPropertyRelative("obj");
+            eventProperty = property.FindPropertyRelative("events");
+            paramTypeProperty = property.FindPropertyRelative("parameterType");
+            conditionsProperty = property.FindPropertyRelative("conditionsParam");
 
             EditorGUI.BeginProperty(position, label, property);
 
-            // FOLDOUT
             Rect foldoutRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
-            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, label, EditorStyles.foldoutHeader);
-            propertyOffset += EditorGUIUtility.singleLineHeight * 1.5f;
-            propertyHeight += EditorGUIUtility.singleLineHeight * 1.5f;
-
+            property.isExpanded = EditorGUI.Foldout(foldoutRect, property.isExpanded, "");
             if (property.isExpanded)
             {
-                Rect inspectorBackgroundRect = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight * 1.25f, position.width + 5, property.FindPropertyRelative("propertyHeight").floatValue - EditorGUIUtility.singleLineHeight * 1.5f);
-                EditorGUI.DrawRect(inspectorBackgroundRect, new Color(0.3f, 0.3f, 0.3f));
+                // UnityEvent
+                EditorGUI.PropertyField(position, eventProperty);
+                propertyHeight += EditorGUI.GetPropertyHeight(eventProperty) + EditorGUIUtility.singleLineHeight * 0.5f;
+                propertyOffset += EditorGUI.GetPropertyHeight(eventProperty) + EditorGUIUtility.singleLineHeight * 0.5f;
 
-                EditorGUI.indentLevel++;
-                Rect objRect = new Rect(position.x, position.y + propertyOffset, position.width * 0.49f, EditorGUIUtility.singleLineHeight);
-                Rect compRect = new Rect(position.x + position.width * 0.51f, position.y + propertyOffset, position.width * 0.49f, EditorGUIUtility.singleLineHeight);
-                EditorGUI.PropertyField(objRect, objProperty, new GUIContent(""));
+                // Parameter type
+                Rect paramTypePosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
+                EditorGUI.PropertyField(paramTypePosition, paramTypeProperty, new GUIContent("Parameter"));
                 propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
                 propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
 
-                // Object
-                UnityEngine.Object obj = objProperty.objectReferenceValue;
-                UnityEngine.Object target = null;
-                Component component = null;
-                MethodInfo[] methods = null;
+                if ((SceneParameteredEvent2.ParameterType)paramTypeProperty.enumValueIndex == SceneParameteredEvent2.ParameterType.SCENE_PARAM)
+                {
+                    Rect popupPosition = new Rect(position.x, position.y + propertyOffset, position.width * 0.75f, EditorGUIUtility.singleLineHeight);
 
-                if (obj == null)
-                {
-                    EditorGUI.EndProperty();
-                    propertyHeight += EditorGUIUtility.singleLineHeight * 0.25f;
-                    property.FindPropertyRelative("propertyHeight").floatValue = propertyHeight;
-                    return;
-                }
-
-                if (obj is Component cmp)
-                {
-                    obj = cmp.gameObject;
-                }
-                // GameObject components
-                if (obj is GameObject go)
-                {
-                    int compIndex = 0;
-                    Component[] goComponents = go.GetComponents(typeof(Component));
-                    List<string> compNames = new();
-                    int j = 0;
-                    foreach (Component comp in goComponents)
+                    sceneVariablesSO = property.FindPropertyRelative("sceneVariablesSO");
+                    if (sceneVariablesSO.objectReferenceValue == null)
                     {
-                        if (comp == componentProperty.objectReferenceValue) compIndex = j;//(UnityEngine.Object)
-                        j++;
-
-                        string compName = GetComponentName(comp);
-                        int i = 2;
-                        string compNameTemp = compName;
-                        while (compNames.Contains(compNameTemp))
-                        {
-                            compNameTemp = compName + i;
-                            i++;
-                        }
-                        compNames.Add(compNameTemp);
+                        EditorGUI.LabelField(popupPosition, "SceneVariablesSO is not assigned !");
+                        EditorGUI.EndProperty();
+                        return;
+                    }
+                    // Get the SceneVariablesSO
+                    sceneVariablesObj = new SerializedObject(sceneVariablesSO.objectReferenceValue);
+                    sceneVarContainer = sceneVariablesObj.targetObject as SceneVariablesSO;
+                    if (sceneVarContainer == null)
+                    {
+                        EditorGUI.LabelField(popupPosition, "SceneVariablesSO is null !");
+                        EditorGUI.EndProperty();
+                        return;
                     }
 
-                    compIndex = EditorGUI.Popup(compRect, compIndex, compNames.ToArray());
-                    component = goComponents[compIndex];
-                    target = component;
-                    componentProperty.objectReferenceValue = component;
-                    methods = component.GetType().GetMethods();
+                    List<SceneVar> sceneVarList = sceneVarContainer.NonEvents;
+                    sceneVarUniqueIDP = property.FindPropertyRelative("paramUniqueID");
+                    int sceneVarIndexSave = sceneVarContainer.GetIndexByUniqueID(sceneVarList, sceneVarUniqueIDP.intValue);
+                    if (sceneVarIndexSave == -1) sceneVarIndexSave = 0;
+
+                    // SceneVar choice popup
+                    sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndexSave, sceneVarContainer.VarStrings(sceneVarList).ToArray());
+                    if (sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex) == 0) sceneVarIndex = sceneVarIndexSave;
+                    sceneVarUniqueIDP.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex);
+                    propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
+
+                    // Type label
+                    Rect typeLabelPosition = new Rect(position.x + position.width * 0.77f, position.y + propertyOffset, position.width * 0.23f, EditorGUIUtility.singleLineHeight);
+                    EditorGUI.LabelField(typeLabelPosition, sceneVarList[sceneVarIndex].type.ToString());
                 }
-                else if (obj is ScriptableObject so)
+
+                else if ((SceneParameteredEvent2.ParameterType)paramTypeProperty.enumValueIndex == SceneParameteredEvent2.ParameterType.CONDITION_PARAM)
                 {
-                    target = so;
-                    methods = so.GetType().GetMethods();
+                    Rect conditionsPosition = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
+                    EditorGUI.PropertyField(conditionsPosition, conditionsProperty);
+                    propertyHeight += EditorGUI.GetPropertyHeight(conditionsProperty) + EditorGUIUtility.singleLineHeight * 0.2f;
                 }
-                else
-                {
-                    property.FindPropertyRelative("propertyHeight").floatValue = propertyHeight;
-                    EditorGUI.EndProperty();
-                    return;
-                }
-
-                // Methods
-                List<MethodInfo> methodInfos = new();
-                List<string> methodNames = new();
-                foreach (MethodInfo method in methods)
-                {
-                    if (method.IsPublic && !method.IsAbstract && !method.IsGenericMethod && !method.IsConstructor && !method.IsAssembly
-                        && !method.IsFamily && !method.ContainsGenericParameters && !method.IsSpecialName && method.ReturnType == typeof(void)
-                        && ValidParameters(method.GetParameters()) && method.GetCustomAttribute(typeof(PreserveAttribute)) != null)
-                    {
-                        methodNames.Add(MethodName(method));
-                        methodInfos.Add(method);
-                    }
-                }
-                if (methodInfos.Count == 0)
-                {
-                    propertyOffset += EditorGUIUtility.singleLineHeight * 0.5f;
-                    propertyHeight += EditorGUIUtility.singleLineHeight * 0.5f;
-                    property.FindPropertyRelative("propertyHeight").floatValue = propertyHeight;
-                    EditorGUI.EndProperty();
-                    return;
-                }
-
-                methodIndex = methodInfos.FindIndex(m => m.MetadataToken == tokenProperty.intValue);
-                if (methodIndex == -1) methodIndex = 0;
-                //_______________________________________
-
-                Rect methodsRect = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
-                methodIndex = EditorGUI.Popup(methodsRect, methodIndex, methodNames.ToArray());
-                propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
-                propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
-
-                tokenProperty.intValue = methodInfos[methodIndex].MetadataToken;
-                ParameterInfo[] parameters = methodInfos[methodIndex].GetParameters();
-                BaseEventAction.Argument[] parameterValues = new BaseEventAction.Argument[parameters.Length];
-
-                // ---------------
-                SerializedProperty varTweenProperty;
-                for (int i = 0; i < parameters.Length; i++)
-                {
-                    Rect valueRect = new Rect(position.x, position.y + propertyOffset, position.width, EditorGUIUtility.singleLineHeight);
-
-                    varTweenProperty = property.FindPropertyRelative("varTween" + i);
-                    EditorGUI.PropertyField(valueRect, varTweenProperty, new GUIContent(parameters[i].Name));
-                    switch (parameters[i].ParameterType.Name)
-                    {
-                        case nameof(System.Single):
-                            property.FindPropertyRelative("varType" + i).enumValueIndex = (int)SceneVarType.FLOAT;
-                            parameterValues[i] = new(0f);
-                            break;
-                        case nameof(System.Boolean):
-                            property.FindPropertyRelative("varType" + i).enumValueIndex = (int)SceneVarType.BOOL;
-                            parameterValues[i] = new(false);
-                            break;
-                        case nameof(System.Int32):
-                            property.FindPropertyRelative("varType" + i).enumValueIndex = (int)SceneVarType.INT;
-                            parameterValues[i] = new(5);
-                            break;
-                        case nameof(System.String):
-                            property.FindPropertyRelative("varType" + i).enumValueIndex = (int)SceneVarType.STRING;
-                            parameterValues[i] = new("");
-                            break;
-                    }
-                    propertyOffset += EditorGUI.GetPropertyHeight(varTweenProperty);
-                    propertyHeight += EditorGUI.GetPropertyHeight(varTweenProperty);
-                }
-
-                FieldInfo objField = property.serializedObject.targetObject.GetType().GetField(property.propertyPath);
-                FieldInfo actionField = typeof(SceneParameteredEvent2).GetField("action");
-
-                if (actionField != null && objField != null && !EditorApplication.isPlaying)
-                {
-                    BaseEventAction baseEventAction = new(methodInfos[methodIndex].Name, target, parameterValues);
-                    actionField.SetValue(objField.GetValue(property.serializedObject.targetObject), baseEventAction);
-                }
-                propertyOffset += EditorGUIUtility.singleLineHeight * 0.5f;
-                propertyHeight += EditorGUIUtility.singleLineHeight * 0.5f;
-                EditorGUI.indentLevel--;
             }
 
+            // End
             EditorGUI.EndProperty();
 
             property.FindPropertyRelative("propertyHeight").floatValue = propertyHeight;
@@ -260,7 +102,7 @@ namespace Dhs5.Utility.SceneCreation
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return property.FindPropertyRelative("propertyHeight").floatValue;
+            return property.isExpanded ? property.FindPropertyRelative("propertyHeight").floatValue : EditorGUIUtility.singleLineHeight;
         }
     }
 }

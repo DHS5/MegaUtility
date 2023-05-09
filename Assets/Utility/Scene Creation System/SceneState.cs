@@ -575,6 +575,27 @@ namespace Dhs5.Utility.SceneCreation
         }
         #endregion
         
+        #region Init a list of SceneParameteredEvents (Extension Method)
+        public static void Init(this List<SceneParameteredEvent> sceneEvents)
+        {
+            if (sceneEvents == null || sceneEvents.Count < 1) return;
+            
+            foreach (var action in sceneEvents)
+            {
+                action.Init();
+            }
+        }
+        public static void Init(this List<SceneEvent> sceneEvents)
+        {
+            if (sceneEvents == null || sceneEvents.Count < 1) return;
+            
+            foreach (var action in sceneEvents)
+            {
+                action.Init();
+            }
+        }
+        #endregion
+        
         #region Trigger a list of SceneTimelineEvents (Extension Method)
         /// <summary>
         /// Trigger every SceneTimelineEvent in the list

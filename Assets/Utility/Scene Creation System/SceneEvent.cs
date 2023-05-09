@@ -18,6 +18,8 @@ namespace Dhs5.Utility.SceneCreation
 
         public List<SceneParameteredEvent> sceneParameteredEvents;
 
+        public UnityEvent unityEvent;
+
         public bool debug = false;
 
         public bool Trigger()
@@ -26,6 +28,7 @@ namespace Dhs5.Utility.SceneCreation
 
             sceneActions.Trigger();
             sceneParameteredEvents.Trigger();
+            unityEvent?.Invoke();
 
             if (debug)
                 DebugSceneEvent();
@@ -34,7 +37,10 @@ namespace Dhs5.Utility.SceneCreation
         }
 
         
-
+        public void Init()
+        {
+            sceneParameteredEvents.Init();
+        }
         public void SetUp(SceneVariablesSO _sceneVariablesSO)
         {
             sceneConditions.SetUp(_sceneVariablesSO);

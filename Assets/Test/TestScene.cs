@@ -23,7 +23,7 @@ namespace Dhs5.Test
 
         public List<SceneParameteredEvent2> advancedEvents;
 
-        public SceneParameteredEvent2 sceneParamEvent;
+        public SceneParameteredEvent sceneParamEvent;
 
         public int entier;
 
