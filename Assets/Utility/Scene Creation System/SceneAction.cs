@@ -10,8 +10,8 @@ namespace Dhs5.Utility.SceneCreation
     {
         public SceneVariablesSO sceneVariablesSO;
 
-        public int var1UniqueID;
-        public int var2UniqueID;
+        [SerializeField] private int var1UniqueID;
+        [SerializeField] private int var2UniqueID;
 
         public SceneVar SceneVar1 { get => SceneState.GetSceneVar(var1UniqueID); }
         public SceneVar SceneVar2 { get => SceneState.GetSceneVar(var2UniqueID); }
@@ -41,19 +41,19 @@ namespace Dhs5.Utility.SceneCreation
             switch (SceneVar1.type)
             {
                 case SceneVarType.BOOL:
-                    SceneState.ModifyBoolVar(SceneVar1.uniqueID, boolOP, SceneState.CastToBool(SceneVar2));
+                    SceneState.ModifyBoolVar(var1UniqueID, boolOP, SceneState.CastToBool(SceneVar2));
                     break;
                 case SceneVarType.INT:
-                    SceneState.ModifyIntVar(SceneVar1.uniqueID, intOP, SceneState.CastToInt(SceneVar2));
+                    SceneState.ModifyIntVar(var1UniqueID, intOP, SceneState.CastToInt(SceneVar2));
                     break;
                 case SceneVarType.FLOAT:
-                    SceneState.ModifyFloatVar(SceneVar1.uniqueID, floatOP, SceneState.CastToFloat(SceneVar2));
+                    SceneState.ModifyFloatVar(var1UniqueID, floatOP, SceneState.CastToFloat(SceneVar2));
                     break;
                 case SceneVarType.STRING:
-                    SceneState.ModifyStringVar(SceneVar1.uniqueID, stringOP, SceneState.CastToString(SceneVar2));
+                    SceneState.ModifyStringVar(var1UniqueID, stringOP, SceneState.CastToString(SceneVar2));
                     break;
                 case SceneVarType.EVENT:
-                    SceneState.TriggerEventVar(SceneVar1.uniqueID);
+                    SceneState.TriggerEventVar(var1UniqueID);
                     break;
 
                 default:

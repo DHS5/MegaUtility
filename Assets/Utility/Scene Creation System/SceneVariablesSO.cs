@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 namespace Dhs5.Utility.SceneCreation
 {
@@ -8,23 +9,28 @@ namespace Dhs5.Utility.SceneCreation
     public class SceneVariablesSO : ScriptableObject
     {
         public List<SceneVar> sceneVars;
+        private List<SceneVar> sceneVarLinks;
+        public List<ComplexSceneVar> complexSceneVars;
 
         private int listSize = 0;
+        private int complexListSize = 0;
+
+        public List<SceneVar> SceneVars => sceneVars.Concat(sceneVarLinks).ToList();
 
         public SceneVar this[int uniqueID]
         {
-            get => sceneVars.Find(v => v.uniqueID == uniqueID);
+            get => SceneVars.Find(v => v.uniqueID == uniqueID);
         }
 
         public int GetUniqueIDByIndex(int index)
         {
-            if (index < 0 || index >= sceneVars.Count) return 0;
-            return sceneVars[index].uniqueID;
+            if (index < 0 || index >= SceneVars.Count) return 0;
+            return SceneVars[index].uniqueID;
         }
         public int GetIndexByUniqueID(int uniqueID)
         {
             if (uniqueID == 0) return -1;
-            return sceneVars.FindIndex(v => v.uniqueID == uniqueID);
+            return SceneVars.FindIndex(v => v.uniqueID == uniqueID);
         }
         
         private List<int> UniqueIDs
@@ -32,7 +38,7 @@ namespace Dhs5.Utility.SceneCreation
             get
             {
                 List<int> list = new();
-                foreach (var var in sceneVars)
+                foreach (var var in SceneVars)
                 {
                     list.Add(var.uniqueID);
                 }
@@ -44,7 +50,7 @@ namespace Dhs5.Utility.SceneCreation
             get
             {
                 List<string> list = new();
-                foreach (var var in sceneVars)
+                foreach (var var in SceneVars)
                 {
                     if (var.uniqueID != 0)
                         list.Add(var.ID);
@@ -59,7 +65,7 @@ namespace Dhs5.Utility.SceneCreation
             get
             {
                 List<string> list = new();
-                foreach (var var in sceneVars)
+                foreach (var var in SceneVars)
                 {
                     if (var.uniqueID != 0)
                         list.Add(var.PopupString());
@@ -73,22 +79,53 @@ namespace Dhs5.Utility.SceneCreation
         public int GenerateUniqueID()
         {
             int uniqueID;
+            List<int> uniqueIDs = UniqueIDs;
             do
             {
                 uniqueID = Random.Range(1, 10000);
-            } while (UniqueIDs.Contains(uniqueID));
+            } while (uniqueIDs.Contains(uniqueID));
             
             return uniqueID;
         }
 
         private void OnValidate()
         {
+            // Simple scene vars
             if (listSize == sceneVars.Count - 1 && listSize != 0)
             {
                 sceneVars[listSize].Reset = 911;
             }
 
             listSize = sceneVars.Count;
+
+            // Complex Scene vars
+            if (complexListSize == complexSceneVars.Count - 1 && complexListSize != 0)
+            {
+                complexSceneVars[complexListSize].Reset = 911;
+            }
+
+            complexListSize = complexSceneVars.Count;
+
+            ActuSceneVarLinks();
+        }
+
+        private void ActuSceneVarLinks()
+        {
+            foreach (var var in complexSceneVars)
+            {
+                if (var.Link == null)
+                {
+                    sceneVarLinks.Add(SceneVar.CreateLink(var));
+                }
+            }
+            List<SceneVar> links = new(sceneVarLinks);
+            foreach (var var in links)
+            {
+                if (var.Link == null)
+                {
+                    sceneVarLinks.Remove(var);
+                }
+            }
         }
 
         #region Lists
@@ -123,41 +160,45 @@ namespace Dhs5.Utility.SceneCreation
                 case SceneVarType.FLOAT: return precisely ? Floats : Numbers;
                 case SceneVarType.STRING: return Strings;
                 case SceneVarType.EVENT: return Events;
-                default: return sceneVars;
+                default: return SceneVars;
             }
         }
 
         public List<SceneVar> Statics
         {
-            get => sceneVars.FindAll(v => v.isStatic);
+            get => sceneVars.FindAll(v => v.IsStatic);
         }
-        public List<SceneVar> NonStatics
+        public List<SceneVar> Modifyables
         {
-            get => sceneVars.FindAll(v => !v.isStatic);
+            get => sceneVars.FindAll(v => !v.IsStatic);
+        }
+        public List<SceneVar> Listenables
+        {
+            get => SceneVars.FindAll(v => !v.IsStatic);
         }
         public List<SceneVar> Conditionable
         {
-            get => sceneVars.FindAll(v => !v.isStatic && v.type != SceneVarType.EVENT);
+            get => SceneVars.FindAll(v => !v.IsStatic && v.type != SceneVarType.EVENT);
         }
         public List<SceneVar> Booleans
         {
-            get => sceneVars.FindAll(v => v.type == SceneVarType.BOOL);
+            get => SceneVars.FindAll(v => v.type == SceneVarType.BOOL);
         }
         public List<SceneVar> Numbers
         {
-            get => sceneVars.FindAll(v => v.type == SceneVarType.INT || v.type == SceneVarType.FLOAT);
+            get => SceneVars.FindAll(v => v.type == SceneVarType.INT || v.type == SceneVarType.FLOAT);
         }
         public List<SceneVar> Integers
         {
-            get => sceneVars.FindAll(v => v.type == SceneVarType.INT);
+            get => SceneVars.FindAll(v => v.type == SceneVarType.INT);
         }
         public List<SceneVar> Floats
         {
-            get => sceneVars.FindAll(v => v.type == SceneVarType.FLOAT);
+            get => SceneVars.FindAll(v => v.type == SceneVarType.FLOAT);
         }
         public List<SceneVar> Strings
         {
-            get => sceneVars.FindAll(v => v.type == SceneVarType.STRING);
+            get => SceneVars.FindAll(v => v.type == SceneVarType.STRING);
         }
         public List<SceneVar> Events
         {
@@ -165,7 +206,7 @@ namespace Dhs5.Utility.SceneCreation
         }
         public List<SceneVar> NonEvents
         {
-            get => sceneVars.FindAll(v => v.type != SceneVarType.EVENT);
+            get => SceneVars.FindAll(v => v.type != SceneVarType.EVENT);
         }
         #endregion
     }

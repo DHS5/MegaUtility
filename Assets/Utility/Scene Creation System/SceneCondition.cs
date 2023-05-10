@@ -10,8 +10,8 @@ namespace Dhs5.Utility.SceneCreation
     {
         public SceneVariablesSO sceneVariablesSO;
 
-        public int var1UniqueID;
-        public int var2UniqueID;
+        [SerializeField] private int var1UniqueID;
+        [SerializeField] private int var2UniqueID;
 
         public SceneVar SceneVar1 { get => SceneState.GetSceneVar(var1UniqueID); }
         public SceneVar SceneVar2 { get => SceneState.GetSceneVar(var2UniqueID); }

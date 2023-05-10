@@ -46,7 +46,7 @@ namespace Dhs5.Utility.SceneCreation
                 return;
             }
 
-            List<SceneVar> sceneVarList = sceneVarContainer.NonStatics;
+            List<SceneVar> sceneVarList = sceneVarContainer.Listenables;
             sceneVarUniqueIDP = property.FindPropertyRelative("varUniqueID");
             int sceneVarIndexSave = sceneVarContainer.GetIndexByUniqueID(sceneVarList, sceneVarUniqueIDP.intValue);
             if (sceneVarIndexSave == -1) sceneVarIndexSave = 0;

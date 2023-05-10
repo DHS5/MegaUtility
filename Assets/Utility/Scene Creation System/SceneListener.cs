@@ -12,7 +12,8 @@ namespace Dhs5.Utility.SceneCreation
         public SceneVariablesSO sceneVariablesSO;
 
         // SceneVar selection
-        public int varUniqueID;
+        [SerializeField] private int varUniqueID;
+        public int UID => varUniqueID;
         public SceneVar CurrentSceneVar
         {
             get { return SceneState.GetSceneVar(varUniqueID); }

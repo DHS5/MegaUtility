@@ -40,7 +40,7 @@ namespace Dhs5.Utility.SceneCreation
 
         private List<SceneListener> GetListenersByID(int varUniqueID)
         {
-            return sceneListeners.FindAll(l => l.CurrentSceneVar.uniqueID == varUniqueID);
+            return sceneListeners.FindAll(l => l.UID == varUniqueID);
         }
         #endregion
 
