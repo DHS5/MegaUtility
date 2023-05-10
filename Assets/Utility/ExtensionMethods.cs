@@ -235,6 +235,29 @@ namespace Dhs5.Utility
         }
         #endregion
 
+        #region LayerMask
+        /// <summary>
+        /// Whether a layer is included in this LayerMask
+        /// </summary>
+        /// <param name="mask">This mask</param>
+        /// <param name="layer">The layer to compare</param>
+        /// <returns>True if the layer is included</returns>
+        public static bool Include(this LayerMask mask, int layer)
+        {
+            return ((1 << layer) & mask) != 0;
+        }
+        /// <summary>
+        /// Whether a layer is excluded from this LayerMask
+        /// </summary>
+        /// <param name="mask">This mask</param>
+        /// <param name="layer">The layer to compare</param>
+        /// <returns>True if the layer is excluded</returns>
+        public static bool Exclude(this LayerMask mask, int layer)
+        {
+            return ((1 << layer) & mask) == 0;
+        }
+        #endregion
+
         #region Editor
 
 #if UNITY_EDITOR
