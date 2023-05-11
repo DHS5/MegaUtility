@@ -24,8 +24,12 @@ namespace Dhs5.Utility.SceneCreation
         float propertyHeight;
         bool isCondition;
 
+        bool emptyLabel;
+
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            emptyLabel = string.IsNullOrEmpty(label.text);
+
             sceneVarIndex = 0;
 
             propertyOffset = 0f;
@@ -63,36 +67,36 @@ namespace Dhs5.Utility.SceneCreation
             propertyOffset += EditorGUIUtility.singleLineHeight * 0.25f;
             propertyHeight += EditorGUIUtility.singleLineHeight * 0.25f;
 
-            if (type == SceneVarType.BOOL && (!canBeStaticP.boolValue || !isStaticP.boolValue))
-            {
-                SerializedProperty boolTypeProperty = property.FindPropertyRelative("boolType");
-
-                Rect boolTypePosition = new Rect(position.x + position.width * 0.38f, position.y + EditorGUIUtility.singleLineHeight * 0.25f, position.width * 0.3f, EditorGUIUtility.singleLineHeight);
-                EditorGUI.PropertyField(boolTypePosition, boolTypeProperty, new GUIContent(""));
-                propertyOffset += EditorGUIUtility.singleLineHeight * 1.25f;
-                propertyHeight += EditorGUIUtility.singleLineHeight * 1.25f;
-
-                SceneVarTween.BoolType boolType = (SceneVarTween.BoolType)boolTypeProperty.enumValueIndex;
-                if (boolType == SceneVarTween.BoolType.CONDITION)
-                {
-                    string goodText = label.text;
-                    isCondition = true;
-                    SerializedProperty conditionProperty = property.FindPropertyRelative("sceneConditions");
-                    Rect conditionPosition = new Rect(position.x + 16, position.y + propertyOffset, position.width - 20, EditorGUIUtility.singleLineHeight);
-                    EditorGUI.PropertyField(conditionPosition, conditionProperty);
-                    propertyHeight += EditorGUI.GetPropertyHeight(conditionProperty);
-                    label.text = goodText;
-                }
-                else
-                {
-                    propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
-                }
-                property.FindPropertyRelative("propertyHeight").floatValue = propertyHeight;
-            }
-            else
-            {
-                property.FindPropertyRelative("propertyHeight").floatValue = EditorGUIUtility.singleLineHeight * 1.5f;
-            }
+            //if (type == SceneVarType.BOOL && (!canBeStaticP.boolValue || !isStaticP.boolValue))
+            //{
+            //    SerializedProperty boolTypeProperty = property.FindPropertyRelative("boolType");
+            //
+            //    Rect boolTypePosition = new Rect(position.x + position.width * 0.38f, position.y + EditorGUIUtility.singleLineHeight * 0.25f, position.width * 0.3f, EditorGUIUtility.singleLineHeight);
+            //    EditorGUI.PropertyField(boolTypePosition, boolTypeProperty, new GUIContent(""));
+            //    propertyOffset += EditorGUIUtility.singleLineHeight * 1.25f;
+            //    propertyHeight += EditorGUIUtility.singleLineHeight * 1.25f;
+            //
+            //    SceneVarTween.BoolType boolType = (SceneVarTween.BoolType)boolTypeProperty.enumValueIndex;
+            //    if (boolType == SceneVarTween.BoolType.CONDITION)
+            //    {
+            //        string goodText = label.text;
+            //        isCondition = true;
+            //        SerializedProperty conditionProperty = property.FindPropertyRelative("sceneConditions");
+            //        Rect conditionPosition = new Rect(position.x + 16, position.y + propertyOffset, position.width - 20, EditorGUIUtility.singleLineHeight);
+            //        EditorGUI.PropertyField(conditionPosition, conditionProperty);
+            //        propertyHeight += EditorGUI.GetPropertyHeight(conditionProperty);
+            //        label.text = goodText;
+            //    }
+            //    else
+            //    {
+            //        propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
+            //    }
+            //    property.FindPropertyRelative("propertyHeight").floatValue = propertyHeight;
+            //}
+            //else
+            //{
+            //    property.FindPropertyRelative("propertyHeight").floatValue = EditorGUIUtility.singleLineHeight * 1.5f;
+            //}
 
             if (!canBeStaticP.boolValue)
             {
@@ -103,7 +107,7 @@ namespace Dhs5.Utility.SceneCreation
                 if (!isCondition)
                 {
                     // SceneVar choice popup
-                    Rect popupPosition = new Rect(position.x + position.width * 0.32f, position.y + propertyOffset, position.width * 0.52f, EditorGUIUtility.singleLineHeight);
+                    Rect popupPosition = new Rect(position.x + (emptyLabel ? 0 : position.width * 0.32f), position.y + propertyOffset, position.width * (emptyLabel ? 0.84f : 0.52f), EditorGUIUtility.singleLineHeight);
                     sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndexSave, sceneVarContainer.VarStrings(sceneVarList).ToArray());
                     if (sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex) == 0) sceneVarIndex = sceneVarIndexSave;
                     sceneVarUniqueIDP.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex);
@@ -120,7 +124,7 @@ namespace Dhs5.Utility.SceneCreation
                 EditorGUI.LabelField(labelPosition, label);
 
                 // SceneVar choice popup
-                Rect popupPosition = new Rect(position.x + position.width * 0.27f, position.y + propertyOffset, position.width * 0.45f, EditorGUIUtility.singleLineHeight);
+                Rect popupPosition = new Rect(position.x + (emptyLabel ? 0 : position.width * 0.27f), position.y + propertyOffset, position.width * (emptyLabel ? 0.72f : 0.45f), EditorGUIUtility.singleLineHeight);
                 if (!isStaticP.boolValue && !isCondition)
                 {
                     sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndexSave, sceneVarContainer.VarStrings(sceneVarList).ToArray());
@@ -163,7 +167,7 @@ namespace Dhs5.Utility.SceneCreation
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            return property.FindPropertyRelative("propertyHeight").floatValue;
+            return EditorGUIUtility.singleLineHeight * 1.5f;// property.FindPropertyRelative("propertyHeight").floatValue;
         }
     }
 }

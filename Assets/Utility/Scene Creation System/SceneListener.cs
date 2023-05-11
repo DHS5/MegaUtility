@@ -54,11 +54,7 @@ namespace Dhs5.Utility.SceneCreation
         {
             sceneVariablesSO = _sceneVariablesSO;
 
-            if (conditions != null)
-            {
-                foreach (var condition in conditions)
-                    condition.sceneVariablesSO = _sceneVariablesSO;
-            }
+            conditions.SetUp(sceneVariablesSO);
         }
 
         public bool VerifyConditions()

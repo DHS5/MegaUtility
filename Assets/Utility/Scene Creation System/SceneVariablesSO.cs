@@ -9,13 +9,13 @@ namespace Dhs5.Utility.SceneCreation
     public class SceneVariablesSO : ScriptableObject
     {
         public List<SceneVar> sceneVars;
-        private List<SceneVar> sceneVarLinks;
+        [HideInInspector] public List<SceneVar> sceneVarLinks;
         public List<ComplexSceneVar> complexSceneVars;
 
         private int listSize = 0;
         private int complexListSize = 0;
 
-        public List<SceneVar> SceneVars => sceneVars.Concat(sceneVarLinks).ToList();
+        public List<SceneVar> SceneVars => sceneVarLinks != null ? sceneVars.Concat(sceneVarLinks).ToList() : sceneVars;
 
         public SceneVar this[int uniqueID]
         {
@@ -107,15 +107,20 @@ namespace Dhs5.Utility.SceneCreation
             complexListSize = complexSceneVars.Count;
 
             ActuSceneVarLinks();
+
+            complexSceneVars.SetUp(this);
         }
 
         private void ActuSceneVarLinks()
         {
+            sceneVarLinks ??= new();
             foreach (var var in complexSceneVars)
             {
                 if (var.Link == null)
                 {
-                    sceneVarLinks.Add(SceneVar.CreateLink(var));
+                    var.Link = SceneVar.CreateLink(var);
+                    sceneVarLinks.Add(var.Link);
+                    Debug.Log("create new");
                 }
             }
             List<SceneVar> links = new(sceneVarLinks);

@@ -184,7 +184,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &365116974
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -201,13 +201,13 @@ MonoBehaviour:
   sceneListeners:
   - sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
     varUniqueID: 4629
-    hasCondition: 0
+    hasCondition: 1
     conditions: []
     events:
       m_PersistentCalls:
         m_Calls: []
     debug: 0
-    propertyHeight: 0
+    propertyHeight: 163.40001
   sceneEvents:
   - eventID: 
     sceneConditions: []
@@ -484,9 +484,8 @@ MonoBehaviour:
     intValue: 3
     floatValue: 0
     stringValue: 
-    boolType: 1
-    sceneConditions: []
-    propertyHeight: 45
+    boolType: 0
+    propertyHeight: 48.600002
   event1:
     m_PersistentCalls:
       m_Calls: []
@@ -537,7 +536,6 @@ MonoBehaviour:
       floatValue: 0
       stringValue: 
       boolType: 0
-      sceneConditions: []
       propertyHeight: 0
     varTween1:
       type: 0
@@ -550,7 +548,6 @@ MonoBehaviour:
       floatValue: 0
       stringValue: 
       boolType: 0
-      sceneConditions: []
       propertyHeight: 0
     varTween2:
       type: 0
@@ -563,7 +560,6 @@ MonoBehaviour:
       floatValue: 0
       stringValue: 
       boolType: 0
-      sceneConditions: []
       propertyHeight: 0
     varTween3:
       type: 0
@@ -576,7 +572,6 @@ MonoBehaviour:
       floatValue: 0
       stringValue: 
       boolType: 0
-      sceneConditions: []
       propertyHeight: 0
     varTween4:
       type: 0
@@ -589,7 +584,6 @@ MonoBehaviour:
       floatValue: 0
       stringValue: 
       boolType: 0
-      sceneConditions: []
       propertyHeight: 0
     varType0: 0
     varType1: 0
@@ -1268,7 +1262,6 @@ MonoBehaviour:
         floatValue: 0
         stringValue: 
         boolType: 0
-        sceneConditions: []
         propertyHeight: 0
       iterationNumber:
         type: 1
@@ -1281,7 +1274,6 @@ MonoBehaviour:
         floatValue: 0
         stringValue: 
         boolType: 0
-        sceneConditions: []
         propertyHeight: 0
       sceneConditions: []
     timelineObjects:
@@ -1298,7 +1290,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         sceneConditions: []
       loop: 1
@@ -1315,7 +1306,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         iterationNumber:
           type: 1
@@ -1328,7 +1318,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
@@ -1366,7 +1355,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         sceneConditions: []
       loop: 0
@@ -1383,7 +1371,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         iterationNumber:
           type: 1
@@ -1396,7 +1383,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
@@ -1474,7 +1460,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         sceneConditions: []
       loop: 0
@@ -1491,7 +1476,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         iterationNumber:
           type: 1
@@ -1504,7 +1488,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
@@ -1544,7 +1527,6 @@ MonoBehaviour:
         floatValue: 0
         stringValue: 
         boolType: 0
-        sceneConditions: []
         propertyHeight: 0
       iterationNumber:
         type: 1
@@ -1557,7 +1539,6 @@ MonoBehaviour:
         floatValue: 0
         stringValue: 
         boolType: 0
-        sceneConditions: []
         propertyHeight: 0
       sceneConditions: []
     timelineObjects:
@@ -1574,7 +1555,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         sceneConditions: []
       loop: 0
@@ -1591,7 +1571,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         iterationNumber:
           type: 1
@@ -1604,7 +1583,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
@@ -1642,7 +1620,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         sceneConditions: []
       loop: 0
@@ -1659,7 +1636,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         iterationNumber:
           type: 1
@@ -1672,7 +1648,6 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
-          sceneConditions: []
           propertyHeight: 0
         sceneConditions: []
       sceneEvents: []

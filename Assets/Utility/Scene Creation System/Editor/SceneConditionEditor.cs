@@ -13,10 +13,10 @@ namespace Dhs5.Utility.SceneCreation
         SceneVariablesSO sceneVarContainer;
 
         private SerializedProperty sceneVarUniqueID1P;
-        private SerializedProperty sceneVarUniqueID2P;
 
         int sceneVarIndex1 = 0;
-        int sceneVarIndex2 = 0;
+
+        GUIContent empty = new GUIContent("");
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -47,30 +47,32 @@ namespace Dhs5.Utility.SceneCreation
             int sceneVarIndexSave1 = sceneVarContainer.GetIndexByUniqueID(sceneVarList1, sceneVarUniqueID1P.intValue);
             if (sceneVarIndexSave1 == -1) sceneVarIndexSave1 = 0;
             // SceneVar1 choice popup
-            Rect popup1Position = new Rect(position.x, position.y, position.width * 0.35f, EditorGUIUtility.singleLineHeight);
+            Rect popup1Position = new Rect(position.x, position.y, position.width * 0.75f, EditorGUIUtility.singleLineHeight);
             sceneVarIndex1 = EditorGUI.Popup(popup1Position, sceneVarIndexSave1, sceneVarContainer.VarStrings(sceneVarList1).ToArray());
             if (sceneVarContainer.GetUniqueIDByIndex(sceneVarList1, sceneVarIndex1) == 0) sceneVarIndex1 = sceneVarIndexSave1;
             sceneVarUniqueID1P.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarList1, sceneVarIndex1);
 
             // Comparison operator
-            Rect compPosition = new Rect(position.x + position.width * 0.36f, position.y, position.width * 0.28f, EditorGUIUtility.singleLineHeight);
+            Rect compPosition = new Rect(position.x + position.width * 0.76f, position.y + EditorGUIUtility.singleLineHeight * 0.5f, position.width * 0.24f, EditorGUIUtility.singleLineHeight);
             SceneVarType type = sceneVarList1[sceneVarIndex1].type;
+            property.FindPropertyRelative("var2Type").enumValueIndex = (int)type;
+
             switch (type)
             {
                 case SceneVarType.BOOL:
-                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("boolComp"), new GUIContent(""));
+                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("boolComp"), empty);
                     conditionDescription = SceneCondition.BoolCompDescription((BoolComparison)property.FindPropertyRelative("boolComp").enumValueIndex);
                     break;
                 case SceneVarType.INT:
-                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("intComp"), new GUIContent(""));
+                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("intComp"), empty);
                     conditionDescription = SceneCondition.IntCompDescription((IntComparison)property.FindPropertyRelative("intComp").enumValueIndex);
                     break;
                 case SceneVarType.FLOAT:
-                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("floatComp"), new GUIContent(""));
+                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("floatComp"), empty);
                     conditionDescription = SceneCondition.FloatCompDescription((FloatComparison)property.FindPropertyRelative("floatComp").enumValueIndex);
                     break;
                 case SceneVarType.STRING:
-                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("stringComp"), new GUIContent(""));
+                    EditorGUI.PropertyField(compPosition, property.FindPropertyRelative("stringComp"), empty);
                     conditionDescription = SceneCondition.StringCompDescription((StringComparison)property.FindPropertyRelative("stringComp").enumValueIndex);
                     break;
                 default:
@@ -78,6 +80,10 @@ namespace Dhs5.Utility.SceneCreation
                     return;
             }
 
+            Rect var2Position = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight * 1.25f, position.width * 0.75f, EditorGUIUtility.singleLineHeight);
+            EditorGUI.PropertyField(var2Position, property.FindPropertyRelative("SceneVar2"), empty);
+
+            /*
             // SceneVar 2
             List<SceneVar> sceneVarList2 = sceneVarContainer.GetListByType(type);
             sceneVarUniqueID2P = property.FindPropertyRelative("var2UniqueID");
@@ -96,10 +102,11 @@ namespace Dhs5.Utility.SceneCreation
             EditorGUI.LabelField(label1Position, type.ToString(), EditorStyles.miniLabel);
             EditorGUI.LabelField(label2Position, conditionDescription, EditorStyles.miniLabel);
             EditorGUI.LabelField(label3Position, sceneVarList2[sceneVarIndex2].type.ToString(), EditorStyles.miniLabel);
+            */
 
             // Logical Operator property
-            Rect opPosition = new Rect(position.x + position.width * 0.75f, position.y + EditorGUIUtility.singleLineHeight * 1.9f, position.width * 0.25f, EditorGUIUtility.singleLineHeight);
-            EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("logicOperator"), new GUIContent(""));
+            Rect opPosition = new Rect(position.x + position.width * 0.8f, position.y + EditorGUIUtility.singleLineHeight * 1.9f, position.width * 0.2f, EditorGUIUtility.singleLineHeight);
+            EditorGUI.PropertyField(opPosition, property.FindPropertyRelative("logicOperator"), empty);
 
             // End
             EditorGUI.EndProperty();

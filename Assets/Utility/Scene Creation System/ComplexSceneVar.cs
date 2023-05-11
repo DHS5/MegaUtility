@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Dhs5.Utility.SceneCreation
 {
+    [System.Serializable]
     public enum ComplexSceneVarType
     {
         CONDITION = 0,
@@ -14,8 +15,26 @@ namespace Dhs5.Utility.SceneCreation
     }
 
     [System.Serializable]
-    public class ComplexSceneVar
+    public class ComplexSceneVar : SceneState.ISceneVarSetupable
     {
+        #region SetUp
+        public void SetUp(SceneVariablesSO sceneVariablesSO)
+        {
+            conditions.SetUp(sceneVariablesSO);
+
+            UpdateLinkInfo();
+        }
+        private void UpdateLinkInfo()
+        {
+            if (Link != null)
+            {
+                Link.uniqueID = uniqueID;
+                Link.ID = ID;
+                Link.type = BaseType;
+            }
+        }
+        #endregion
+
         public ComplexSceneVar(ComplexSceneVar var, SceneVar _link)
         {
             uniqueID = var.uniqueID;
@@ -64,25 +83,6 @@ namespace Dhs5.Utility.SceneCreation
                 }
             }
         }
-        public void UpdateLinkValue()
-        {
-            if (Link == null) return;
-            switch (type)
-            {
-                case ComplexSceneVarType.CONDITION: 
-                    Link.boolValue = conditions.VerifyConditions();
-                    break;
-                case ComplexSceneVarType.TOTAL_INT:
-                    Link.intValue = 0;
-                    break;
-                case ComplexSceneVarType.TOTAL_FLOAT: 
-                    Link.floatValue = 0f;
-                    break;
-                case ComplexSceneVarType.SENTENCE:
-                    Link.stringValue = "";
-                    break;
-            }
-        }
         public List<int> Dependencies
         {
             get
@@ -107,5 +107,7 @@ namespace Dhs5.Utility.SceneCreation
         }
 
         [NonSerialized] public SceneVar Link;
+
+        [SerializeField] private float propertyHeight;
     }
 }

@@ -11,10 +11,11 @@ namespace Dhs5.Utility.SceneCreation
         public SceneVariablesSO sceneVariablesSO;
 
         [SerializeField] private int var1UniqueID;
-        [SerializeField] private int var2UniqueID;
 
         public SceneVar SceneVar1 { get => SceneState.GetSceneVar(var1UniqueID); }
-        public SceneVar SceneVar2 { get => SceneState.GetSceneVar(var2UniqueID); }
+
+        [SerializeField] private SceneVarTween SceneVar2;
+        [SerializeField] private SceneVarType var2Type;
 
         public BoolComparison boolComp;
 
@@ -30,6 +31,8 @@ namespace Dhs5.Utility.SceneCreation
         public void SetUp(SceneVariablesSO sceneVariablesSO)
         {
             this.sceneVariablesSO = sceneVariablesSO;
+
+            SceneVar2.SetUp(sceneVariablesSO, var2Type, true);
         }
         
         public bool VerifyCondition()
@@ -37,19 +40,19 @@ namespace Dhs5.Utility.SceneCreation
             switch (SceneVar1.type)
             {
                 case SceneVarType.BOOL:
-                    if (SceneVar2.type != SceneVarType.BOOL) return VerifyBoolCondition(SceneVar1.boolValue, SceneState.CastToBool(SceneVar2));
-                    return VerifyBoolCondition(SceneVar1.boolValue, SceneVar2.boolValue);
+                    //if (SceneVar2.Type != SceneVarType.BOOL) return VerifyBoolCondition(SceneVar1.boolValue, SceneState.CastToBool(SceneVar2));
+                    return VerifyBoolCondition(SceneVar1.BoolValue, SceneVar2.BoolValue);
                 case SceneVarType.INT:
-                    if (SceneVar2.type == SceneVarType.BOOL || SceneVar2.type == SceneVarType.STRING) return VerifyIntCondition(SceneVar1.intValue, SceneState.CastToInt(SceneVar2));
-                    if (SceneVar2.type == SceneVarType.INT) return VerifyIntCondition(SceneVar1.intValue, SceneVar2.intValue);
-                    return VerifyIntCondition(SceneVar1.intValue, SceneVar2.floatValue);
+                    //if (SceneVar2.Type == SceneVarType.BOOL || SceneVar2.Type == SceneVarType.STRING) return VerifyIntCondition(SceneVar1.intValue, SceneState.CastToInt(SceneVar2));
+                    if (SceneVar2.Type == SceneVarType.FLOAT) return VerifyIntCondition(SceneVar1.IntValue, SceneVar2.FloatValue);
+                    return VerifyIntCondition(SceneVar1.IntValue, SceneVar2.IntValue);
                 case SceneVarType.FLOAT:
-                    if (SceneVar2.type == SceneVarType.BOOL || SceneVar2.type == SceneVarType.STRING) return VerifyFloatCondition(SceneVar1.intValue, SceneState.CastToFloat(SceneVar2));
-                    if (SceneVar2.type == SceneVarType.INT) return VerifyFloatCondition(SceneVar1.intValue, SceneVar2.intValue);
-                    return VerifyFloatCondition(SceneVar1.intValue, SceneVar2.floatValue);
+                    //if (SceneVar2.Type == SceneVarType.BOOL || SceneVar2.Type == SceneVarType.STRING) return VerifyFloatCondition(SceneVar1.intValue, SceneState.CastToFloat(SceneVar2));
+                    if (SceneVar2.Type == SceneVarType.INT) return VerifyFloatCondition(SceneVar1.FloatValue, SceneVar2.IntValue);
+                    return VerifyFloatCondition(SceneVar1.FloatValue, SceneVar2.FloatValue);
                 case SceneVarType.STRING:
-                    if (SceneVar2.type != SceneVarType.STRING) return VerifyStringCondition(SceneVar1.stringValue, SceneState.CastToString(SceneVar2));
-                    return VerifyStringCondition(SceneVar1.stringValue, SceneVar2.stringValue);
+                    //if (SceneVar2.Type != SceneVarType.STRING) return VerifyStringCondition(SceneVar1.stringValue, SceneState.CastToString(SceneVar2));
+                    return VerifyStringCondition(SceneVar1.StringValue, SceneVar2.StringValue);
             }
 
             return true;

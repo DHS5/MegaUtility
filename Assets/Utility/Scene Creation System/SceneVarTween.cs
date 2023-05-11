@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
@@ -16,6 +16,7 @@ namespace Dhs5.Utility.SceneCreation
         }
 
         [SerializeField] private SceneVarType type;
+        public SceneVarType Type => type;
 
         [SerializeField] private SceneVariablesSO sceneVariablesSO;
 
@@ -31,7 +32,7 @@ namespace Dhs5.Utility.SceneCreation
         [SerializeField] private string stringValue;
 
         [SerializeField] private BoolType boolType;
-        [SerializeField] private List<SceneCondition> sceneConditions;
+        //[SerializeField] private List<SceneCondition> sceneConditions;
 
         [SerializeField] private float propertyHeight;
 
@@ -46,7 +47,7 @@ namespace Dhs5.Utility.SceneCreation
             sceneVariablesSO = _sceneVariablesSO;
             type = _type;
             if (type != SceneVarType.EVENT) canBeStatic = _canBeStatic;
-            if (type == SceneVarType.BOOL) sceneConditions.SetUp(sceneVariablesSO);
+            //if (type == SceneVarType.BOOL) sceneConditions.SetUp(sceneVariablesSO);
         }
 
         private bool IsStatic => canBeStatic && isStatic;
@@ -69,9 +70,9 @@ namespace Dhs5.Utility.SceneCreation
             get
             {
                 if (IsStatic) return boolValue;
-                if (boolType == BoolType.CONDITION) return sceneConditions.VerifyConditions();
+                //if (boolType == BoolType.CONDITION) return sceneConditions.VerifyConditions();
                 if (SceneVar.type != SceneVarType.BOOL) IncorrectType(SceneVarType.BOOL);
-                return SceneVar.boolValue;
+                return SceneVar.BoolValue;
             }
             set
             {
@@ -98,9 +99,9 @@ namespace Dhs5.Utility.SceneCreation
             get
             {
                 if (IsStatic) return intValue;
-                if (SceneVar.type == SceneVarType.FLOAT) return (int)SceneVar.floatValue;
+                if (SceneVar.type == SceneVarType.FLOAT) return (int)SceneVar.FloatValue;
                 if (SceneVar.type != SceneVarType.INT) IncorrectType(SceneVarType.INT);
-                return SceneVar.intValue;
+                return SceneVar.IntValue;
             }
             set
             {
@@ -122,9 +123,9 @@ namespace Dhs5.Utility.SceneCreation
             get
             {
                 if (IsStatic) return floatValue;
-                if (SceneVar.type == SceneVarType.INT) return SceneVar.intValue;
+                if (SceneVar.type == SceneVarType.INT) return SceneVar.IntValue;
                 if (SceneVar.type != SceneVarType.FLOAT) IncorrectType(SceneVarType.FLOAT);
-                return SceneVar.floatValue;
+                return SceneVar.FloatValue;
             }
             set
             {
@@ -147,7 +148,7 @@ namespace Dhs5.Utility.SceneCreation
             {
                 if (IsStatic) return stringValue;
                 if (SceneVar.type != SceneVarType.STRING) IncorrectType(SceneVarType.STRING);
-                return SceneVar.stringValue;
+                return SceneVar.StringValue;
             }
             set
             {
