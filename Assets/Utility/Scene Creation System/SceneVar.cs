@@ -19,14 +19,13 @@ namespace Dhs5.Utility.SceneCreation
             stringValue = var.stringValue;
             isStatic = var.isStatic;
         }
-        private SceneVar(int UID, string id, SceneVarType _type, bool _isStatic, bool _isLink, ComplexSceneVar _link)
+        private SceneVar(int UID, string id, SceneVarType _type, bool _isStatic, bool _isLink)
         {
             uniqueID = UID;
             ID = id;
             type = _type;
             isStatic = _isStatic;
             isLink = _isLink;
-            Link = _link;
 
             switch (type)
             {
@@ -46,7 +45,7 @@ namespace Dhs5.Utility.SceneCreation
         }
         public static SceneVar CreateLink(ComplexSceneVar var)
         {
-            return new(var.uniqueID, var.ID, var.BaseType, false, true, var);
+            return new(var.uniqueID, var.ID, var.BaseType, false, true);
         }
         
         public int Reset
@@ -92,7 +91,7 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                if (isLink && Link != null) return (bool)Link.Value;
+                if (isLink) return (bool)LinkValue;
                 return boolValue;
             }
             set
@@ -109,7 +108,7 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                if (isLink && Link != null) return (int)Link.Value;
+                if (isLink) return (int)LinkValue;
                 return intValue;
             }
             set
@@ -126,7 +125,7 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                if (isLink && Link != null) return (float)Link.Value;
+                if (isLink) return (float)LinkValue;
                 return floatValue;
             }
             set
@@ -143,7 +142,7 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                if (isLink && Link != null) return (string)Link.Value;
+                if (isLink) return (string)LinkValue;
                 return stringValue;
             }
             set
@@ -160,7 +159,7 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                if (IsLink && Link != null) return Link.Value;
+                if (IsLink) return LinkValue;
 
                 switch (type)
                 {
@@ -173,7 +172,8 @@ namespace Dhs5.Utility.SceneCreation
                 return null;
             }
         }
-#endregion
+        public object LinkValue => SceneState.GetComplexSceneVarValue(uniqueID);
+        #endregion
 
         public override string ToString()
         {
@@ -193,7 +193,6 @@ namespace Dhs5.Utility.SceneCreation
 
         [SerializeField] private bool isLink = false;
         public bool IsLink => isLink;
-        [NonSerialized] public ComplexSceneVar Link;
 
 
         private void CantSetLinkVar()

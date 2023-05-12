@@ -236,6 +236,14 @@ namespace Dhs5.Utility
         #endregion
 
         #region LayerMask
+        public static LayerMask Everything(this LayerMask mask)
+        {
+            return ~0;
+        }
+        public static LayerMask Nothing(this LayerMask mask)
+        {
+            return 0;
+        }
         /// <summary>
         /// Whether a layer is included in this LayerMask
         /// </summary>

@@ -35,14 +35,14 @@ namespace Dhs5.Utility.SceneCreation
         }
         #endregion
 
-        public ComplexSceneVar(ComplexSceneVar var, SceneVar _link)
+        public ComplexSceneVar(ComplexSceneVar var)//, SceneVar _link)
         {
             uniqueID = var.uniqueID;
             ID = var.ID;
             type = var.type;
 
             conditions = var.conditions;
-            Link = _link;
+            //Link = _link;
         }
 
         public int uniqueID = 0;
@@ -106,7 +106,7 @@ namespace Dhs5.Utility.SceneCreation
             }
         }
 
-        [NonSerialized] public SceneVar Link;
+        public SceneVar Link;
 
         [SerializeField] private float propertyHeight;
     }

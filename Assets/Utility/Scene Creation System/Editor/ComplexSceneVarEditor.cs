@@ -30,6 +30,18 @@ namespace Dhs5.Utility.SceneCreation
             
             EditorGUI.BeginProperty(position, label, property);
 
+            if (uniqueIDProperty.intValue == 0)
+            {
+                if (container != null)
+                {
+                    uniqueIDProperty.intValue = container.GenerateUniqueID();
+                }
+                else
+                {
+                    Debug.LogError("Can't generate unique ID for SceneVar that is not on a SceneVariablesSO");
+                }
+            }
+
             SceneVar var = container[uniqueIDProperty.intValue];
 
             Rect foldoutRect = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
@@ -45,18 +57,6 @@ namespace Dhs5.Utility.SceneCreation
                 Rect uniqueIDRect = new Rect(position.x + position.width * 0.6f, position.y, 
                     position.width / 2, EditorGUIUtility.singleLineHeight);
                 EditorGUI.LabelField(uniqueIDRect, "Unique ID : " + uniqueIDProperty.intValue.ToString());
-
-                if (uniqueIDProperty.intValue == 0)
-                {
-                    if (container != null)
-                    {
-                        uniqueIDProperty.intValue = container.GenerateUniqueID();
-                    }
-                    else
-                    {
-                        Debug.LogError("Can't generate unique ID for SceneVar that is not on a SceneVariablesSO");
-                    }
-                }
 
                 propertyOffset += EditorGUIUtility.singleLineHeight * 1.5f;
                 propertyHeight += EditorGUIUtility.singleLineHeight * 1.5f;

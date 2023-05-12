@@ -81,8 +81,7 @@ namespace Dhs5.Utility.SceneCreation
         private static void AddComplexVar(ComplexSceneVar variable)
         {
             SceneVar link = GetSceneVar(variable.uniqueID);
-            ComplexSceneVariables[variable.uniqueID] = new(variable, link);
-            link.Link = ComplexSceneVariables[variable.uniqueID];
+            ComplexSceneVariables[variable.uniqueID] = new(variable);//, link);
         }
         private static void ChangedVar(int varUniqueID)
         {
@@ -119,6 +118,15 @@ namespace Dhs5.Utility.SceneCreation
         public static SceneVar GetSceneVar(int uniqueID)
         {
             return new SceneVar(SceneVariables[uniqueID]);
+        }
+        public static object GetComplexSceneVarValue(int uniqueID)
+        {
+            if (ComplexSceneVariables.ContainsKey(uniqueID))
+            {
+                return ComplexSceneVariables[uniqueID].Value;
+            }
+            Debug.LogError("The ComplexSceneVar with UID : " + uniqueID + " doesn't exist");
+            return null;
         }
         public static bool TryGetBoolValue(int varUniqueID, out bool value)
         {
