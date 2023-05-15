@@ -78,6 +78,10 @@ namespace Dhs5.Utility.SceneCreation
         {
             sceneEvents.TriggerRandom(filter);
         }
+        public void TriggerRandomAndRemove(string filter)
+        {
+            sceneEvents.TriggerRandom(filter, true);
+        }
         #endregion
     }
 }
