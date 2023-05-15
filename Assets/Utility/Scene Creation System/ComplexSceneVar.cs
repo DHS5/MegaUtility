@@ -21,6 +21,9 @@ namespace Dhs5.Utility.SceneCreation
         public void SetUp(SceneVariablesSO sceneVariablesSO)
         {
             conditions.SetUp(sceneVariablesSO);
+            intTotals.SetUp(sceneVariablesSO, SceneVarType.INT);
+            floatTotals.SetUp(sceneVariablesSO, SceneVarType.FLOAT);
+            sentences.SetUp(sceneVariablesSO, SceneVarType.STRING);
 
             UpdateLinkInfo();
         }
@@ -65,9 +68,9 @@ namespace Dhs5.Utility.SceneCreation
         }
 
         public List<SceneCondition> conditions;
-        // TotalInt
-        // TotalFloat
-        // Sentence
+        public List<SceneTotal> intTotals;
+        public List<SceneTotal> floatTotals;
+        public List<SceneTotal> sentences;
 
         public object Value
         {

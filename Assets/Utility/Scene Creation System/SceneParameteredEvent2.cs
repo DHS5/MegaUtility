@@ -31,11 +31,7 @@ namespace Dhs5.Utility.SceneCreation
         {
             sceneVariablesSO = _sceneVariablesSO;
 
-            if (conditionsParam != null)
-            {
-                foreach (var condition in conditionsParam)
-                    condition.sceneVariablesSO = _sceneVariablesSO;
-            }
+            conditionsParam.SetUp(sceneVariablesSO);
         }
 
         public void Trigger()

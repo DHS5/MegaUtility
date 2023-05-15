@@ -85,13 +85,13 @@ namespace Dhs5.Utility.SceneCreation
                         valueProperty = property.FindPropertyRelative("conditions");
                         break;
                     case ComplexSceneVarType.TOTAL_INT:
-                        //valueProperty = property.FindPropertyRelative("intTotals");
+                        valueProperty = property.FindPropertyRelative("intTotals");
                         break;
                     case ComplexSceneVarType.TOTAL_FLOAT:
-                        //valueProperty = property.FindPropertyRelative("floatTotals");
+                        valueProperty = property.FindPropertyRelative("floatTotals");
                         break;
                     case ComplexSceneVarType.SENTENCE:
-                        //valueProperty = property.FindPropertyRelative("sentences");
+                        valueProperty = property.FindPropertyRelative("sentences");
                         break;
                 }
                 if (valueProperty != null)

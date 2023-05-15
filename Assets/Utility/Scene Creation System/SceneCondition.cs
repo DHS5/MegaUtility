@@ -8,7 +8,7 @@ namespace Dhs5.Utility.SceneCreation
     [Serializable]
     public class SceneCondition : SceneState.ISceneVarSetupable
     {
-        public SceneVariablesSO sceneVariablesSO;
+        [SerializeField] private SceneVariablesSO sceneVariablesSO;
 
         [SerializeField] private int var1UniqueID;
 

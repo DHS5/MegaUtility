@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
 using static UnityEngine.EventSystems.EventTrigger;
+using System.Text;
 
 namespace Dhs5.Utility.SceneCreation
 {
@@ -503,6 +504,10 @@ namespace Dhs5.Utility.SceneCreation
         {
             public void SetUp(SceneVariablesSO sceneVariablesSO);
         }
+        public interface ISceneVarTypedSetupable
+        {
+            public void SetUp(SceneVariablesSO sceneVariablesSO, SceneVarType type);
+        }
         
         public static void SetUp<T>(this List<T> setupables, SceneVariablesSO sceneVariablesSO) where T : ISceneVarSetupable
         {
@@ -511,6 +516,15 @@ namespace Dhs5.Utility.SceneCreation
             foreach (var setupable in setupables)
             {
                 setupable.SetUp(sceneVariablesSO);
+            }
+        }
+        public static void SetUp<T>(this List<T> setupables, SceneVariablesSO sceneVariablesSO, SceneVarType type) where T : ISceneVarTypedSetupable
+        {
+            if (setupables == null || setupables.Count < 1) return;
+
+            foreach (var setupable in setupables)
+            {
+                setupable.SetUp(sceneVariablesSO, type);
             }
         }
         #endregion
@@ -540,6 +554,70 @@ namespace Dhs5.Utility.SceneCreation
                 case LogicOperator.XOR: return bool1 ^ bool2;
                 case LogicOperator.XNOR: return !(bool1 ^ bool2);
                 default: return true;
+            }
+        }
+        #endregion
+        
+        #region Scene Total list evaluation (Extension Method)
+        public static int EvaluateIntTotal(this List<SceneTotal> totals)
+        {
+            if (totals == null || totals.Count < 1) return 0;
+        
+            int result = (int)totals[0].Value;
+        
+            for (int i = 1; i < totals.Count; i++)
+            {
+                result = ApplyMathOperator(result, totals[i - 1].Op, (int)totals[i].Value);
+            }
+        
+            return result;
+        }
+        public static float EvaluateFloatTotal(this List<SceneTotal> totals)
+        {
+            if (totals == null || totals.Count < 1) return 0f;
+        
+            float result = (float)totals[0].Value;
+        
+            for (int i = 1; i < totals.Count; i++)
+            {
+                result = ApplyMathOperator(result, totals[i - 1].Op, (float)totals[i].Value);
+            }
+        
+            return result;
+        }
+        public static string EvaluateSentence(this List<SceneTotal> totals)
+        {
+            if (totals == null || totals.Count < 1) return "";
+
+            StringBuilder sb = new StringBuilder();
+            foreach (SceneTotal total in totals)
+            {
+                sb.Append(total.Value);
+            }
+            return sb.ToString();
+        }
+        private static int ApplyMathOperator(int int1, SceneTotal.Operator op, int int2)
+        {
+            switch (op)
+            {
+                case SceneTotal.Operator.ADD: return int1 + int2;
+                case SceneTotal.Operator.SUBTRACT: return int1 - int2;
+                case SceneTotal.Operator.MULTIPLY: return int1 * int2;
+                case SceneTotal.Operator.DIVIDE: return int1 / int2;
+                case SceneTotal.Operator.POWER: return (int)Mathf.Pow(int1, int2);
+                default: return 0;
+            }
+        }
+        private static float ApplyMathOperator(float float1, SceneTotal.Operator op, float float2)
+        {
+            switch (op)
+            {
+                case SceneTotal.Operator.ADD: return float1 + float2;
+                case SceneTotal.Operator.SUBTRACT: return float1 - float2;
+                case SceneTotal.Operator.MULTIPLY: return float1 * float2;
+                case SceneTotal.Operator.DIVIDE: return float1 / float2;
+                case SceneTotal.Operator.POWER: return Mathf.Pow(float1, float2);
+                default: return 0;
             }
         }
         #endregion
