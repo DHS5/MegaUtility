@@ -551,7 +551,7 @@ namespace Dhs5.Utility.SceneCreation
         /// <param name="sceneEvents"></param>
         /// <param name="filter">Trigger a random SceneEvent among ones which eventID contains filter</param>
         /// <returns>Whether an event was triggered</returns>
-        public static bool TriggerRandom(this List<SceneEvent> sceneEvents, string filter = null)
+        public static bool TriggerRandom(this List<SceneEvent> sceneEvents, string filter = null, bool removeAfterTrigger = false)
         {
             if (sceneEvents == null || sceneEvents.Count < 1) return false;
 
@@ -572,7 +572,11 @@ namespace Dhs5.Utility.SceneCreation
             for (;events.Count > 0;)
             {
                 ev = events[UnityEngine.Random.Range(0, events.Count)];
-                if (ev.Trigger()) return true;
+                if (ev.Trigger())
+                {
+                    if (removeAfterTrigger) sceneEvents.Remove(ev);
+                    return true;
+                }
                 events.Remove(ev);
             }
 
