@@ -528,7 +528,49 @@ namespace Dhs5.Utility.SceneCreation
             }
         }
         #endregion
-        
+
+        #region Dependencies
+        public interface ISceneVarDependant
+        {
+            public List<int> Dependencies { get; }
+            public bool CanDependOn(int UID);
+            public void SetForbiddenUID(int UID);
+        }
+        public static List<int> Dependencies<T>(this List<T> list) where T : ISceneVarDependant
+        {
+            List<int> dependencies = new();
+            List<int> temp;
+            foreach (var dependant in list)
+            {
+                temp = dependant.Dependencies;
+                if (temp != null && temp.Count > 0)
+                {
+                    foreach (var dep in temp)
+                    {
+                        dependencies.Add(dep);
+                    }
+                }
+            }
+            return dependencies;
+        }
+        public static bool CanDependOn<T>(this List<T> list, int UID) where T : ISceneVarDependant
+        {
+            foreach (var dependant in list)
+            {
+                if (!dependant.CanDependOn(UID))
+                    return false;
+            }
+            return true;
+        }
+        public static void SetForbiddenUID<T>(this List<T> list, int UID) where T : ISceneVarDependant
+        {
+            foreach (var dependant in list)
+            {
+                dependant.SetForbiddenUID(UID);
+            }
+        }
+        #endregion
+
         #region Scene Condition list verification (Extension Method)
         public static bool VerifyConditions(this List<SceneCondition> conditions)
         {

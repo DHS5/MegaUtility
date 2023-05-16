@@ -43,6 +43,13 @@ namespace Dhs5.Utility.SceneCreation
 
             // SceneVar 1
             List<SceneVar> sceneVarList1 = sceneVarContainer.Conditionable;
+            // Clean list of dependency cycles
+            int forbiddenUID = property.FindPropertyRelative("forbiddenUID").intValue;
+            if (forbiddenUID != -1)
+            {
+                sceneVarList1 = sceneVarContainer.CleanListOfCycleDependencies(sceneVarList1, forbiddenUID);
+            }
+
             sceneVarUniqueID1P = property.FindPropertyRelative("var1UniqueID");
             int sceneVarIndexSave1 = sceneVarContainer.GetIndexByUniqueID(sceneVarList1, sceneVarUniqueID1P.intValue);
             if (sceneVarIndexSave1 == -1) sceneVarIndexSave1 = 0;

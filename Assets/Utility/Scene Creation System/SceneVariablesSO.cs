@@ -110,6 +110,7 @@ namespace Dhs5.Utility.SceneCreation
             ActuSceneVarLinks();
 
             complexSceneVars.SetUp(this);
+            complexSceneVars.SetForbiddenUID(0);
         }
 
         private void ActuSceneVarLinks()
@@ -218,6 +219,21 @@ namespace Dhs5.Utility.SceneCreation
         public List<SceneVar> NonEvents
         {
             get => SceneVars.FindAll(v => v.type != SceneVarType.EVENT);
+        }
+        #endregion
+
+        #region Dependency
+        public List<SceneVar> CleanListOfCycleDependencies(List<SceneVar> list, int UID)
+        {
+            List<SceneVar> sceneVars = new();
+            foreach (SceneVar v in list)
+            {
+                if (!v.IsLink || complexSceneVars.Find(x => x.uniqueID == v.uniqueID).CanDependOn(UID))
+                {
+                    sceneVars.Add(v);
+                }
+            }
+            return sceneVars;
         }
         #endregion
     }

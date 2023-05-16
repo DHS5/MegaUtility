@@ -6,7 +6,7 @@ using System;
 namespace Dhs5.Utility.SceneCreation
 {
     [Serializable]
-    public class SceneVarTween
+    public class SceneVarTween : SceneState.ISceneVarDependant
     {
         [Serializable]
         public enum BoolType
@@ -33,6 +33,8 @@ namespace Dhs5.Utility.SceneCreation
 
         [SerializeField] private BoolType boolType;
         //[SerializeField] private List<SceneCondition> sceneConditions;
+
+        [SerializeField] private int forbiddenUID;
 
         [SerializeField] private float propertyHeight;
 
@@ -173,6 +175,43 @@ namespace Dhs5.Utility.SceneCreation
                 return;
             }
             SceneState.TriggerEventVar(sceneVarUniqueID);
+        }
+
+        public List<int> Dependencies
+        {
+            get
+            {
+                SceneVar var = sceneVariablesSO[sceneVarUniqueID];
+                if (var.IsLink)
+                {
+                    return sceneVariablesSO.complexSceneVars.Find(x => x.uniqueID == sceneVarUniqueID).Dependencies;
+                }
+                return null;
+            }
+        }
+        public bool CanDependOn(int UID)
+        {
+            if (sceneVariablesSO[sceneVarUniqueID] == null || (canBeStatic && isStatic)) return true;
+            if (sceneVarUniqueID == UID) return false;
+            if (sceneVariablesSO[sceneVarUniqueID].IsLink)
+            {
+                return sceneVariablesSO.complexSceneVars.Find(x => x.uniqueID == sceneVarUniqueID).CanDependOn(UID);
+            }
+            return true;
+        }
+        public void SetForbiddenUID(int UID)
+        {
+            forbiddenUID = UID;
+        }
+        public bool IsLink(out int UID)
+        {
+            UID = 0;
+            if (sceneVariablesSO[sceneVarUniqueID].IsLink) 
+            {
+                UID = sceneVarUniqueID;
+                return true;
+            }
+            return false;
         }
 
 

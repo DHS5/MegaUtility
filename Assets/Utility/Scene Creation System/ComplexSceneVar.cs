@@ -15,7 +15,7 @@ namespace Dhs5.Utility.SceneCreation
     }
 
     [System.Serializable]
-    public class ComplexSceneVar : SceneState.ISceneVarSetupable
+    public class ComplexSceneVar : SceneState.ISceneVarSetupable, SceneState.ISceneVarDependant
     {
         #region SetUp
         public void SetUp(SceneVariablesSO sceneVariablesSO)
@@ -26,6 +26,8 @@ namespace Dhs5.Utility.SceneCreation
             sentences.SetUp(sceneVariablesSO, SceneVarType.STRING);
 
             UpdateLinkInfo();
+
+
         }
         private void UpdateLinkInfo()
         {
@@ -90,8 +92,36 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                return new();
+                List<int> dependencies = type switch
+                {
+                    ComplexSceneVarType.CONDITION => new(conditions.Dependencies()),
+                    ComplexSceneVarType.TOTAL_INT => new(intTotals.Dependencies()),
+                    ComplexSceneVarType.TOTAL_FLOAT => new(floatTotals.Dependencies()),
+                    ComplexSceneVarType.SENTENCE => new(sentences.Dependencies()),
+                    _ => new(),
+                };
+                dependencies.Insert(0, uniqueID);
+                return dependencies;
             }
+        }
+        public bool CanDependOn(int UID)
+        {
+            if (UID == uniqueID) return false;
+            return type switch
+            {
+                ComplexSceneVarType.CONDITION => conditions.CanDependOn(UID),
+                ComplexSceneVarType.TOTAL_INT => intTotals.CanDependOn(UID),
+                ComplexSceneVarType.TOTAL_FLOAT => floatTotals.CanDependOn(UID),
+                ComplexSceneVarType.SENTENCE => sentences.CanDependOn(UID),
+                _ => new(),
+            };
+        }
+        public void SetForbiddenUID(int UID = 0)
+        {
+            conditions.SetForbiddenUID(uniqueID);
+            intTotals.SetForbiddenUID(uniqueID);
+            floatTotals.SetForbiddenUID(uniqueID);
+            sentences.SetForbiddenUID(uniqueID);
         }
 
 

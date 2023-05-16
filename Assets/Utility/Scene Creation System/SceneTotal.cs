@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Dhs5.Utility.SceneCreation
 {
     [System.Serializable]
-    public class SceneTotal : SceneState.ISceneVarTypedSetupable
+    public class SceneTotal : SceneState.ISceneVarTypedSetupable, SceneState.ISceneVarDependant
     {
         #region Operator
         public enum Operator
@@ -37,6 +37,27 @@ namespace Dhs5.Utility.SceneCreation
 
             this.sceneVariablesSO = sceneVariablesSO;
             varTween.SetUp(sceneVariablesSO, this.type, true);
+        }
+
+
+        public List<int> Dependencies
+        {
+            get
+            {
+                if (varTween.IsLink(out int dependency))
+                {
+                    return new() { dependency };
+                }
+                return null;
+            }
+        }
+        public bool CanDependOn(int UID)
+        {
+            return varTween.CanDependOn(UID);
+        }
+        public void SetForbiddenUID(int UID)
+        {
+            varTween.SetForbiddenUID(UID);
         }
     }
 }

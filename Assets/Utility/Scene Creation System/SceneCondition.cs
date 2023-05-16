@@ -6,13 +6,14 @@ using System;
 namespace Dhs5.Utility.SceneCreation
 {
     [Serializable]
-    public class SceneCondition : SceneState.ISceneVarSetupable
+    public class SceneCondition : SceneState.ISceneVarSetupable, SceneState.ISceneVarDependant
     {
         [SerializeField] private SceneVariablesSO sceneVariablesSO;
 
         [SerializeField] private int var1UniqueID;
 
         public SceneVar SceneVar1 { get => SceneState.GetSceneVar(var1UniqueID); }
+        private SceneVar EditorSceneVar1 { get => sceneVariablesSO[var1UniqueID]; }
 
         [SerializeField] private SceneVarTween SceneVar2;
         [SerializeField] private SceneVarType var2Type;
@@ -57,6 +58,33 @@ namespace Dhs5.Utility.SceneCreation
 
             return true;
         }
+
+        #region Dependencies
+        public List<int> Dependencies
+        {
+            get
+            {
+                List<int> dependencies = new();
+                if (EditorSceneVar1.IsLink)
+                    dependencies.Add(var1UniqueID);
+                if (SceneVar2.IsLink(out int dependency))
+                    dependencies.Add(dependency);
+                return dependencies;
+            }
+        }
+        public bool CanDependOn(int UID)
+        {
+            if (var1UniqueID == UID) return false;
+
+            return SceneVar2.CanDependOn(UID);
+        }
+        [SerializeField] private int forbiddenUID;
+        public void SetForbiddenUID(int UID)
+        {
+            forbiddenUID = UID;
+            SceneVar2.SetForbiddenUID(UID);
+        }
+        #endregion
 
         #region Verify with Type
         private bool VerifyBoolCondition(bool valueToCompare, bool valueToCompareTo)
