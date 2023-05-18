@@ -19,7 +19,7 @@ namespace Dhs5.Utility.SceneCreation
             varTween4.SetUp(sceneVariablesSO, varType4, true);
         }
 
-        [SerializeField] private BaseEventAction action;
+        public BaseEventAction action;
         public BaseEventAction Action
         {
             get

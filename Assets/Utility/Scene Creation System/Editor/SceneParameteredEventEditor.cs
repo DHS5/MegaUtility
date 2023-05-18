@@ -241,7 +241,7 @@ namespace Dhs5.Utility.SceneCreation
                 }
 
                 FieldInfo objField = property.serializedObject.targetObject.GetType().GetField(property.propertyPath);
-                FieldInfo actionField = typeof(SceneParameteredEvent2).GetField("action");
+                FieldInfo actionField = typeof(SceneParameteredEvent).GetField("action");
 
                 if (actionField != null && objField != null && !EditorApplication.isPlaying)
                 {

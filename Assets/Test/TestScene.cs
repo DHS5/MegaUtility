@@ -25,11 +25,9 @@ namespace Dhs5.Test
 
         public SceneParameteredEvent sceneParamEvent;
 
-        public int entier;
-
         private void OnValidate()
         {
-            maxEnemy.SetUp(sceneVariablesSO, SceneVarType.BOOL, true);
+            maxEnemy.SetUp(sceneVariablesSO, SceneVarType.INT, true);
             //sceneEvent.SetUp(sceneVariablesSO);
             sceneParamEvent.SetUp(sceneVariablesSO);
             advancedEvents.SetUp(sceneVariablesSO);
@@ -43,7 +41,7 @@ namespace Dhs5.Test
         [Preserve]
         public void Test()
         {
-            Debug.Log("It works");
+            Debug.Log(maxEnemy.Value);
         }
 
         public void Test(object obj)

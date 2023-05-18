@@ -82,7 +82,7 @@ namespace Dhs5.Utility.SceneCreation
         private static void AddComplexVar(ComplexSceneVar variable)
         {
             SceneVar link = GetSceneVar(variable.uniqueID);
-            ComplexSceneVariables[variable.uniqueID] = new(variable);//, link);
+            ComplexSceneVariables[variable.uniqueID] = new(variable);
         }
         private static void ChangedVar(int varUniqueID)
         {
@@ -218,7 +218,9 @@ namespace Dhs5.Utility.SceneCreation
         public static void SetComplexSceneVars(List<ComplexSceneVar> complexSceneVars)
         {
             foreach (ComplexSceneVar var in complexSceneVars)
+            {
                 AddComplexVar(var);
+            }
         }
         public static void SetSceneLinks()
         {
@@ -538,6 +540,10 @@ namespace Dhs5.Utility.SceneCreation
         }
         public static List<int> Dependencies<T>(this List<T> list) where T : ISceneVarDependant
         {
+            if (list == null || list.Count < 1)
+            {
+                return new();
+            }
             List<int> dependencies = new();
             List<int> temp;
             foreach (var dependant in list)

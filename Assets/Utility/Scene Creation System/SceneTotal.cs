@@ -44,11 +44,7 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                if (varTween.IsLink(out int dependency))
-                {
-                    return new() { dependency };
-                }
-                return null;
+                return varTween.Dependencies;
             }
         }
         public bool CanDependOn(int UID)

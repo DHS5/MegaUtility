@@ -202,12 +202,34 @@ MonoBehaviour:
   - sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
     varUniqueID: 4629
     hasCondition: 1
-    conditions: []
+    conditions:
+    - sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+      var1UniqueID: 6670
+      SceneVar2:
+        type: 0
+        sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
+        sceneVarUniqueID: 4629
+        canBeStatic: 1
+        isStatic: 1
+        boolValue: 1
+        intValue: 0
+        floatValue: 0
+        stringValue: 
+        boolType: 0
+        forbiddenUID: 0
+        propertyHeight: 0
+      var2Type: 0
+      boolComp: 0
+      intComp: 0
+      floatComp: 0
+      stringComp: 0
+      logicOperator: 0
+      forbiddenUID: 0
     events:
       m_PersistentCalls:
         m_Calls: []
     debug: 0
-    propertyHeight: 163.40001
+    propertyHeight: 245.8
   sceneEvents:
   - eventID: 
     sceneConditions: []
@@ -475,9 +497,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
   maxEnemy:
-    type: 0
+    type: 1
     sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-    sceneVarUniqueID: 4629
+    sceneVarUniqueID: 1832
     canBeStatic: 1
     isStatic: 0
     boolValue: 0
@@ -485,6 +507,7 @@ MonoBehaviour:
     floatValue: 0
     stringValue: 
     boolType: 0
+    forbiddenUID: 0
     propertyHeight: 48.600002
   event1:
     m_PersistentCalls:
@@ -518,29 +541,30 @@ MonoBehaviour:
   sceneParamEvent:
     sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
     action:
-      methodName: 
-      target: {fileID: 0}
+      methodName: Test
+      target: {fileID: 962795332}
       arguments: []
-    obj: {fileID: 0}
-    component: {fileID: 0}
-    metadataToken: 0
-    propertyHeight: 27
+    obj: {fileID: 962795332}
+    component: {fileID: 962795332}
+    metadataToken: 100663315
+    propertyHeight: 79.200005
     varTween0:
-      type: 0
+      type: 1
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-      sceneVarUniqueID: 0
+      sceneVarUniqueID: 5895
       canBeStatic: 1
-      isStatic: 0
+      isStatic: 1
       boolValue: 0
-      intValue: 0
+      intValue: 5
       floatValue: 0
-      stringValue: 
+      stringValue: Merrde
       boolType: 0
+      forbiddenUID: 0
       propertyHeight: 0
     varTween1:
       type: 0
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-      sceneVarUniqueID: 0
+      sceneVarUniqueID: 4629
       canBeStatic: 1
       isStatic: 0
       boolValue: 0
@@ -548,11 +572,12 @@ MonoBehaviour:
       floatValue: 0
       stringValue: 
       boolType: 0
+      forbiddenUID: 0
       propertyHeight: 0
     varTween2:
-      type: 0
+      type: 3
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-      sceneVarUniqueID: 0
+      sceneVarUniqueID: 5895
       canBeStatic: 1
       isStatic: 0
       boolValue: 0
@@ -560,11 +585,12 @@ MonoBehaviour:
       floatValue: 0
       stringValue: 
       boolType: 0
+      forbiddenUID: 0
       propertyHeight: 0
     varTween3:
-      type: 0
+      type: 1
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-      sceneVarUniqueID: 0
+      sceneVarUniqueID: 1075
       canBeStatic: 1
       isStatic: 0
       boolValue: 0
@@ -572,11 +598,12 @@ MonoBehaviour:
       floatValue: 0
       stringValue: 
       boolType: 0
+      forbiddenUID: 0
       propertyHeight: 0
     varTween4:
-      type: 0
+      type: 2
       sceneVariablesSO: {fileID: 11400000, guid: 6daecc33d7514524ebb6ff4338fa958d, type: 2}
-      sceneVarUniqueID: 0
+      sceneVarUniqueID: 1175
       canBeStatic: 1
       isStatic: 0
       boolValue: 0
@@ -584,13 +611,13 @@ MonoBehaviour:
       floatValue: 0
       stringValue: 
       boolType: 0
+      forbiddenUID: 0
       propertyHeight: 0
-    varType0: 0
+    varType0: 1
     varType1: 0
-    varType2: 0
-    varType3: 0
-    varType4: 0
-  entier: 0
+    varType2: 3
+    varType3: 1
+    varType4: 2
 --- !u!82 &962795333
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1262,6 +1289,7 @@ MonoBehaviour:
         floatValue: 0
         stringValue: 
         boolType: 0
+        forbiddenUID: 0
         propertyHeight: 0
       iterationNumber:
         type: 1
@@ -1274,6 +1302,7 @@ MonoBehaviour:
         floatValue: 0
         stringValue: 
         boolType: 0
+        forbiddenUID: 0
         propertyHeight: 0
       sceneConditions: []
     timelineObjects:
@@ -1290,6 +1319,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         sceneConditions: []
       loop: 1
@@ -1306,6 +1336,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         iterationNumber:
           type: 1
@@ -1318,6 +1349,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
@@ -1355,6 +1387,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         sceneConditions: []
       loop: 0
@@ -1371,6 +1404,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         iterationNumber:
           type: 1
@@ -1383,6 +1417,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
@@ -1460,6 +1495,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         sceneConditions: []
       loop: 0
@@ -1476,6 +1512,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         iterationNumber:
           type: 1
@@ -1488,6 +1525,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
@@ -1527,6 +1565,7 @@ MonoBehaviour:
         floatValue: 0
         stringValue: 
         boolType: 0
+        forbiddenUID: 0
         propertyHeight: 0
       iterationNumber:
         type: 1
@@ -1539,6 +1578,7 @@ MonoBehaviour:
         floatValue: 0
         stringValue: 
         boolType: 0
+        forbiddenUID: 0
         propertyHeight: 0
       sceneConditions: []
     timelineObjects:
@@ -1555,6 +1595,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         sceneConditions: []
       loop: 0
@@ -1571,6 +1612,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         iterationNumber:
           type: 1
@@ -1583,6 +1625,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         sceneConditions: []
       sceneEvents: []
@@ -1620,6 +1663,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         sceneConditions: []
       loop: 0
@@ -1636,6 +1680,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         iterationNumber:
           type: 1
@@ -1648,6 +1693,7 @@ MonoBehaviour:
           floatValue: 0
           stringValue: 
           boolType: 0
+          forbiddenUID: 0
           propertyHeight: 0
         sceneConditions: []
       sceneEvents: []

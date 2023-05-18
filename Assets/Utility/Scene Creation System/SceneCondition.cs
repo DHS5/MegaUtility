@@ -64,11 +64,10 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                List<int> dependencies = new();
-                if (EditorSceneVar1.IsLink)
-                    dependencies.Add(var1UniqueID);
-                if (SceneVar2.IsLink(out int dependency))
-                    dependencies.Add(dependency);
+                List<int> dependencies = new() { var1UniqueID };
+                dependencies.Add(var1UniqueID);
+                foreach (var dep in SceneVar2.Dependencies)
+                    dependencies.Add(dep);
                 return dependencies;
             }
         }

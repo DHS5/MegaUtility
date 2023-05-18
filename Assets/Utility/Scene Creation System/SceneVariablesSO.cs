@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Codice.CM.Common.Tree;
 
 namespace Dhs5.Utility.SceneCreation
 {
@@ -132,6 +133,7 @@ namespace Dhs5.Utility.SceneCreation
                 List<SceneVar> links = new(sceneVarLinks);
                 foreach (var var in links)
                 {
+                    Debug.Log(var.IsLink);
                     if (complexSceneVars.Find(x => x.uniqueID == var.uniqueID) == null)
                     {
                         sceneVarLinks.Remove(var);

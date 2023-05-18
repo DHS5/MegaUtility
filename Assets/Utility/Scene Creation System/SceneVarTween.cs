@@ -181,12 +181,13 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
+                if (IsStatic) return new();
                 SceneVar var = sceneVariablesSO[sceneVarUniqueID];
                 if (var.IsLink)
                 {
                     return sceneVariablesSO.complexSceneVars.Find(x => x.uniqueID == sceneVarUniqueID).Dependencies;
                 }
-                return null;
+                return new() { sceneVarUniqueID };
             }
         }
         public bool CanDependOn(int UID)

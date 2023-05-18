@@ -40,14 +40,18 @@ namespace Dhs5.Utility.SceneCreation
         }
         #endregion
 
-        public ComplexSceneVar(ComplexSceneVar var)//, SceneVar _link)
+        public ComplexSceneVar(ComplexSceneVar var)
         {
             uniqueID = var.uniqueID;
             ID = var.ID;
             type = var.type;
 
-            conditions = var.conditions;
-            //Link = _link;
+            conditions = new(var.conditions);
+            intTotals = new(var.intTotals);
+            floatTotals = new(var.floatTotals);
+            sentences = new(var.sentences);
+
+            Link = var.Link;
         }
 
         public int uniqueID = 0;
@@ -81,9 +85,9 @@ namespace Dhs5.Utility.SceneCreation
                 switch (type)
                 {
                     case ComplexSceneVarType.CONDITION: return conditions.VerifyConditions();
-                    case ComplexSceneVarType.TOTAL_INT: return 0;
-                    case ComplexSceneVarType.TOTAL_FLOAT: return 0f;
-                    case ComplexSceneVarType.SENTENCE: return "";
+                    case ComplexSceneVarType.TOTAL_INT: return intTotals.EvaluateIntTotal();
+                    case ComplexSceneVarType.TOTAL_FLOAT: return floatTotals.EvaluateFloatTotal();
+                    case ComplexSceneVarType.SENTENCE: return sentences.EvaluateSentence();
                     default: return null;
                 }
             }
@@ -136,6 +140,11 @@ namespace Dhs5.Utility.SceneCreation
                 type = ComplexSceneVarType.CONDITION;
 
                 conditions = new();
+                intTotals = new();
+                floatTotals = new();
+                sentences = new();
+
+                Link = null;
             }
         }
 

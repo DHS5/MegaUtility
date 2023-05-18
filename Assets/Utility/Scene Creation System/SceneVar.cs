@@ -18,6 +18,7 @@ namespace Dhs5.Utility.SceneCreation
             floatValue = var.floatValue;
             stringValue = var.stringValue;
             isStatic = var.isStatic;
+            isLink = var.isLink;
         }
         private SceneVar(int UID, string id, SceneVarType _type, bool _isStatic, bool _isLink)
         {
@@ -108,7 +109,10 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                if (isLink) return (int)LinkValue;
+                if (isLink)
+                {
+                    return (int)LinkValue;
+                }
                 return intValue;
             }
             set
