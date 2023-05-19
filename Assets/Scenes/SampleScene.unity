@@ -1352,7 +1352,15 @@ MonoBehaviour:
           forbiddenUID: 0
           propertyHeight: 0
         sceneConditions: []
-      sceneEvents: []
+      sceneEvents:
+      - eventID: 
+        sceneConditions: []
+        sceneActions: []
+        sceneParameteredEvents: []
+        unityEvent:
+          m_PersistentCalls:
+            m_Calls: []
+        debug: 0
       sceneTimelineEvents:
       - sceneConditions: []
         events:

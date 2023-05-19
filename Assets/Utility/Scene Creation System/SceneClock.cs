@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Scripting;
 using UnityEngine.Events;
 
 namespace Dhs5.Utility.SceneCreation
@@ -46,7 +47,8 @@ namespace Dhs5.Utility.SceneCreation
         {
             StartTimeline(param.GetParamTimelineID, param.GetParamTimelineStep);
         }
-        public void StartTimeline(string timelineID, int step = 0)
+        [Preserve]
+        public void StartTimeline(string timelineID, int step)
         {
             sceneTimelines.Find(t => t.ID == timelineID)?.Start(step);
         }
@@ -55,6 +57,7 @@ namespace Dhs5.Utility.SceneCreation
         {
             StopTimeline(param.GetParamTimelineID);
         }
+        [Preserve]
         public void StopTimeline(string timelineID)
         {
             sceneTimelines.Find(t => t.ID == timelineID)?.Stop();
@@ -63,6 +66,11 @@ namespace Dhs5.Utility.SceneCreation
         {
             sceneTimelines.Find(t => t.ID == param.GetParamTimelineID)?.
                 StartOrGoTo(param.GetParamTimelineStep, param.interrupt);
+        }
+        [Preserve]
+        public void GoToStep(string timelineID, int step, bool interrupt)
+        {
+            sceneTimelines.Find(t => t.ID == timelineID)?.StartOrGoTo(step, interrupt);
         }
         #endregion
         

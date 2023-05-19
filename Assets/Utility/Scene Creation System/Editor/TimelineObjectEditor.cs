@@ -14,7 +14,7 @@ namespace Dhs5.Utility.SceneCreation
         private SerializedProperty startConditionProperty;
         private SerializedProperty endConditionProperty;
         private SerializedProperty eventsProperty;
-        private SerializedProperty timelineEventsProperty;
+        //private SerializedProperty timelineEventsProperty;
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
@@ -24,7 +24,7 @@ namespace Dhs5.Utility.SceneCreation
             startConditionProperty = property.FindPropertyRelative("startCondition");
             endConditionProperty = property.FindPropertyRelative("endLoopCondition");
             eventsProperty = property.FindPropertyRelative("sceneEvents");
-            timelineEventsProperty = property.FindPropertyRelative("sceneTimelineEvents");
+            //timelineEventsProperty = property.FindPropertyRelative("sceneTimelineEvents");
 
             EditorGUI.BeginProperty(position, label, property);
 
@@ -55,10 +55,10 @@ namespace Dhs5.Utility.SceneCreation
                 EditorGUI.PropertyField(sceneEventsPosition, eventsProperty);
                 propertyOffset += EditorGUI.GetPropertyHeight(eventsProperty);
                 
-                Rect timelineEventsPosition = new Rect(position.x, position.y + propertyOffset, position.width,
-                    EditorGUIUtility.singleLineHeight);
-                EditorGUI.PropertyField(timelineEventsPosition, timelineEventsProperty);
-                propertyOffset += EditorGUI.GetPropertyHeight(timelineEventsProperty);
+                //Rect timelineEventsPosition = new Rect(position.x, position.y + propertyOffset, position.width,
+                //    EditorGUIUtility.singleLineHeight);
+                //EditorGUI.PropertyField(timelineEventsPosition, timelineEventsProperty);
+                //propertyOffset += EditorGUI.GetPropertyHeight(timelineEventsProperty);
             }
         }
 
@@ -68,11 +68,11 @@ namespace Dhs5.Utility.SceneCreation
             startConditionProperty = property.FindPropertyRelative("startCondition");
             endConditionProperty = property.FindPropertyRelative("endLoopCondition");
             eventsProperty = property.FindPropertyRelative("sceneEvents");
-            timelineEventsProperty = property.FindPropertyRelative("sceneTimelineEvents");
+            //timelineEventsProperty = property.FindPropertyRelative("sceneTimelineEvents");
 
             return property.isExpanded ? 
                 EditorGUIUtility.singleLineHeight * 2 + EditorGUI.GetPropertyHeight(startConditionProperty) 
-                    + EditorGUI.GetPropertyHeight(eventsProperty) + EditorGUI.GetPropertyHeight(timelineEventsProperty)
+                    + EditorGUI.GetPropertyHeight(eventsProperty) //+ EditorGUI.GetPropertyHeight(timelineEventsProperty)
                     + (loopProperty.boolValue ? EditorGUI.GetPropertyHeight(endConditionProperty) : 0)
                     : EditorGUIUtility.singleLineHeight * 1.2f;
         }
