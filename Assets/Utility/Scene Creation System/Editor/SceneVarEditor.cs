@@ -93,7 +93,7 @@ namespace Dhs5.Utility.SceneCreation
                 if (!randomProperty.boolValue)
                 {
                     Rect valueLabelRect = new Rect(position.x, position.y + propertyOffset, 75, EditorGUIUtility.singleLineHeight);
-                    EditorGUI.LabelField(valueLabelRect, "Initial Value");
+                    EditorGUI.LabelField(valueLabelRect, (staticProperty.boolValue ? "" : "Initial ") + "Value");
                     Rect valueRect = new Rect(position.x + 75, position.y + propertyOffset, position.width * 0.75f - 75, EditorGUIUtility.singleLineHeight);
 
                     switch (type)
