@@ -270,7 +270,7 @@ namespace Dhs5.Utility.SceneCreation
             if (SceneVariables.ContainsKey(varUniqueID))
             {
                 SceneVar var = SceneVariables[varUniqueID];
-                if (var.type == SceneVarType.INT && !var.IsStatic && !var.IsLink)
+                if (var.type == SceneVarType.INT && !var.IsStatic && !var.IsLink && !var.IsRandom)
                 {
                     switch (op)
                     {
@@ -317,7 +317,7 @@ namespace Dhs5.Utility.SceneCreation
             if (SceneVariables.ContainsKey(varUniqueID))
             {
                 SceneVar var = SceneVariables[varUniqueID];
-                if (var.type == SceneVarType.FLOAT && !var.IsStatic && !var.IsLink)
+                if (var.type == SceneVarType.FLOAT && !var.IsStatic && !var.IsLink && !var.IsRandom)
                 {
                     switch (op)
                     {

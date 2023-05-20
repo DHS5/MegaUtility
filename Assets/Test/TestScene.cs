@@ -38,10 +38,15 @@ namespace Dhs5.Test
             sceneParamEvent.Trigger();
         }
 
+        public void DebugSceneVar(SceneVar var)
+        {
+            Debug.Log(var.RuntimeString());
+        }
+
         [Preserve]
         public void Test()
         {
-            Debug.Log(maxEnemy.Value);
+            maxEnemy.IntValue++;
         }
 
         public void Test(object obj)

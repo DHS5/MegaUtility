@@ -184,11 +184,11 @@ namespace Dhs5.Utility.SceneCreation
         }
         public List<SceneVar> Modifyables
         {
-            get => sceneVars.FindAll(v => !v.IsStatic);
+            get => sceneVars.FindAll(v => !v.IsStatic && !v.IsRandom);
         }
         public List<SceneVar> Listenables
         {
-            get => SceneVars.FindAll(v => !v.IsStatic);
+            get => SceneVars.FindAll(v => !v.IsStatic && !v.IsRandom);
         }
         public List<SceneVar> Conditionable
         {

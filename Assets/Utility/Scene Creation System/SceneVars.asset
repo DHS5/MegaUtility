@@ -26,9 +26,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 0
+    isRandom: 0
     isLink: 0
+    propertyHeight: 0
   - uniqueID: 5895
     ID: Blabla
     type: 3
@@ -42,9 +43,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 0
+    isRandom: 0
     isLink: 0
+    propertyHeight: 0
   - uniqueID: 9478
     ID: TestInt1
     type: 1
@@ -52,15 +54,16 @@ MonoBehaviour:
     intValue: 0
     floatValue: 0
     stringValue: 
-    hasMin: 0
-    hasMax: 0
+    hasMin: 1
+    hasMax: 1
     minInt: 0
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 0
+    isRandom: 0
     isLink: 0
+    propertyHeight: 0
   - uniqueID: 720
     ID: TestFloat1
     type: 2
@@ -74,9 +77,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 0
+    isRandom: 0
     isLink: 0
+    propertyHeight: 0
   - uniqueID: 2612
     ID: TestStatic
     type: 2
@@ -90,9 +94,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 1
+    isRandom: 0
     isLink: 0
+    propertyHeight: 0
   - uniqueID: 3693
     ID: TestEvent
     type: 4
@@ -106,9 +111,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 0
+    isRandom: 0
     isLink: 0
+    propertyHeight: 0
   - uniqueID: 1175
     ID: A
     type: 1
@@ -122,9 +128,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 1
+    isRandom: 0
     isLink: 0
+    propertyHeight: 0
   - uniqueID: 9424
     ID: B
     type: 1
@@ -138,9 +145,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 1
+    isRandom: 0
     isLink: 0
+    propertyHeight: 0
   - uniqueID: 1075
     ID: C
     type: 1
@@ -154,9 +162,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 1
+    isRandom: 0
     isLink: 0
+    propertyHeight: 0
   - uniqueID: 9928
     ID: D
     type: 1
@@ -170,9 +179,27 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
-    isStatic: 1
+    isStatic: 0
+    isRandom: 0
     isLink: 0
+    propertyHeight: 0
+  - uniqueID: 8758
+    ID: Rrrrraandom
+    type: 1
+    boolValue: 0
+    intValue: 7
+    floatValue: 0
+    stringValue: 
+    hasMin: 1
+    hasMax: 1
+    minInt: 8
+    maxInt: 11
+    minFloat: 0.5
+    maxFloat: 0.6
+    isStatic: 0
+    isRandom: 1
+    isLink: 0
+    propertyHeight: 0
   sceneVarLinks:
   - uniqueID: 1832
     ID: Total1
@@ -187,9 +214,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 0
+    isRandom: 0
     isLink: 1
+    propertyHeight: 0
   - uniqueID: 3267
     ID: Total2
     type: 1
@@ -203,9 +231,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 0
+    isRandom: 0
     isLink: 1
+    propertyHeight: 0
   - uniqueID: 9762
     ID: Total3
     type: 1
@@ -219,9 +248,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 0
+    isRandom: 0
     isLink: 1
+    propertyHeight: 0
   - uniqueID: 6670
     ID: Condition1
     type: 0
@@ -235,9 +265,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 0
+    isRandom: 0
     isLink: 1
+    propertyHeight: 0
   - uniqueID: 3055
     ID: Condition2
     type: 0
@@ -251,9 +282,10 @@ MonoBehaviour:
     maxInt: 0
     minFloat: 0
     maxFloat: 0
-    propertyHeight: 0
     isStatic: 0
+    isRandom: 0
     isLink: 1
+    propertyHeight: 0
   complexSceneVars:
   - uniqueID: 1832
     ID: Total1
@@ -308,9 +340,10 @@ MonoBehaviour:
       maxInt: 0
       minFloat: 0
       maxFloat: 0
-      propertyHeight: 0
       isStatic: 0
+      isRandom: 0
       isLink: 1
+      propertyHeight: 0
     propertyHeight: 0
   - uniqueID: 3267
     ID: Total2
@@ -337,7 +370,7 @@ MonoBehaviour:
       varTween:
         type: 1
         sceneVariablesSO: {fileID: 11400000}
-        sceneVarUniqueID: 9424
+        sceneVarUniqueID: 9928
         canBeStatic: 1
         isStatic: 0
         boolValue: 0
@@ -365,9 +398,10 @@ MonoBehaviour:
       maxInt: 0
       minFloat: 0
       maxFloat: 0
-      propertyHeight: 0
       isStatic: 0
+      isRandom: 0
       isLink: 1
+      propertyHeight: 0
     propertyHeight: 0
   - uniqueID: 9762
     ID: Total3
@@ -438,9 +472,10 @@ MonoBehaviour:
       maxInt: 0
       minFloat: 0
       maxFloat: 0
-      propertyHeight: 0
       isStatic: 0
+      isRandom: 0
       isLink: 1
+      propertyHeight: 0
     propertyHeight: 0
   - uniqueID: 6670
     ID: Condition1
@@ -533,9 +568,10 @@ MonoBehaviour:
       maxInt: 0
       minFloat: 0
       maxFloat: 0
-      propertyHeight: 0
       isStatic: 0
+      isRandom: 0
       isLink: 1
+      propertyHeight: 0
     propertyHeight: 0
   - uniqueID: 3055
     ID: Condition2
@@ -628,7 +664,8 @@ MonoBehaviour:
       maxInt: 0
       minFloat: 0
       maxFloat: 0
-      propertyHeight: 0
       isStatic: 0
+      isRandom: 0
       isLink: 1
+      propertyHeight: 0
     propertyHeight: 0

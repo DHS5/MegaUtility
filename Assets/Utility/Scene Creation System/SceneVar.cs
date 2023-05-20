@@ -19,14 +19,23 @@ namespace Dhs5.Utility.SceneCreation
             stringValue = var.stringValue;
             isStatic = var.isStatic;
             isLink = var.isLink;
+            isRandom = var.isRandom;
+
+            hasMin = var.hasMin;
+            hasMax = var.hasMax;
+            minInt = var.minInt;
+            maxInt = var.maxInt;
+            minFloat = var.minFloat;
+            maxFloat = var.maxFloat;
         }
-        private SceneVar(int UID, string id, SceneVarType _type, bool _isStatic, bool _isLink)
+        private SceneVar(int UID, string id, SceneVarType _type, bool _isStatic, bool _isLink, bool _isRandom)
         {
             uniqueID = UID;
             ID = id;
             type = _type;
             isStatic = _isStatic;
             isLink = _isLink;
+            isRandom = _isRandom;
 
             switch (type)
             {
@@ -46,7 +55,7 @@ namespace Dhs5.Utility.SceneCreation
         }
         public static SceneVar CreateLink(ComplexSceneVar var)
         {
-            return new(var.uniqueID, var.ID, var.BaseType, false, true);
+            return new(var.uniqueID, var.ID, var.BaseType, false, true, false);
         }
         
         public int Reset
@@ -65,6 +74,15 @@ namespace Dhs5.Utility.SceneCreation
                 stringValue = "";
 
                 isStatic = false;
+                isLink = false;
+                isRandom = false;
+
+                hasMin = false;
+                hasMax = false;
+                minInt = 0;
+                maxInt = 0;
+                minFloat = 0f;
+                maxFloat = 0f;
             }
         }
 
@@ -84,6 +102,15 @@ namespace Dhs5.Utility.SceneCreation
         public int maxInt;
         public float minFloat;
         public float maxFloat;
+
+        [SerializeField] private bool isStatic = false;
+        public bool IsStatic => isStatic;
+
+        [SerializeField] private bool isRandom = false;
+        public bool IsRandom => isRandom;
+
+        [SerializeField] private bool isLink = false;
+        public bool IsLink => isLink;
 
         [SerializeField] private float propertyHeight;
 
@@ -113,6 +140,11 @@ namespace Dhs5.Utility.SceneCreation
                 {
                     return (int)LinkValue;
                 }
+                if (isRandom)
+                {
+                    //Debug.Log("Rand between " + );
+                    return UnityEngine.Random.Range(minInt, maxInt + 1);
+                }
                 return intValue;
             }
             set
@@ -122,6 +154,11 @@ namespace Dhs5.Utility.SceneCreation
                     CantSetLinkVar();
                     return;
                 }
+                if (isRandom)
+                {
+                    CantSetRandomVar();
+                    return;
+                }
                 intValue = value;
             }
         }
@@ -129,7 +166,14 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                if (isLink) return (float)LinkValue;
+                if (isLink)
+                {
+                    return (float)LinkValue;
+                }
+                if (isRandom)
+                {
+                    return UnityEngine.Random.Range(minFloat, maxFloat);
+                }
                 return floatValue;
             }
             set
@@ -137,6 +181,11 @@ namespace Dhs5.Utility.SceneCreation
                 if (isLink)
                 {
                     CantSetLinkVar();
+                    return;
+                }
+                if (isRandom)
+                {
+                    CantSetRandomVar();
                     return;
                 }
                 floatValue = value;
@@ -163,14 +212,12 @@ namespace Dhs5.Utility.SceneCreation
         {
             get
             {
-                if (IsLink) return LinkValue;
-
                 switch (type)
                 {
-                    case SceneVarType.BOOL: return boolValue;
-                    case SceneVarType.INT: return intValue;
-                    case SceneVarType.FLOAT: return floatValue;
-                    case SceneVarType.STRING: return stringValue;
+                    case SceneVarType.BOOL: return BoolValue;
+                    case SceneVarType.INT: return IntValue;
+                    case SceneVarType.FLOAT: return FloatValue;
+                    case SceneVarType.STRING: return StringValue;
                     case SceneVarType.EVENT: return null;
                 }
                 return null;
@@ -179,29 +226,44 @@ namespace Dhs5.Utility.SceneCreation
         public object LinkValue => SceneState.GetComplexSceneVarValue(uniqueID);
         #endregion
 
+        private string GetRange()
+        {
+            switch (type)
+            {
+                case SceneVarType.INT:
+                    return minInt + " - " + maxInt;
+                case SceneVarType.FLOAT: 
+                    return minFloat + " - " + maxFloat;
+                default: return "";
+            }
+        }
+
         public override string ToString()
         {
             if (type == SceneVarType.EVENT) return ID + " (EVENT)";
             if (IsLink) return ID + " (" + type.ToString() + " LINK)";
-            return ID + " (" + type.ToString() + ") = " + Value + (isStatic ? " (static)" : "");
+            return ID + " (" + type.ToString() + ") = " + (isRandom ? " (random " + GetRange() + ")" : Value) + (isStatic ? " (static)" : "");
         }
         public string PopupString()
         {
             if (type == SceneVarType.EVENT) return ID + " (EVENT)";
             if (IsLink) return ID + " (" + type.ToString() + " LINK)";
-            return ID + " (" + type.ToString() + ")" + (isStatic ? " = " + Value : "");
+            return ID + " (" + type.ToString() + ")" + (isStatic ? " = " + Value : "") + (isRandom ? " (random " + GetRange() + ")" : "");
         }
-
-        [SerializeField] private bool isStatic = false;
-        public bool IsStatic => isStatic;
-
-        [SerializeField] private bool isLink = false;
-        public bool IsLink => isLink;
+        public string RuntimeString()
+        {
+            if (type == SceneVarType.EVENT) return ID + " (EVENT)";
+            return ID + " (" + type.ToString() + ") = " + Value;
+        }
 
 
         private void CantSetLinkVar()
         {
             Debug.LogError("This SceneVar is a link to a ComplexSceneVar, you can't set its value");
+        }
+        private void CantSetRandomVar()
+        {
+            Debug.LogError("This SceneVar is a random " + type + ", you can't set its value");
         }
     }
 }

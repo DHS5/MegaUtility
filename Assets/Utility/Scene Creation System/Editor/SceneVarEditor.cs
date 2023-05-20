@@ -14,9 +14,14 @@ namespace Dhs5.Utility.SceneCreation
         private SerializedProperty idProperty;
         private SerializedProperty typeProperty;
         private SerializedProperty staticProperty;
+        private SerializedProperty randomProperty;
 
         private SerializedProperty hasMinProperty;
         private SerializedProperty hasMaxProperty;
+        private SerializedProperty minIntProperty;
+        private SerializedProperty maxIntProperty;
+        private SerializedProperty minfloatProperty;
+        private SerializedProperty maxfloatProperty;
 
         private float propertyOffset;
         private float propertyHeight;
@@ -32,6 +37,7 @@ namespace Dhs5.Utility.SceneCreation
             idProperty = property.FindPropertyRelative("ID");
             typeProperty = property.FindPropertyRelative("type");
             staticProperty = property.FindPropertyRelative("isStatic");
+            randomProperty = property.FindPropertyRelative("isRandom");
             
             EditorGUI.BeginProperty(position, label, property);
 
@@ -84,68 +90,93 @@ namespace Dhs5.Utility.SceneCreation
                     return;
                 }
 
-                Rect valueLabelRect = new Rect(position.x, position.y + propertyOffset, 75, EditorGUIUtility.singleLineHeight);
-                EditorGUI.LabelField(valueLabelRect, "Initial Value");
-                Rect valueRect = new Rect(position.x + 75, position.y + propertyOffset, position.width * 0.75f - 75, EditorGUIUtility.singleLineHeight);
-
-                switch (type)
+                if (!randomProperty.boolValue)
                 {
-                    case SceneVarType.BOOL:
-                        EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("boolValue"), new GUIContent(""));
-                        break;
-                    case SceneVarType.INT:
-                        EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("intValue"), new GUIContent(""));
-                        break;
-                    case SceneVarType.FLOAT:
-                        EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("floatValue"), new GUIContent(""));
-                        break;
-                    case SceneVarType.STRING:
-                        EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("stringValue"), new GUIContent(""));
-                        break;
-                }
+                    Rect valueLabelRect = new Rect(position.x, position.y + propertyOffset, 75, EditorGUIUtility.singleLineHeight);
+                    EditorGUI.LabelField(valueLabelRect, "Initial Value");
+                    Rect valueRect = new Rect(position.x + 75, position.y + propertyOffset, position.width * 0.75f - 75, EditorGUIUtility.singleLineHeight);
 
-                // Static
-                Rect staticRect = new Rect(position.x + position.width * 0.76f, position.y + propertyOffset, position.width * 0.24f,
-                    EditorGUIUtility.singleLineHeight);
-                staticProperty.boolValue = EditorGUI.ToggleLeft(staticRect, "Static", staticProperty.boolValue);
-                propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
-                propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
+                    switch (type)
+                    {
+                        case SceneVarType.BOOL:
+                            EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("boolValue"), new GUIContent(""));
+                            break;
+                        case SceneVarType.INT:
+                            EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("intValue"), new GUIContent(""));
+                            break;
+                        case SceneVarType.FLOAT:
+                            EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("floatValue"), new GUIContent(""));
+                            break;
+                        case SceneVarType.STRING:
+                            EditorGUI.PropertyField(valueRect, property.FindPropertyRelative("stringValue"), new GUIContent(""));
+                            break;
+                    }
+
+                    // Static
+                    Rect staticRect = new Rect(position.x + position.width * 0.76f, position.y + propertyOffset, position.width * 0.24f,
+                        EditorGUIUtility.singleLineHeight);
+                    staticProperty.boolValue = EditorGUI.ToggleLeft(staticRect, "Static", staticProperty.boolValue);
+                    propertyOffset += EditorGUIUtility.singleLineHeight * 1.2f;
+                    propertyHeight += EditorGUIUtility.singleLineHeight * 1.2f;
+                }
 
                 if (!staticProperty.boolValue && (type == SceneVarType.INT || type == SceneVarType.FLOAT))
                 {
                     hasMinProperty = property.FindPropertyRelative("hasMin");
                     hasMaxProperty = property.FindPropertyRelative("hasMax");
 
-                    Rect hasMinRect = new Rect(position.x, position.y + propertyOffset, position.width * 0.12f, EditorGUIUtility.singleLineHeight);
-                    Rect hasMaxRect = new Rect(position.x + position.width * 0.5f, position.y + propertyOffset, position.width * 0.12f, EditorGUIUtility.singleLineHeight);
+                    Rect hasMinRect = new Rect(position.x, position.y + propertyOffset, position.width * 0.11f, EditorGUIUtility.singleLineHeight);
+                    Rect hasMaxRect = new Rect(position.x + position.width * 0.38f, position.y + propertyOffset, position.width * 0.12f, EditorGUIUtility.singleLineHeight);
                     hasMinProperty.boolValue = EditorGUI.ToggleLeft(hasMinRect, new GUIContent("Min", "Min inclusive"), hasMinProperty.boolValue);
                     hasMaxProperty.boolValue = EditorGUI.ToggleLeft(hasMaxRect, new GUIContent("Max", "Max inclusive"), hasMaxProperty.boolValue);
 
                     if (hasMinProperty.boolValue)
                     {
-                        Rect minRect = new Rect(position.x + position.width * 0.13f, position.y + propertyOffset, position.width * 0.36f, EditorGUIUtility.singleLineHeight);
+                        Rect minRect = new Rect(position.x + position.width * 0.12f, position.y + propertyOffset, position.width * 0.24f, EditorGUIUtility.singleLineHeight);
 
                         if (type == SceneVarType.INT)
                         {
-                            EditorGUI.PropertyField(minRect, property.FindPropertyRelative("minInt"), new GUIContent(""));
+                            minIntProperty = property.FindPropertyRelative("minInt");
+                            EditorGUI.PropertyField(minRect, minIntProperty, new GUIContent(""));
                         }
                         else if (type == SceneVarType.FLOAT)
                         {
-                            EditorGUI.PropertyField(minRect, property.FindPropertyRelative("minFloat"), new GUIContent(""));
+                            minfloatProperty = property.FindPropertyRelative("minFloat");
+                            EditorGUI.PropertyField(minRect, minfloatProperty, new GUIContent(""));
                         }
                     }
                     if (hasMaxProperty.boolValue)
                     {
-                        Rect maxRect = new Rect(position.x + position.width * 0.63f, position.y + propertyOffset, position.width * 0.36f, EditorGUIUtility.singleLineHeight);
+                        Rect maxRect = new Rect(position.x + position.width * 0.51f, position.y + propertyOffset, position.width * 0.24f, EditorGUIUtility.singleLineHeight);
 
                         if (type == SceneVarType.INT)
                         {
-                            EditorGUI.PropertyField(maxRect, property.FindPropertyRelative("maxInt"), new GUIContent(""));
+                            maxIntProperty = property.FindPropertyRelative("maxInt");
+                            EditorGUI.PropertyField(maxRect, maxIntProperty, new GUIContent(""));
+                            if (hasMinProperty.boolValue && (maxIntProperty.intValue <= minIntProperty.intValue))
+                            {
+                                maxIntProperty.intValue = minIntProperty.intValue + 1;
+                            }
                         }
                         else if (type == SceneVarType.FLOAT)
                         {
-                            EditorGUI.PropertyField(maxRect, property.FindPropertyRelative("maxFloat"), new GUIContent(""));
+                            maxfloatProperty = property.FindPropertyRelative("maxFloat");
+                            EditorGUI.PropertyField(maxRect, maxfloatProperty, new GUIContent(""));
+                            if (hasMinProperty.boolValue && (maxfloatProperty.floatValue <= minfloatProperty.floatValue))
+                            {
+                                maxfloatProperty.floatValue = minfloatProperty.floatValue + 0.1f;
+                            }
                         }
+                    }
+                    // Random
+                    Rect randomRect = new Rect(position.x + position.width * 0.76f, position.y + propertyOffset, position.width * 0.24f,
+                        EditorGUIUtility.singleLineHeight);
+                    randomProperty.boolValue = EditorGUI.ToggleLeft(randomRect, "Random", randomProperty.boolValue);
+
+                    if (randomProperty.boolValue)
+                    {
+                        hasMinProperty.boolValue = true;
+                        hasMaxProperty.boolValue = true;
                     }
 
                     propertyOffset += EditorGUIUtility.singleLineHeight;
