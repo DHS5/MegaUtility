@@ -14,7 +14,10 @@ namespace Dhs5.Utility.SceneCreation
         [SerializeField] private int var2UniqueID;
 
         public SceneVar SceneVar1 { get => SceneState.GetSceneVar(var1UniqueID); }
-        public SceneVar SceneVar2 { get => SceneState.GetSceneVar(var2UniqueID); }
+        //public SceneVar SceneVar2 { get => SceneState.GetSceneVar(var2UniqueID); }
+
+        [SerializeField] private SceneVarTween SceneVar2;
+        [SerializeField] private SceneVarType var2Type;
 
         // Operations        
         public BoolOperation boolOP;
@@ -28,6 +31,8 @@ namespace Dhs5.Utility.SceneCreation
         public void SetUp(SceneVariablesSO sceneVariablesSO)
         {
             this.sceneVariablesSO = sceneVariablesSO;
+
+            SceneVar2.SetUp(sceneVariablesSO, var2Type, true);
         }
         
         public void Trigger()
@@ -41,16 +46,16 @@ namespace Dhs5.Utility.SceneCreation
             switch (SceneVar1.type)
             {
                 case SceneVarType.BOOL:
-                    SceneState.ModifyBoolVar(var1UniqueID, boolOP, SceneState.CastToBool(SceneVar2));
+                    SceneState.ModifyBoolVar(var1UniqueID, boolOP, SceneVar2.BoolValue);// SceneState.CastToBool(SceneVar2));
                     break;
                 case SceneVarType.INT:
-                    SceneState.ModifyIntVar(var1UniqueID, intOP, SceneState.CastToInt(SceneVar2));
+                    SceneState.ModifyIntVar(var1UniqueID, intOP, SceneVar2.IntValue);// SceneState.CastToInt(SceneVar2));
                     break;
                 case SceneVarType.FLOAT:
-                    SceneState.ModifyFloatVar(var1UniqueID, floatOP, SceneState.CastToFloat(SceneVar2));
+                    SceneState.ModifyFloatVar(var1UniqueID, floatOP, SceneVar2.FloatValue);// SceneState.CastToFloat(SceneVar2));
                     break;
                 case SceneVarType.STRING:
-                    SceneState.ModifyStringVar(var1UniqueID, stringOP, SceneState.CastToString(SceneVar2));
+                    SceneState.ModifyStringVar(var1UniqueID, stringOP, SceneVar2.StringValue);// SceneState.CastToString(SceneVar2));
                     break;
                 case SceneVarType.EVENT:
                     SceneState.TriggerEventVar(var1UniqueID);

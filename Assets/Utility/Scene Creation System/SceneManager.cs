@@ -5,11 +5,9 @@ using UnityEngine.Scripting;
 
 namespace Dhs5.Utility.SceneCreation
 {
-    public class SceneManager : MonoBehaviour
+    public class SceneManager : SceneObject
     {
-        public SceneVariablesSO sceneVariablesSO;
-
-        void Start()
+        protected virtual void Start()
         {
             SceneState.SetSceneVars(sceneVariablesSO);
         }

@@ -133,7 +133,6 @@ namespace Dhs5.Utility.SceneCreation
                 List<SceneVar> links = new(sceneVarLinks);
                 foreach (var var in links)
                 {
-                    Debug.Log(var.IsLink);
                     if (complexSceneVars.Find(x => x.uniqueID == var.uniqueID) == null)
                     {
                         sceneVarLinks.Remove(var);
@@ -180,47 +179,47 @@ namespace Dhs5.Utility.SceneCreation
 
         public List<SceneVar> Statics
         {
-            get => sceneVars.FindAll(v => v.IsStatic);
+            get => sceneVars != null ? sceneVars.FindAll(v => v.IsStatic) : null;
         }
         public List<SceneVar> Modifyables
         {
-            get => sceneVars.FindAll(v => !v.IsStatic && !v.IsRandom);
+            get => sceneVars != null ? sceneVars.FindAll(v => !v.IsStatic && !v.IsRandom) : null;
         }
         public List<SceneVar> Listenables
         {
-            get => SceneVars.FindAll(v => !v.IsStatic && !v.IsRandom);
+            get => SceneVars != null ? SceneVars.FindAll(v => !v.IsStatic && !v.IsRandom) : null;
         }
         public List<SceneVar> Conditionable
         {
-            get => SceneVars.FindAll(v => !v.IsStatic && v.type != SceneVarType.EVENT);
+            get => SceneVars != null ? SceneVars.FindAll(v => !v.IsStatic && v.type != SceneVarType.EVENT) : null;
         }
         public List<SceneVar> Booleans
         {
-            get => SceneVars.FindAll(v => v.type == SceneVarType.BOOL);
+            get => SceneVars != null ? SceneVars.FindAll(v => v.type == SceneVarType.BOOL) : null;
         }
         public List<SceneVar> Numbers
         {
-            get => SceneVars.FindAll(v => v.type == SceneVarType.INT || v.type == SceneVarType.FLOAT);
+            get => SceneVars != null ? SceneVars.FindAll(v => v.type == SceneVarType.INT || v.type == SceneVarType.FLOAT) : null;
         }
         public List<SceneVar> Integers
         {
-            get => SceneVars.FindAll(v => v.type == SceneVarType.INT);
+            get => SceneVars != null ? SceneVars.FindAll(v => v.type == SceneVarType.INT) : null;
         }
         public List<SceneVar> Floats
         {
-            get => SceneVars.FindAll(v => v.type == SceneVarType.FLOAT);
+            get => SceneVars != null ? SceneVars.FindAll(v => v.type == SceneVarType.FLOAT) : null;
         }
         public List<SceneVar> Strings
         {
-            get => SceneVars.FindAll(v => v.type == SceneVarType.STRING);
+            get => SceneVars != null ? SceneVars.FindAll(v => v.type == SceneVarType.STRING) : null;
         }
         public List<SceneVar> Events
         {
-            get => sceneVars.FindAll(v => v.type == SceneVarType.EVENT);
+            get => sceneVars != null ? sceneVars.FindAll(v => v.type == SceneVarType.EVENT) : null;
         }
         public List<SceneVar> NonEvents
         {
-            get => SceneVars.FindAll(v => v.type != SceneVarType.EVENT);
+            get => SceneVars != null ? SceneVars.FindAll(v => v.type != SceneVarType.EVENT) : null;
         }
         #endregion
 

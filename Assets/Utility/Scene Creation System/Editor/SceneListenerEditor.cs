@@ -47,6 +47,15 @@ namespace Dhs5.Utility.SceneCreation
             }
 
             List<SceneVar> sceneVarList = sceneVarContainer.Listenables;
+            // Test if list empty
+            if (sceneVarList == null || sceneVarList.Count == 0)
+            {
+                EditorGUI.LabelField(position, "No SceneVar listenable !");
+                EditorGUI.EndProperty();
+                property.FindPropertyRelative("propertyHeight").floatValue = EditorGUIUtility.singleLineHeight;
+                return;
+            }
+
             sceneVarUniqueIDP = property.FindPropertyRelative("varUniqueID");
             int sceneVarIndexSave = sceneVarContainer.GetIndexByUniqueID(sceneVarList, sceneVarUniqueIDP.intValue);
             if (sceneVarIndexSave == -1) sceneVarIndexSave = 0;

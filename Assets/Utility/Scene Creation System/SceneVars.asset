@@ -29,7 +29,7 @@ MonoBehaviour:
     isStatic: 0
     isRandom: 0
     isLink: 0
-    propertyHeight: 0
+    propertyHeight: 73.8
   - uniqueID: 5895
     ID: Blabla
     type: 3
@@ -57,7 +57,7 @@ MonoBehaviour:
     hasMin: 1
     hasMax: 1
     minInt: 0
-    maxInt: 0
+    maxInt: 1
     minFloat: 0
     maxFloat: 0
     isStatic: 0
@@ -344,7 +344,7 @@ MonoBehaviour:
       isRandom: 0
       isLink: 1
       propertyHeight: 0
-    propertyHeight: 0
+    propertyHeight: 70.200005
   - uniqueID: 3267
     ID: Total2
     type: 1

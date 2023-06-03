@@ -49,6 +49,13 @@ namespace Dhs5.Utility.SceneCreation
             {
                 sceneVarList1 = sceneVarContainer.CleanListOfCycleDependencies(sceneVarList1, forbiddenUID);
             }
+            // Test if list empty
+            if (sceneVarList1 == null || sceneVarList1.Count == 0)
+            {
+                EditorGUI.LabelField(position, "No SceneVar usuable !");
+                EditorGUI.EndProperty();
+                return;
+            }
 
             sceneVarUniqueID1P = property.FindPropertyRelative("var1UniqueID");
             int sceneVarIndexSave1 = sceneVarContainer.GetIndexByUniqueID(sceneVarList1, sceneVarUniqueID1P.intValue);

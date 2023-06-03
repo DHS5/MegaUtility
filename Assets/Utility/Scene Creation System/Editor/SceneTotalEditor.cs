@@ -8,10 +8,6 @@ namespace Dhs5.Utility.SceneCreation
     [CustomPropertyDrawer(typeof(SceneTotal))]
     public class SceneTotalEditor : PropertyDrawer
     {
-        SerializedProperty sceneVariablesSO;
-        SerializedObject sceneVariablesObj;
-        SceneVariablesSO sceneVarContainer;
-
         GUIContent empty = new GUIContent("");
 
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)

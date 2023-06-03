@@ -22,7 +22,6 @@ namespace Dhs5.Utility.SceneCreation
 
         float propertyOffset;
         float propertyHeight;
-        bool isCondition;
 
         bool emptyLabel;
 
@@ -34,7 +33,6 @@ namespace Dhs5.Utility.SceneCreation
 
             propertyOffset = 0f;
             propertyHeight = 0f;
-            isCondition = false;
 
             canBeStaticP = property.FindPropertyRelative("canBeStatic");
             isStaticP = property.FindPropertyRelative("isStatic");
@@ -65,6 +63,38 @@ namespace Dhs5.Utility.SceneCreation
             if (forbiddenUID != -1)
             {
                 sceneVarList = sceneVarContainer.CleanListOfCycleDependencies(sceneVarList, forbiddenUID);
+            }
+
+            // Test if list empty
+            if (sceneVarList == null || sceneVarList.Count == 0)
+            {
+                // Label
+                Rect labelPosition = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight * 0.25f, position.width * 0.3f, EditorGUIUtility.singleLineHeight);
+                EditorGUI.LabelField(labelPosition, label);
+
+                // SceneVar choice popup
+                Rect popupPosition = new Rect(position.x + (emptyLabel ? 0 : position.width * 0.32f), position.y + EditorGUIUtility.singleLineHeight * 0.25f,
+                    position.width * (emptyLabel ? 1f : 0.68f), EditorGUIUtility.singleLineHeight);
+                string typeStr = "";
+                switch (type)
+                {
+                    case SceneVarType.BOOL:
+                        typeStr = "bool";
+                        break;
+                    case SceneVarType.INT:
+                        typeStr = "int";
+                        break;
+                    case SceneVarType.FLOAT:
+                        typeStr = "float";
+                        break;
+                    case SceneVarType.STRING:
+                        typeStr = "string";
+                        break;
+                }
+                EditorGUI.PropertyField(popupPosition, property.FindPropertyRelative(typeStr + "Value"), new GUIContent(""));
+
+                EditorGUI.EndProperty();
+                return;
             }
 
             sceneVarUniqueIDP = property.FindPropertyRelative("sceneVarUniqueID");
@@ -111,14 +141,11 @@ namespace Dhs5.Utility.SceneCreation
                 Rect labelPosition = new Rect(position.x, position.y + EditorGUIUtility.singleLineHeight * 0.25f, position.width * 0.3f, EditorGUIUtility.singleLineHeight);
                 EditorGUI.LabelField(labelPosition, label);
 
-                if (!isCondition)
-                {
-                    // SceneVar choice popup
-                    Rect popupPosition = new Rect(position.x + (emptyLabel ? 0 : position.width * 0.32f), position.y + propertyOffset, position.width * (emptyLabel ? 0.84f : 0.52f), EditorGUIUtility.singleLineHeight);
-                    sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndexSave, sceneVarContainer.VarStrings(sceneVarList).ToArray());
-                    if (sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex) == 0) sceneVarIndex = sceneVarIndexSave;
-                    sceneVarUniqueIDP.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex);
-                }
+                // SceneVar choice popup
+                Rect popupPosition = new Rect(position.x + (emptyLabel ? 0 : position.width * 0.32f), position.y + propertyOffset, position.width * (emptyLabel ? 0.84f : 0.52f), EditorGUIUtility.singleLineHeight);
+                sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndexSave, sceneVarContainer.VarStrings(sceneVarList).ToArray());
+                if (sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex) == 0) sceneVarIndex = sceneVarIndexSave;
+                sceneVarUniqueIDP.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex);
 
                 // Label
                 Rect typePosition = new Rect(position.x + position.width * 0.85f, position.y + EditorGUIUtility.singleLineHeight * 0.25f, position.width * 0.18f, EditorGUIUtility.singleLineHeight);
@@ -132,13 +159,13 @@ namespace Dhs5.Utility.SceneCreation
 
                 // SceneVar choice popup
                 Rect popupPosition = new Rect(position.x + (emptyLabel ? 0 : position.width * 0.27f), position.y + propertyOffset, position.width * (emptyLabel ? 0.72f : 0.45f), EditorGUIUtility.singleLineHeight);
-                if (!isStaticP.boolValue && !isCondition)
+                if (!isStaticP.boolValue)
                 {
                     sceneVarIndex = EditorGUI.Popup(popupPosition, sceneVarIndexSave, sceneVarContainer.VarStrings(sceneVarList).ToArray());
                     if (sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex) == 0) sceneVarIndex = sceneVarIndexSave;
                     sceneVarUniqueIDP.intValue = sceneVarContainer.GetUniqueIDByIndex(sceneVarList, sceneVarIndex);
                 }
-                else if (isStaticP.boolValue)
+                else
                 {
                     string typeStr = "";
                     switch (type)
