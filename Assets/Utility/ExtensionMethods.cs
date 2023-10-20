@@ -266,6 +266,41 @@ namespace Dhs5.Utility
         }
         #endregion
 
+        #region Colliders
+
+        public static bool IsInside(this BoxCollider collider, Vector3 position)
+        {
+            if (collider == null)
+            {
+                Debug.LogError("Collider is null");
+                return false;
+            }
+
+            return collider.bounds.Contains(position);
+        }
+        public static bool IsInside(this SphereCollider collider, Vector3 position)
+        {
+            if (collider == null)
+            {
+                Debug.LogError("Collider is null");
+                return false;
+            }
+
+            return Vector3.Distance(position, collider.center) < collider.radius;
+        }
+        public static bool IsInsideBounds(this Collider collider, Vector3 position)
+        {
+            if (collider == null)
+            {
+                Debug.LogError("Collider is null");
+                return false;
+            }
+
+            return collider.bounds.Contains(position);
+        }
+
+        #endregion
+
         #region Editor
 
 #if UNITY_EDITOR
