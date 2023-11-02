@@ -1,0 +1,14 @@
+{
+    "name": "DirectoryPicker",
+    "rootNamespace": "Dhs5.Utility.DirectoryPicker",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

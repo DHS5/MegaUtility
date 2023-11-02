@@ -5,6 +5,7 @@ using System.IO;
 using Dhs5.Utility;
 using Dhs5.Utility.SaveSystem;
 using NaughtyAttributes;
+using Dhs5.Utility.DirectoryPicker;
 
 namespace Dhs5.Test
 {
@@ -21,6 +22,8 @@ namespace Dhs5.Test
         //public int theTestInt;
         //public Teest teest;
         // Start is called before the first frame update
+        public DirectoryPicker dirPicker;
+        public int egdgd;
         
         void Start()
         {
