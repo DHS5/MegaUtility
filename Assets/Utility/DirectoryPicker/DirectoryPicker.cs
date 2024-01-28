@@ -11,5 +11,10 @@ namespace Dhs5.Utility.DirectoryPicker
         [SerializeField] private string path = "Assets/";
 
         public string Path => path;
+
+        public void SetPath(string _path)
+        {
+            if (_path.StartsWith("Assets/")) path = _path;
+        }
     }
 }

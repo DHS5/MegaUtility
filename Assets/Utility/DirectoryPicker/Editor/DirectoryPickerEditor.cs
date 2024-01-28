@@ -24,7 +24,7 @@ namespace Dhs5.Utility.DirectoryPicker.Editor
             EditorGUI.SelectableLabel(new Rect(position.x + position.width * 0.41f, position.y, position.width * 0.52f, position.height)
                 , pathProp.stringValue);
             if (GUI.Button(new Rect(position.x + position.width * 0.95f, position.y, position.width * 0.05f, position.height)
-                , EditorGUIUtility.IconContent("d_Project")))
+                , EditorGUIUtility.IconContent("FolderOpened On Icon")))
             {
                 string absPath = EditorUtility.OpenFolderPanel(label.text, pathProp.stringValue, "");
                 if (!string.IsNullOrEmpty(absPath))
